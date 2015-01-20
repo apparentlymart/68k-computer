@@ -9,12 +9,12 @@
  indicate supervisor or user mode.
 
  In supervisor mode, the address space is hard-coded as follows:
-   kernel RAM 7MB
-   kernel ROM 4MB
+   kernel RAM 2MB
+   kernel ROM 2MB
    IO ports 512k
    MMU registers 512k
    page table RAM 1MB
-   video/audio controller RAM 1MB
+   video/audio controller RAM 8MB
    mapped pages from the physical address space 2MB
 
  The physical address space mapped pages are controlled by the supervisor
