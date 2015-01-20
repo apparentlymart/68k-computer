@@ -5,7 +5,8 @@
  MMU considers only the topmost 12 bits of the address, with the remainder
  passing directly to connected devices.
 
- The MMU circuit is attached to a high-speed RAM that acts as the page table.
+ The MMU circuit is attached to a dual-port RAM that acts as the page table:
+ http://www.digikey.com/product-detail/en/70V261L25PFG/800-1390-ND/1915691
 
  Addresses are mapped differently depending on whether the fc outputs
  indicate supervisor or user mode.
@@ -14,10 +15,11 @@
    kernel RAM 2MB
    kernel ROM 2MB
    IO ports 512k
-   MMU registers 512k
-   page table RAM 1MB
+   MMU registers 256k
+   page table RAM 256k
    video/audio controller RAM 8MB
    mapped pages from the physical address space 2MB
+   1MB unused
 
  The physical address space mapped pages are controlled by the supervisor
  memory access registers, providing two 1MB "windows" into the physical
