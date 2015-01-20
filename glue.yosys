@@ -1,7 +1,10 @@
+read_verilog mmu.v
 read_verilog glue.v
 proc
 opt_share
-show -prefix glue -format gif
-synth_xilinx
-show -prefix glue-synth -format gif
+show -prefix glue -format gif top
+show -prefix mmu -format gif mmu
+synth
+show -prefix glue-synth -format gif top
+show -prefix mmu-synth -format gif mmu
 write_edif -top top glue.edif
