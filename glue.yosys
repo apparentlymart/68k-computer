@@ -1,0 +1,7 @@
+read_verilog glue.v
+proc
+opt_share
+show -prefix glue -format gif
+synth_xilinx
+show -prefix glue-synth -format gif
+write_edif -top top glue.edif
