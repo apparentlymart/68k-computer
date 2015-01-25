@@ -85,7 +85,7 @@ module mmu(
           // I/O device area
           case (addr_in[21:20])
             2'b00:
-              // Primary I/O Ports (not yet implemented)
+              // Primary I/O Ports
               supervisor_addr_map = {8'b00000011, addr_in[19:12]};
             2'b01:
               // Board Control & Page Table RAM (not yet implemented)
