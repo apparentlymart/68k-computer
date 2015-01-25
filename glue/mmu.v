@@ -75,9 +75,8 @@ module mmu(
    function [27:12] supervisor_addr_map;
       input [23:12]  addr_in;
       case (addr_in[23:22])
-        2'b00: begin
+        2'b00:
           supervisor_addr_map = {6'b100000, addr_in[21:12]};
-        end
         2'b01:
           supervisor_addr_map = {6'b010000, addr_in[21:12]};
         2'b10:
