@@ -9,24 +9,23 @@
 [timestart] 0
 [size] 1680 974
 [pos] -1 -1
-*-4.147799 143 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-15.263233 87 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] mmu_tb.
 [treeopen] mmu_tb.dut.
 [sst_width] 223
 [signals_width] 273
 [sst_expanded] 1
 [sst_vpaned_height] 272
-@820
-[color] 7
-mmu_tb.test_name[192:0]
+@821
+mmu_tb.test_name[143:0]
 @800200
 -Input
 @28
 mmu_tb.dut.enable
 @22
-mmu_tb.dut.addr_in[23:12]
+#{addr_in[23:12]} mmu_tb.dut.addr_in[23] mmu_tb.dut.addr_in[22] mmu_tb.dut.addr_in[21] mmu_tb.dut.addr_in[20] mmu_tb.dut.addr_in[19] mmu_tb.dut.addr_in[18] mmu_tb.dut.addr_in[17] mmu_tb.dut.addr_in[16] mmu_tb.dut.addr_in[15] mmu_tb.dut.addr_in[14] mmu_tb.dut.addr_in[13] mmu_tb.dut.addr_in[12]
 @28
-mmu_tb.dut.fc[2:0]
+#{fc[2:0]} mmu_tb.dut.fc[2] mmu_tb.dut.fc[1] mmu_tb.dut.fc[0]
 @1000200
 -Input
 @800200
@@ -34,14 +33,14 @@ mmu_tb.dut.fc[2:0]
 @28
 mmu_tb.dut.user
 @22
-mmu_tb.dut.user_map[3:0]
-mmu_tb.dut.table_ram_addr_bus[15:0]
+#{user_map[3:0]} mmu_tb.dut.user_map[3] mmu_tb.dut.user_map[2] mmu_tb.dut.user_map[1] mmu_tb.dut.user_map[0]
+#{table_ram_addr_bus[15:0]} mmu_tb.dut.table_ram_addr_bus[15] mmu_tb.dut.table_ram_addr_bus[14] mmu_tb.dut.table_ram_addr_bus[13] mmu_tb.dut.table_ram_addr_bus[12] mmu_tb.dut.table_ram_addr_bus[11] mmu_tb.dut.table_ram_addr_bus[10] mmu_tb.dut.table_ram_addr_bus[9] mmu_tb.dut.table_ram_addr_bus[8] mmu_tb.dut.table_ram_addr_bus[7] mmu_tb.dut.table_ram_addr_bus[6] mmu_tb.dut.table_ram_addr_bus[5] mmu_tb.dut.table_ram_addr_bus[4] mmu_tb.dut.table_ram_addr_bus[3] mmu_tb.dut.table_ram_addr_bus[2] mmu_tb.dut.table_ram_addr_bus[1] mmu_tb.dut.table_ram_addr_bus[0]
 @1000200
 -Internals
 @800200
 -Results
 @22
-mmu_tb.dut.addr_out[27:12]
+#{addr_out[27:12]} mmu_tb.dut.addr_out[27] mmu_tb.dut.addr_out[26] mmu_tb.dut.addr_out[25] mmu_tb.dut.addr_out[24] mmu_tb.dut.addr_out[23] mmu_tb.dut.addr_out[22] mmu_tb.dut.addr_out[21] mmu_tb.dut.addr_out[20] mmu_tb.dut.addr_out[19] mmu_tb.dut.addr_out[18] mmu_tb.dut.addr_out[17] mmu_tb.dut.addr_out[16] mmu_tb.dut.addr_out[15] mmu_tb.dut.addr_out[14] mmu_tb.dut.addr_out[13] mmu_tb.dut.addr_out[12]
 @1000200
 -Results
 @800200

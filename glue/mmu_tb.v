@@ -2,7 +2,7 @@
 
 module mmu_tb;
 
-   reg [24*8:0] test_name = 'bz;
+   reg [(18*8)-1:0] test_name = 'bz;
    reg          enable = 0;
    reg [23:12]  addr_in = 0;
    reg [2:0]    fc = 0;
@@ -117,12 +117,12 @@ module mmu_tb;
       $dumpvars;
       $display("1..42");
 
-      #1 test_name <= "User Mode Data Bus";
+      #1 test_name <= "User: Data Bus    ";
       assert_user_mode_data_bus;
       #1 test_name <= 'bz;
       reset;
 
-      #1 test_name <= "User Mode Page Lookup";
+      #1 test_name <= "User: Page Lookup ";
       // Since the user mode mappings delegate to an external RAM
       // that isn't included in this test, we instead just probe
       // the address bus that would be connected to that RAM.
@@ -135,39 +135,39 @@ module mmu_tb;
       reset;
 
       // Kernel RAM maps to first portion of RAM
-      #1 test_name <= "Supervisor Mode - RAM";
+      #1 test_name <= "Super: RAM        ";
       assert_super_mode_lookup('h000, 0, 0, 'h8000);
       assert_super_mode_lookup('h001, 0, 0, 'h8001);
       assert_super_mode_lookup('h3fe, 0, 0, 'h83fe);
       assert_super_mode_lookup('h3ff, 0, 0, 'h83ff);
       // Kernel ROM maps to first portion of ROM
-      #1 test_name <= "Supervisor Mode - ROM";
+      #1 test_name <= "Super: ROM        ";
       assert_super_mode_lookup('h400, 0, 0, 'h4000);
       assert_super_mode_lookup('h401, 0, 0, 'h4001);
       assert_super_mode_lookup('h7fe, 0, 0, 'h43fe);
       assert_super_mode_lookup('h7ff, 0, 0, 'h43ff);
       // Graphics/audio RAM maps to graphics/audio RAM
-      #1 test_name <= "Supervisor Mode - Graphics Chip";
+      #1 test_name <= "Super: Graphics   ";
       assert_super_mode_lookup('hc00, 0, 0, 'h3c00);
       assert_super_mode_lookup('hc01, 0, 0, 'h3c01);
       assert_super_mode_lookup('hf0e, 0, 0, 'h3f0e);
       assert_super_mode_lookup('hfff, 0, 0, 'h3fff);
-      #1 test_name <= "Supervisor Mode - Primary I/O";
+      #1 test_name <= "Super: Primary I/O";
       assert_super_mode_lookup('h800, 0, 0, 'h0300);
       assert_super_mode_lookup('h801, 0, 0, 'h0301);
       assert_super_mode_lookup('h8fe, 0, 0, 'h03fe);
       assert_super_mode_lookup('h8ff, 0, 0, 'h03ff);
-      #1 test_name <= "Supervisor Mode - Board Control Registers";
+      #1 test_name <= "Super: Board Ctrl ";
       assert_super_mode_lookup('h900, 0, 0, 'h0100);
       assert_super_mode_lookup('h901, 0, 0, 'h0101);
       assert_super_mode_lookup('h97e, 0, 0, 'h017e);
       assert_super_mode_lookup('h97f, 0, 0, 'h017f);
-      #1 test_name <= "Supervisor Mode - Page Table RAM";
+      #1 test_name <= "Super: Page Table ";
       assert_super_mode_lookup('h980, 0, 0, 'h0200);
       assert_super_mode_lookup('h981, 0, 0, 'h0201);
       assert_super_mode_lookup('h9fe, 0, 0, 'h027e);
       assert_super_mode_lookup('h9ff, 0, 0, 'h027f);
-      #1 test_name <= "Supervisor Mode - Selectable Mappings";
+      #1 test_name <= "Super: Selectable ";
       // Basic Range Testing
       assert_super_mode_lookup('ha00, 'h01, 'h02, 'h0100);
       assert_super_mode_lookup('ha01, 'h01, 'h02, 'h0101);
