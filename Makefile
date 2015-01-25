@@ -26,11 +26,19 @@ export XILINX_PLANAHEAD
 synth:
 	yosys -s glue.yosys
 
-%_tb.vvp: %_tb.v %.v
-	iverilog $< $(patsubst %_tb.v,%.v,$<) -o $@
-
 test: $(TEST_BENCH_SIMS)
 	prove -e vvp $(TEST_BENCH_SIMS)
+
+# Run this target as e.g.: make xilinx_isim_gui DUT=mmu
+xilinx_isim_gui: $(DUT)_tb.texe
+	$(XILINX_TOOL_ENV) ./$(DUT)_tb.texe -gui -view $(DUT)_tb.wcfg
+
+# Xilinx "Test Executable", for use with ISim
+%_tb.texe: %_tb.v %.v
+	$(XILINX_TOOL_ENV) fuse -incremental -prj glue_isim.prj -o $@ work.$(patsubst %_tb.texe,%_tb,$@)
+
+%_tb.vvp: %_tb.v %.v
+	iverilog $< $(patsubst %_tb.v,%.v,$<) -o $@
 
 %_tb.vcd: %_tb.vvp
 	vvp $<

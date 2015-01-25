@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="./isim.wdb" id="1" type="auto">
+         <top_modules>
+            <top_module name="mmu_tb" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <WVObjectSize size="5" />
+   <wvobject fp_name="/mmu_tb/test_name" type="array" db_ref_id="1">
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="ElementShortName">test_name[192:0]</obj_property>
+      <obj_property name="ObjectShortName">test_name[192:0]</obj_property>
+      <obj_property name="Radix">ASCIIRADIX</obj_property>
+      <obj_property name="label">Test Group</obj_property>
+   </wvobject>
+   <wvobject fp_name="group12" type="group">
+      <obj_property name="label">Inputs</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/mmu_tb/dut/enable" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">enable</obj_property>
+         <obj_property name="ObjectShortName">enable</obj_property>
+      </wvobject>
+      <wvobject fp_name="/mmu_tb/dut/addr_in" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">addr_in[23:12]</obj_property>
+         <obj_property name="ObjectShortName">addr_in[23:12]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/mmu_tb/dut/fc" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">fc[2:0]</obj_property>
+         <obj_property name="ObjectShortName">fc[2:0]</obj_property>
+         <obj_property name="Radix">BINARYRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/mmu_tb/dut/user_map" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">user_map[3:0]</obj_property>
+         <obj_property name="ObjectShortName">user_map[3:0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/mmu_tb/dut/supervisor_map_1" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">supervisor_map_1[7:0]</obj_property>
+         <obj_property name="ObjectShortName">supervisor_map_1[7:0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/mmu_tb/dut/supervisor_map_2" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">supervisor_map_2[7:0]</obj_property>
+         <obj_property name="ObjectShortName">supervisor_map_2[7:0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group13" type="group">
+      <obj_property name="label">Outputs</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/mmu_tb/dut/table_ram_addr_bus" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">table_ram_addr_bus[15:0]</obj_property>
+         <obj_property name="ObjectShortName">table_ram_addr_bus[15:0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/mmu_tb/dut/addr_out" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">addr_out[27:12]</obj_property>
+         <obj_property name="ObjectShortName">addr_out[27:12]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group14" type="group">
+      <obj_property name="label">Internals</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/mmu_tb/dut/user" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">user</obj_property>
+         <obj_property name="ObjectShortName">user</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group16" type="group">
+      <obj_property name="label">Assertions</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="group18" type="group">
+         <obj_property name="label">Supervisor Mode Lookup</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+         <wvobject fp_name="/mmu_tb/assert_super_mode_lookup/expected_addr_out" type="array" db_ref_id="1">
+            <obj_property name="ElementShortName">expected_addr_out[27:12]</obj_property>
+            <obj_property name="ObjectShortName">expected_addr_out[27:12]</obj_property>
+            <obj_property name="Radix">HEXRADIX</obj_property>
+         </wvobject>
+      </wvobject>
+      <wvobject fp_name="group15" type="group">
+         <obj_property name="label">User Mode Lookup</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+         <wvobject fp_name="/mmu_tb/assert_user_mode_lookup/expected_ram_addr_bus" type="array" db_ref_id="1">
+            <obj_property name="ElementShortName">expected_ram_addr_bus[15:0]</obj_property>
+            <obj_property name="ObjectShortName">expected_ram_addr_bus[15:0]</obj_property>
+            <obj_property name="Radix">HEXRADIX</obj_property>
+         </wvobject>
+      </wvobject>
+   </wvobject>
+</wave_config>

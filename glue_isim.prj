@@ -1,0 +1,2 @@
+verilog work mmu_tb.v mmu.v
+verilog work ram_tb.v ram.v
