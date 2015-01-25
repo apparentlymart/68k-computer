@@ -27,9 +27,9 @@ module mmu_tb;
       input ok;
       begin
          if (ok)
-           $write("ok - ");
+           $write("ok - [%4t] ", $time);
          else
-           $write("not ok - ");
+           $write("not ok - [%4t] ", $time);
       end
    endtask
 
