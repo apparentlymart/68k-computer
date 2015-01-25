@@ -61,8 +61,8 @@ module mmu(
    input [2:0]    fc;
 
    input [3:0]    user_map;
-   input [7:0]    supervisor_map_1;
-   input [7:0]    supervisor_map_2;
+   input [15:0]   supervisor_map_1;
+   input [15:0]   supervisor_map_2;
    output [15:0]  table_ram_addr_bus;
    input [15:0]   table_ram_data_bus;
 
@@ -88,14 +88,25 @@ module mmu(
               // Primary I/O Ports
               supervisor_addr_map = {8'b00000011, addr_in[19:12]};
             2'b01:
-              // Board Control & Page Table RAM (not yet implemented)
-              supervisor_addr_map = 0;
+              // Board Control & Page Table RAM
+              case (addr_in[19])
+                1'b0:
+                  // Board Control Registers
+                  supervisor_addr_map = {9'b000000010, addr_in[18:12]};
+                1'b1:
+                  // Page Table RAM
+                  supervisor_addr_map = {9'b000000100, addr_in[18:12]};
+              endcase
             2'b10:
-              // Selectable Mapping 1 (not yet implemented)
-              supervisor_addr_map = 0;
+              // Selectable Mapping 1
+              supervisor_addr_map = {
+                  supervisor_map_1, addr_in[19:12]
+              };
             2'b11:
-              // Selectable Mapping 2 (not yet implemented)
-              supervisor_addr_map = 0;
+              // Selectable Mapping 2
+              supervisor_addr_map = {
+                  supervisor_map_2, addr_in[19:12]
+              };
           endcase
         2'b11:
           // Video/Audio Controller RAM

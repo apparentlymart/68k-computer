@@ -7,8 +7,8 @@ module mmu_tb;
    reg [23:12]  addr_in = 0;
    reg [2:0]    fc = 0;
    reg [3:0]    user_map = 0;
-   reg [7:0]    supervisor_map_1 = 0;
-   reg [7:0]    supervisor_map_2 = 0;
+   reg [15:0]   supervisor_map_1 = 0;
+   reg [15:0]   supervisor_map_2 = 0;
    wire [15:0]  table_ram_addr_bus;
    reg [15:0]   table_ram_data_bus = 0;
    wire [27:12] addr_out;
@@ -98,11 +98,15 @@ module mmu_tb;
          #1 enable <= 1;
          #1;
          ok(expected_addr_out == addr_out);
-         $display("%xxxx in supervisor maps to %xxxx in physical space",
-                  test_addr_in, expected_addr_out);
+         if (test_supervisor_map_1 != 0 || test_supervisor_map_2 != 0)
+            $display("%xxxx in supervisor (sel:%x,%x) maps to %xxxx in physical space",
+                     test_addr_in, test_supervisor_map_1, test_supervisor_map_2, expected_addr_out);
+         else
+            $display("%xxxx in supervisor maps to %xxxx in physical space",
+                     test_addr_in, expected_addr_out);
          if (expected_addr_out != addr_out)
-             $display("# expected %xxxx, but got %xxxx",
-                      expected_addr_out, addr_out);
+            $display("# expected %xxxx, but got %xxxx",
+                     expected_addr_out, addr_out);
          #1 enable <= 0;
          #1;
       end
@@ -111,7 +115,7 @@ module mmu_tb;
    initial begin
       $dumpfile("mmu_tb.vcd");
       $dumpvars;
-      $display("1..22");
+      $display("1..42");
 
       #1 test_name <= "User Mode Data Bus";
       assert_user_mode_data_bus;
@@ -153,6 +157,31 @@ module mmu_tb;
       assert_super_mode_lookup('h801, 0, 0, 'h0301);
       assert_super_mode_lookup('h8fe, 0, 0, 'h03fe);
       assert_super_mode_lookup('h8ff, 0, 0, 'h03ff);
+      #1 test_name <= "Supervisor Mode - Board Control Registers";
+      assert_super_mode_lookup('h900, 0, 0, 'h0100);
+      assert_super_mode_lookup('h901, 0, 0, 'h0101);
+      assert_super_mode_lookup('h97e, 0, 0, 'h017e);
+      assert_super_mode_lookup('h97f, 0, 0, 'h017f);
+      #1 test_name <= "Supervisor Mode - Page Table RAM";
+      assert_super_mode_lookup('h980, 0, 0, 'h0200);
+      assert_super_mode_lookup('h981, 0, 0, 'h0201);
+      assert_super_mode_lookup('h9fe, 0, 0, 'h027e);
+      assert_super_mode_lookup('h9ff, 0, 0, 'h027f);
+      #1 test_name <= "Supervisor Mode - Selectable Mappings";
+      // Basic Range Testing
+      assert_super_mode_lookup('ha00, 'h01, 'h02, 'h0100);
+      assert_super_mode_lookup('ha01, 'h01, 'h02, 'h0101);
+      assert_super_mode_lookup('hafe, 'h01, 'h02, 'h01fe);
+      assert_super_mode_lookup('haff, 'h01, 'h02, 'h01ff);
+      assert_super_mode_lookup('hb00, 'h01, 'h02, 'h0200);
+      assert_super_mode_lookup('hb01, 'h01, 'h02, 'h0201);
+      assert_super_mode_lookup('hbfe, 'h01, 'h02, 'h02fe);
+      assert_super_mode_lookup('hbff, 'h01, 'h02, 'h02ff);
+      // Mappings
+      assert_super_mode_lookup('ha00, 'hff, 'hfe, 'hff00);
+      assert_super_mode_lookup('hb00, 'hff, 'hfe, 'hfe00);
+      assert_super_mode_lookup('ha00, 'h7f, 'h7f, 'h7f00);
+      assert_super_mode_lookup('hb00, 'h7f, 'h7f, 'h7f00);
       #1 test_name <= 'bz;
       reset;
 
