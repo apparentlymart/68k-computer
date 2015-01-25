@@ -76,13 +76,17 @@ module mmu(
       input [23:12]  addr_in;
       case (addr_in[23:22])
         2'b00:
+          // First part of general RAM
           supervisor_addr_map = {6'b100000, addr_in[21:12]};
         2'b01:
+          // First part of ROM
           supervisor_addr_map = {6'b010000, addr_in[21:12]};
         2'b10:
+          // I/O device area (not yet implemented)
           supervisor_addr_map = 0;
         2'b11:
-          supervisor_addr_map = 0;
+          // Video/Audio Controller RAM
+          supervisor_addr_map = {6'b001111, addr_in[21:12]};
       endcase
    endfunction
 

@@ -111,7 +111,7 @@ module mmu_tb;
    initial begin
       $dumpfile("mmu_tb.vcd");
       $dumpvars;
-      $display("1..14");
+      $display("1..18");
 
       #1 test_name <= "User Mode Data Bus";
       assert_user_mode_data_bus;
@@ -142,6 +142,12 @@ module mmu_tb;
       assert_super_mode_lookup('h401, 0, 0, 'h4001);
       assert_super_mode_lookup('h7fe, 0, 0, 'h43fe);
       assert_super_mode_lookup('h7ff, 0, 0, 'h43ff);
+      // Graphics/audio RAM maps to graphics/audio RAM
+      #1 test_name <= "Supervisor Mode - Graphics Chip";
+      assert_super_mode_lookup('hc00, 0, 0, 'h3c00);
+      assert_super_mode_lookup('hc01, 0, 0, 'h3c01);
+      assert_super_mode_lookup('hf0e, 0, 0, 'h3f0e);
+      assert_super_mode_lookup('hfff, 0, 0, 'h3fff);
       #1 test_name <= 'bz;
       reset;
 
