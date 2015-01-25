@@ -82,8 +82,21 @@ module mmu(
           // First part of ROM
           supervisor_addr_map = {6'b010000, addr_in[21:12]};
         2'b10:
-          // I/O device area (not yet implemented)
-          supervisor_addr_map = 0;
+          // I/O device area
+          case (addr_in[21:20])
+            2'b00:
+              // Primary I/O Ports (not yet implemented)
+              supervisor_addr_map = {8'b00000011, addr_in[19:12]};
+            2'b01:
+              // Board Control & Page Table RAM (not yet implemented)
+              supervisor_addr_map = 0;
+            2'b10:
+              // Selectable Mapping 1 (not yet implemented)
+              supervisor_addr_map = 0;
+            2'b11:
+              // Selectable Mapping 2 (not yet implemented)
+              supervisor_addr_map = 0;
+          endcase
         2'b11:
           // Video/Audio Controller RAM
           supervisor_addr_map = {6'b001111, addr_in[21:12]};

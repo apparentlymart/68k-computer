@@ -111,7 +111,7 @@ module mmu_tb;
    initial begin
       $dumpfile("mmu_tb.vcd");
       $dumpvars;
-      $display("1..18");
+      $display("1..22");
 
       #1 test_name <= "User Mode Data Bus";
       assert_user_mode_data_bus;
@@ -148,6 +148,11 @@ module mmu_tb;
       assert_super_mode_lookup('hc01, 0, 0, 'h3c01);
       assert_super_mode_lookup('hf0e, 0, 0, 'h3f0e);
       assert_super_mode_lookup('hfff, 0, 0, 'h3fff);
+      #1 test_name <= "Supervisor Mode - Primary I/O";
+      assert_super_mode_lookup('h800, 0, 0, 'h0300);
+      assert_super_mode_lookup('h801, 0, 0, 'h0301);
+      assert_super_mode_lookup('h8fe, 0, 0, 'h03fe);
+      assert_super_mode_lookup('h8ff, 0, 0, 'h03ff);
       #1 test_name <= 'bz;
       reset;
 
