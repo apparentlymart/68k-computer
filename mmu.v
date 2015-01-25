@@ -43,8 +43,9 @@
  kernel to allow applications to write directly to bitmaps in video RAM.
 */
 module mmu(
+   enable,
+
    addr_in,
-   addr_in_strobe,
    fc,
 
    user_map,
@@ -53,37 +54,26 @@ module mmu(
    table_ram_addr_bus,
    table_ram_data_bus,
 
-   addr_out,
-   addr_out_strobe
+   addr_out
 );
 
+   input          enable;
    input [23:12]  addr_in;
-   input          addr_in_strobe;
    input [2:0]    fc;
 
    input [3:0]    user_map;
    input [7:0]    supervisor_map_1;
    input [7:0]    supervisor_map_2;
-   output [19:0]  table_ram_addr_bus;
+   output [15:0]  table_ram_addr_bus;
    input [15:0]   table_ram_data_bus;
 
    output [27:12] addr_out;
-   output         addr_out_strobe;
 
    // Asserted when the CPU is running in user mode rather than
    // supervisor mode.
    wire           user = (fc == 3'b001 || fc == 3'b010);
 
-   assign table_ram_addr_bus = 'bz;
-
-   always @(posedge addr_in_strobe) begin
-
-      if (user) begin
-         
-      end else begin
-
-      end
-
-   end
+   assign table_ram_addr_bus = (enable && user) ? ((user_map << 12) | addr_in) : 'bz;
+   assign addr_out = (enable && user) ? table_ram_data_bus : 'bz;
 
 endmodule
