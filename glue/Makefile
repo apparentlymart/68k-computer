@@ -27,7 +27,7 @@ synth:
 	yosys -s glue.yosys
 
 test: $(TEST_BENCH_SIMS)
-	prove -e vvp $(TEST_BENCH_SIMS)
+	prove -f -e vvp $(TEST_BENCH_SIMS)
 
 # Run this target as e.g.: make xilinx_isim_gui DUT=mmu
 xilinx_isim_gui: $(DUT)_tb.texe
