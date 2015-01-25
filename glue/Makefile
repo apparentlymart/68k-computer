@@ -33,6 +33,9 @@ test: $(TEST_BENCH_SIMS)
 xilinx_isim_gui: $(DUT)_tb.texe
 	$(XILINX_TOOL_ENV) ./$(DUT)_tb.texe -gui -view $(DUT)_tb.wcfg
 
+gtkwave_gui: $(DUT)_tb.vcd
+	gtkwave $(DUT)_tb.vcd $(DUT)_tb.gtkw
+
 # Xilinx "Test Executable", for use with ISim
 %_tb.texe: %_tb.v %.v
 	$(XILINX_TOOL_ENV) fuse -incremental -prj glue_isim.prj -o $@ work.$(patsubst %_tb.texe,%_tb,$@)

@@ -1,0 +1,64 @@
+[*]
+[*] GTKWave Analyzer v3.3.34 (w)1999-2012 BSI
+[*] Sun Jan 25 21:15:04 2015
+[*]
+[dumpfile] "mmu_tb.vcd"
+[dumpfile_mtime] "Sun Jan 25 21:12:18 2015"
+[dumpfile_size] 8138
+[savefile] "mmu_tb.gtkw"
+[timestart] 0
+[size] 1680 974
+[pos] -1 -1
+*-4.147799 143 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] mmu_tb.
+[treeopen] mmu_tb.dut.
+[sst_width] 223
+[signals_width] 273
+[sst_expanded] 1
+[sst_vpaned_height] 272
+@820
+[color] 7
+mmu_tb.test_name[192:0]
+@800200
+-Input
+@28
+mmu_tb.dut.enable
+@22
+mmu_tb.dut.addr_in[23:12]
+@28
+mmu_tb.dut.fc[2:0]
+@1000200
+-Input
+@800200
+-Internals
+@28
+mmu_tb.dut.user
+@22
+mmu_tb.dut.user_map[3:0]
+mmu_tb.dut.table_ram_addr_bus[15:0]
+@1000200
+-Internals
+@800200
+-Results
+@22
+mmu_tb.dut.addr_out[27:12]
+@1000200
+-Results
+@800200
+-Supervisor Tests
+@22
+mmu_tb.assert_super_mode_lookup.test_addr_in[23:12]
+mmu_tb.assert_super_mode_lookup.test_supervisor_map_1[7:0]
+mmu_tb.assert_super_mode_lookup.test_supervisor_map_2[7:0]
+mmu_tb.assert_super_mode_lookup.expected_addr_out[27:12]
+@1000200
+-Supervisor Tests
+@800200
+-Supervisor Addr Map
+@22
+mmu_tb.dut.supervisor_addr_map.addr_in[23:12]
+mmu_tb.dut.supervisor_addr_map.supervisor_addr_map[27:12]
+@1000200
+-Supervisor Addr Map
+[pattern_trace] 1
+[pattern_trace] 0
