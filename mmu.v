@@ -12,14 +12,13 @@
  indicate supervisor or user mode.
 
  In supervisor mode, the address space is hard-coded as follows:
-   kernel RAM 2MB
-   kernel ROM 2MB
-   IO ports 512k
-   MMU registers 256k
-   page table RAM 256k
-   video/audio controller RAM 8MB
+   kernel RAM 4MB
+   kernel ROM 4MB
+   IO ports 1MB
+   Board control registers 512MB
+   page table RAM 512MB
+   video/audio controller RAM 4MB
    mapped pages from the physical address space 2MB
-   1MB unused
 
  The physical address space mapped pages are controlled by the supervisor
  memory access registers, providing two 1MB "windows" into the physical
@@ -73,7 +72,24 @@ module mmu(
    // supervisor mode.
    wire           user = (fc == 3'b001 || fc == 3'b010);
 
+   function [27:12] supervisor_addr_map;
+      input [23:12]  addr_in;
+      case (addr_in[23:22])
+        2'b00: begin
+          supervisor_addr_map = {6'b100000, addr_in[21:12]};
+        end
+        2'b01:
+          supervisor_addr_map = {6'b010000, addr_in[21:12]};
+        2'b10:
+          supervisor_addr_map = 0;
+        2'b11:
+          supervisor_addr_map = 0;
+      endcase
+   endfunction
+
    assign table_ram_addr_bus = (enable && user) ? ((user_map << 12) | addr_in) : 'bz;
-   assign addr_out = (enable && user) ? table_ram_data_bus : 'bz;
+   assign addr_out = enable ? (
+       user ? table_ram_data_bus : supervisor_addr_map(addr_in)
+   ) : 'bz;
 
 endmodule
