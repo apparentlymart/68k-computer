@@ -1,3 +1,5 @@
 *.gif
 *.dot
 *.edif
+*.vvp
+*.vcd
