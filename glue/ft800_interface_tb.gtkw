@@ -1,0 +1,57 @@
+[*]
+[*] GTKWave Analyzer v3.3.34 (w)1999-2012 BSI
+[*] Mon Jan 26 05:20:01 2015
+[*]
+[dumpfile] "ft800_interface_tb.vcd"
+[dumpfile_mtime] "Mon Jan 26 05:19:26 2015"
+[dumpfile_size] 10919
+[savefile] "ft800_interface_tb.gtkw"
+[timestart] 0
+[size] 1680 974
+[pos] -1 -1
+*-4.656542 332 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] ft800_interface_tb.
+[treeopen] ft800_interface_tb.dut.
+[sst_width] 223
+[signals_width] 383
+[sst_expanded] 1
+[sst_vpaned_height] 272
+@800200
+-Parallel Side
+@28
+ft800_interface_tb.dut.rst
+ft800_interface_tb.dut.clk
+@22
+ft800_interface_tb.dut.addr[21:1]
+ft800_interface_tb.dut.data[15:0]
+@28
+ft800_interface_tb.dut.write
+ft800_interface_tb.dut.command
+ft800_interface_tb.dut.enable
+ft800_interface_tb.dut.complete
+@1000200
+-Parallel Side
+@800200
+-SPI Side
+@28
+ft800_interface_tb.dut.mosi
+ft800_interface_tb.dut.miso
+ft800_interface_tb.dut.chip_select
+ft800_interface_tb.dut.spi_clk
+@1000200
+-SPI Side
+@800200
+-Internals
+@24
+ft800_interface_tb.dut.cycle[1:0]
+ft800_interface_tb.dut.write_counter[5:0]
+@28
+ft800_interface_tb.dut.write_data[39:0]
+@24
+ft800_interface_tb.dut.read_counter[4:0]
+@28
+ft800_interface_tb.dut.read_data[15:0]
+@1000200
+-Internals
+[pattern_trace] 1
+[pattern_trace] 0
