@@ -1,6 +1,5 @@
-`define ASSERT(cond, msg) ok(cond); $display(msg)
-
 module mmu_tb;
+   `include "tap.vh"
 
    reg [(18*8)-1:0] test_name = 'bz;
    reg          enable = 0;
@@ -22,16 +21,6 @@ module mmu_tb;
            table_ram_addr_bus,
            table_ram_data_bus,
            addr_out);
-
-   task ok;
-      input ok;
-      begin
-         if (ok)
-           $write("ok - [%4t] ", $time);
-         else
-           $write("not ok - [%4t] ", $time);
-      end
-   endtask
 
    task reset;
       begin
