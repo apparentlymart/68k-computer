@@ -49,4 +49,21 @@ gtkwave_gui: $(DUT)_tb.vcd
 glue.ngc: $(MODULES) glue.prj glue.xst
 	$(XILINX_TOOL_ENV) xst -ifn glue.xst
 
-.PHONY: synth test
+%.ngd: %.ngc
+	$(XILINX_TOOL_ENV) ngdbuild $< $@
+
+%.ncd: %.ngd
+	$(XILINX_TOOL_ENV) map -w $< -o $@
+
+%-par.ncd: %.ncd
+	$(XILINX_TOOL_ENV) par -w $< $@
+
+%.bit: %-par.ncd
+	$(XILINX_TOOL_ENV) bitgen -w -g Binary:Yes $< $@
+
+%.bin: %.bit
+	@echo "$@ was created as a side-effect of generating $<"
+
+xilinx_bitstream: glue.bin
+
+.PHONY: synth test xilinx_bitstream
