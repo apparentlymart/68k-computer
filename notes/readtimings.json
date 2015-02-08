@@ -1,0 +1,22 @@
+{
+  "signal": [
+      {"name": "clk",                                  "wave": "n......", "period": 2},
+    ["MC68000",
+      {"name": "State",                                "wave": "z====|.=======", "data": "S0 S1 S2 S3 S4 S5 S6 S7 S0 S1 S2"},
+      {"name": "FCₙ",                                  "wave": "==...|.....=.."},
+      {"name": "Aₙ",                                   "wave": "=z=..|.....z.."},
+      {"name": "A\u0305S\u0305",                       "wave": "1..0.|....1..0"},
+      {"name": "U\u0305D\u0305S\u0305",                "wave": "1..0.|....1..x"},
+      {"name": "L\u0305D\u0305S\u0305",                "wave": "1..0.|....1..x"},
+      {"name": "R/W\u0305",                            "wave": "1....|.......x"}
+    ],
+    ["MemCtrl",
+      {"name": "D\u0305T\u0305A\u0305C\u0305K\u0305",  "wave": "1....|.0...1.."},
+      {"name": "B\u0305E\u0305R\u0305R\u0305",         "wave": "1............."},
+      {"name": "UDₙ",                                  "wave": "z....|.=...z.."},
+      {"name": "LDₙ",                                  "wave": "z....|.=...z.."},
+      {"name": "State",                                "wave": "=...=..=...==.", "data": ["wait", "addrdec", "read", "wrc?", "wait"]}
+    ]
+  ]
+}
+
