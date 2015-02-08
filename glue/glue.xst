@@ -1,0 +1,1 @@
+run -arch spartan6 -p xc6slx9 -ifn glue.prj -ofn glue.ngc -top glue

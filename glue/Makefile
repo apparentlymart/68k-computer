@@ -46,4 +46,7 @@ gtkwave_gui: $(DUT)_tb.vcd
 %_tb.vcd: %_tb.vvp
 	vvp $<
 
+glue.ngc: $(MODULES) glue.prj glue.xst
+	$(XILINX_TOOL_ENV) xst -ifn glue.xst
+
 .PHONY: synth test

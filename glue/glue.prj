@@ -1,0 +1,3 @@
+verilog work mmu.v
+verilog work glue.v
+verilog work ft800_interface.v
