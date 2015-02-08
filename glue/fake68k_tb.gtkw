@@ -57,6 +57,7 @@ fake68k_tb.dut.uds_n
 fake68k_tb.dut.lds_n
 fake68k_tb.dut.read
 fake68k_tb.dut.dtack_n
+fake68k_tb.dut.berr_n
 @22
 fake68k_tb.data[15:0]
 @23
