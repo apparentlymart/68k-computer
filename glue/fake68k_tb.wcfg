@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="./isim.wdb" id="1" type="auto">
+         <top_modules>
+            <top_module name="fake68k_tb" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <WVObjectSize size="12" />
+   <wvobject fp_name="/fake68k_tb/test_name" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">test_name[143:0]</obj_property>
+      <obj_property name="ObjectShortName">test_name[143:0]</obj_property>
+      <obj_property name="Radix">ASCIIRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fake68k_tb/mock_state" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">mock_state[4:0]</obj_property>
+      <obj_property name="ObjectShortName">mock_state[4:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fake68k_tb/dut/clk" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fake68k_tb/dut/fc" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">fc[2:0]</obj_property>
+      <obj_property name="ObjectShortName">fc[2:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fake68k_tb/dut/addr" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">addr[23:0]</obj_property>
+      <obj_property name="ObjectShortName">addr[23:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fake68k_tb/dut/as_n" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">as_n</obj_property>
+      <obj_property name="ObjectShortName">as_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fake68k_tb/dut/uds_n" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">uds_n</obj_property>
+      <obj_property name="ObjectShortName">uds_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fake68k_tb/dut/lds_n" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">lds_n</obj_property>
+      <obj_property name="ObjectShortName">lds_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fake68k_tb/read" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">read</obj_property>
+      <obj_property name="ObjectShortName">read</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fake68k_tb/dtack_n" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">dtack_n</obj_property>
+      <obj_property name="ObjectShortName">dtack_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fake68k_tb/data" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">data[15:0]</obj_property>
+      <obj_property name="ObjectShortName">data[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fake68k_tb/data_read" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">data_read[15:0]</obj_property>
+      <obj_property name="ObjectShortName">data_read[15:0]</obj_property>
+   </wvobject>
+</wave_config>

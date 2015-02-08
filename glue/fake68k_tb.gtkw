@@ -1,0 +1,65 @@
+[*]
+[*] GTKWave Analyzer v3.3.34 (w)1999-2012 BSI
+[*] Sun Feb  8 04:16:07 2015
+[*]
+[dumpfile] "fake68k_tb.vcd"
+[dumpfile_mtime] "Sun Feb  8 04:14:14 2015"
+[dumpfile_size] 3001
+[savefile] "fake68k_tb.sav"
+[timestart] 0
+[size] 1680 974
+[pos] -1 -1
+*-1.757550 17 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] fake68k_tb.
+[sst_width] 223
+[signals_width] 223
+[sst_expanded] 1
+[sst_vpaned_height] 283
+@820
+fake68k_tb.test_name[143:0]
+@24
+fake68k_tb.mock_state[4:0]
+@28
+fake68k_tb.dut.clk
+fake68k_tb.dut.fc[2:0]
+@c00022
+fake68k_tb.dut.addr[23:0]
+@28
+(0)fake68k_tb.dut.addr[23:0]
+(1)fake68k_tb.dut.addr[23:0]
+(2)fake68k_tb.dut.addr[23:0]
+(3)fake68k_tb.dut.addr[23:0]
+(4)fake68k_tb.dut.addr[23:0]
+(5)fake68k_tb.dut.addr[23:0]
+(6)fake68k_tb.dut.addr[23:0]
+(7)fake68k_tb.dut.addr[23:0]
+(8)fake68k_tb.dut.addr[23:0]
+(9)fake68k_tb.dut.addr[23:0]
+(10)fake68k_tb.dut.addr[23:0]
+(11)fake68k_tb.dut.addr[23:0]
+(12)fake68k_tb.dut.addr[23:0]
+(13)fake68k_tb.dut.addr[23:0]
+(14)fake68k_tb.dut.addr[23:0]
+(15)fake68k_tb.dut.addr[23:0]
+(16)fake68k_tb.dut.addr[23:0]
+(17)fake68k_tb.dut.addr[23:0]
+(18)fake68k_tb.dut.addr[23:0]
+(19)fake68k_tb.dut.addr[23:0]
+(20)fake68k_tb.dut.addr[23:0]
+(21)fake68k_tb.dut.addr[23:0]
+(22)fake68k_tb.dut.addr[23:0]
+(23)fake68k_tb.dut.addr[23:0]
+@1401200
+-group_end
+@28
+fake68k_tb.dut.as_n
+fake68k_tb.dut.uds_n
+fake68k_tb.dut.lds_n
+fake68k_tb.dut.read
+fake68k_tb.dut.dtack_n
+@22
+fake68k_tb.data[15:0]
+@23
+fake68k_tb.data_read[15:0]
+[pattern_trace] 1
+[pattern_trace] 0
