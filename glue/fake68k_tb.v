@@ -170,6 +170,56 @@ module fake68k_tb;
       end
    endtask
 
+   task test_read_cycle_berr;
+      begin
+         #1 test_name <= "Read Cycle BERR   ";
+
+         cycle_type = 1; // READ_CYCLE
+         mock_fc = 'b011;
+         mock_addr = 'hbeef;
+         dtack_n = 1;
+         berr_n = 1;
+         mock_data_to_read = 'h7f7f;
+         drive_data_bus = 0;
+
+         // We tested the early states in test_read_cycle, so we just assume
+         // they are working correctly for the sake of this test.
+         #4;
+         berr_n = 0;
+
+         #1;
+         ok(mock_state === 3); $display("State is 3");
+         ok(addr == 'hbeef); $display("ADDRn remains asserted");
+         ok(~as_n); $display("AS remains asserted");
+         ok(~uds_n); $display("UDS remains asserted");
+         ok(~lds_n); $display("LDS remains asserted");
+
+         #5;
+         ok(mock_state === 8); $display("State is 8");
+         ok(addr == 'hbeef); $display("ADDRn remains asserted");
+         ok(~as_n); $display("AS remains asserted");
+         ok(~uds_n); $display("UDS remains asserted");
+         ok(~lds_n); $display("LDS remains asserted");
+
+         #2;
+         ok(mock_state === 10); $display("State is virtual state 10");
+         ok(addr === 24'bz); $display("ADDRn is Z");
+         ok(as_n); $display("AS unasserted");
+         ok(uds_n); $display("UDS unasserted");
+         ok(lds_n); $display("LDS unasserted");
+         berr_n = 1;
+
+         #1;
+         ok(mock_state === 10); $display("State is still 10 because we were on a high clock");
+
+         #1;
+         ok(mock_state === 0); $display("State returns to 0");
+         cycle_type = 0; // deactivate fake68k, resetting to intial state
+
+         #1 test_name <= 'bz;
+      end
+   endtask
+
    initial begin
       $dumpfile("fake68k_tb.vcd");
       $dumpvars;
@@ -178,6 +228,8 @@ module fake68k_tb;
       test_initial_state();
 
       test_read_cycle();
+
+      test_read_cycle_berr();
 
       $finish;
    end

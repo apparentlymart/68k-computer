@@ -77,13 +77,35 @@ module fake68k
              // Only transition to state 5 once dtack is asserted, and then
              // only on a falling edge so that state 5 is always a low-clock
              // cycle.
-             // (Note: We don't support BERR yet.)
-             if (dtack == 1 && clk == 1)
+             if ((dtack == 1 || berr == 1) && clk == 1)
                next_state <= 5;
           end
           5: next_state <= 6;
           6: next_state <= 7;
-          7: next_state <= 0;
+          7: begin
+             if (berr)
+               next_state <= 8;
+             else
+               next_state <= 0;
+          end
+          // The remaining states are used only in the Bus Error case.
+          8: next_state <= 9;
+          // We need to hold in this position until we make a positive clock
+          // edge with BERR unasserted, so we use a fictitious state 10 to
+          // represent the wait states that might result.
+          9: begin
+             if (berr)
+               next_state <= 10;
+             else
+               next_state <= 0;
+          end
+          10: begin
+             // Transition back to zero only if the next clock will be
+             // a positive edge, to make sure that S0 remains a high clock
+             // state.
+             if (clk == 0 && ~berr)
+               next_state <= 0;
+          end
         endcase
    end
 
@@ -139,7 +161,24 @@ module fake68k
              drive_addr <= 1;
 
              // We must latch the data as we enter S7.
-             data_read_reg <= data;
+             if (berr) begin
+                as <= 1;
+                uds <= 1;
+                lds <= 1;
+             end else
+               data_read_reg <= data;
+          end
+          8: begin
+             drive_addr <= 1;
+             as <= 1;
+             uds <= 1;
+             lds <= 1;
+          end
+          9: begin
+             drive_addr <= 1;
+             as <= 1;
+             uds <= 1;
+             lds <= 1;
           end
         endcase
    end
