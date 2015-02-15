@@ -74,41 +74,33 @@ module mmu(
 
    function [27:12] supervisor_addr_map;
       input [23:12]  addr_in;
-      case (addr_in[23:22])
-        2'b00:
+      casex (addr_in)
+        12'b00xxxxxxxxxx:
           // First part of general RAM
           supervisor_addr_map = {6'b100000, addr_in[21:12]};
-        2'b01:
+        12'b01xxxxxxxxxx:
           // First part of ROM
           supervisor_addr_map = {6'b010000, addr_in[21:12]};
-        2'b10:
-          // I/O device area
-          case (addr_in[21:20])
-            2'b00:
-              // Primary I/O Ports
-              supervisor_addr_map = {8'b00000011, addr_in[19:12]};
-            2'b01:
-              // Board Control & Page Table RAM
-              case (addr_in[19])
-                1'b0:
-                  // Board Control Registers
-                  supervisor_addr_map = {9'b000000010, addr_in[18:12]};
-                1'b1:
-                  // Page Table RAM
-                  supervisor_addr_map = {9'b000000100, addr_in[18:12]};
-              endcase
-            2'b10:
-              // Selectable Mapping 1
-              supervisor_addr_map = {
-                  supervisor_map_1, addr_in[19:12]
-              };
-            2'b11:
-              // Selectable Mapping 2
-              supervisor_addr_map = {
-                  supervisor_map_2, addr_in[19:12]
-              };
-          endcase
-        2'b11:
+        12'b1000xxxxxxxx:
+          // Primary I/O Ports
+          supervisor_addr_map = {8'b00000011, addr_in[19:12]};
+        12'b10010xxxxxxx:
+          // Board Control Registers
+          supervisor_addr_map = {9'b000000010, addr_in[18:12]};
+        12'b10011xxxxxxx:
+          // Page Table RAM
+          supervisor_addr_map = {9'b000000100, addr_in[18:12]};
+        12'b1010xxxxxxxx:
+          // Selectable Mapping 1
+          supervisor_addr_map = {
+              supervisor_map_1, addr_in[19:12]
+          };
+        12'b1011xxxxxxxx:
+          // Selectable Mapping 2
+          supervisor_addr_map = {
+              supervisor_map_2, addr_in[19:12]
+          };
+        12'b11xxxxxxxxxx:
           // Video/Audio Controller RAM
           supervisor_addr_map = {6'b001111, addr_in[21:12]};
       endcase
