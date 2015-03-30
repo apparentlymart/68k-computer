@@ -64,6 +64,9 @@ glue.ngc: $(MODULES) glue.prj glue.xst
 %.bin: %.bit
 	@echo "$@ was created as a side-effect of generating $<"
 
+%.vpi: %.c
+	iverilog-vpi $<
+
 xilinx_bitstream: glue.bin
 
 .PHONY: synth test xilinx_bitstream
