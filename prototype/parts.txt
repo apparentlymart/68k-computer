@@ -15,6 +15,9 @@ For the prototype, hosts the glue logic, video controller and basic I/O using th
 VGA socket:
 http://www.digikey.com/product-detail/en/AHDF15A-KG-TAXB-R/AE11024-ND/1241905
 
+SOT-23 Diode:
+http://www.digikey.com/product-detail/en/MMBD914-TP/MMBD914TPMSCT-ND/717393
 
+0805 Capacitors and Resistors (any of the right value will do)
 
 
