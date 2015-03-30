@@ -1,0 +1,342 @@
+EESchema Schematic File Version 2
+LIBS:power
+LIBS:device
+LIBS:transistors
+LIBS:conn
+LIBS:linear
+LIBS:regul
+LIBS:74xx
+LIBS:cmos4000
+LIBS:adc-dac
+LIBS:memory
+LIBS:xilinx
+LIBS:special
+LIBS:microcontrollers
+LIBS:dsp
+LIBS:microchip
+LIBS:analog_switches
+LIBS:motorola
+LIBS:texas
+LIBS:intel
+LIBS:audio
+LIBS:interface
+LIBS:digital-audio
+LIBS:philips
+LIBS:display
+LIBS:cypress
+LIBS:siliconi
+LIBS:opto
+LIBS:atmel
+LIBS:contrib
+LIBS:valves
+EELAYER 25 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L CONN_25X2 P?
+U 1 1 551890A6
+P 3600 3800
+F 0 "P?" H 3600 5100 60  0000 C CNN
+F 1 "CONN_25X2" V 3600 3800 50  0000 C CNN
+F 2 "" H 3600 3800 60  0000 C CNN
+F 3 "" H 3600 3800 60  0000 C CNN
+	1    3600 3800
+	1    0    0    -1  
+$EndComp
+$Comp
+L CONN_25X2 P?
+U 1 1 551890D2
+P 6600 3800
+F 0 "P?" H 6600 5100 60  0000 C CNN
+F 1 "CONN_25X2" V 6600 3800 50  0000 C CNN
+F 2 "" H 6600 3800 60  0000 C CNN
+F 3 "" H 6600 3800 60  0000 C CNN
+	1    6600 3800
+	1    0    0    -1  
+$EndComp
+Text GLabel 4050 2700 2    60   Output ~ 0
+GND
+Text GLabel 4050 2600 2    60   Output ~ 0
+GND
+Text GLabel 3150 2700 0    60   Output ~ 0
+VCC
+NoConn ~ 3200 2600
+NoConn ~ 6200 2600
+Wire Wire Line
+	4000 2600 4050 2600
+Wire Wire Line
+	4000 2700 4050 2700
+Wire Wire Line
+	3150 2700 3200 2700
+Text GLabel 7050 2600 2    60   Output ~ 0
+GND
+Text GLabel 7050 2700 2    60   Output ~ 0
+GND
+Text GLabel 6150 2700 0    60   Output ~ 0
+VCC
+Wire Wire Line
+	6150 2700 6200 2700
+Wire Wire Line
+	7000 2600 7050 2600
+Wire Wire Line
+	7000 2700 7050 2700
+NoConn ~ 3200 5000
+NoConn ~ 3200 4900
+NoConn ~ 3200 4800
+NoConn ~ 4000 4800
+NoConn ~ 4000 4900
+NoConn ~ 4000 5000
+NoConn ~ 3200 2800
+NoConn ~ 4000 2800
+Text GLabel 3150 2900 0    60   Output ~ 0
+GREEN0
+Text GLabel 3150 3000 0    60   Output ~ 0
+GREEN2
+Text GLabel 4050 2900 2    60   Output ~ 0
+GREEN1
+Text GLabel 4050 3000 2    60   Output ~ 0
+GREEN3
+Wire Wire Line
+	3150 2900 3200 2900
+Wire Wire Line
+	3150 3000 3200 3000
+Wire Wire Line
+	4000 2900 4050 2900
+Wire Wire Line
+	4000 3000 4050 3000
+Text GLabel 4050 3100 2    60   Output ~ 0
+BLUE1
+Text GLabel 4050 3200 2    60   Output ~ 0
+BLUE3
+Text GLabel 3150 3100 0    60   Output ~ 0
+BLUE0
+Text GLabel 3150 3200 0    60   Output ~ 0
+BLUE2
+Text GLabel 6150 2800 0    60   Output ~ 0
+HSYNC
+Text GLabel 7050 2800 2    60   Output ~ 0
+VSYNC
+Text GLabel 6150 2900 0    60   Output ~ 0
+RED0
+Text GLabel 6150 3000 0    60   Output ~ 0
+RED2
+Text GLabel 7050 2900 2    60   Output ~ 0
+RED1
+Text GLabel 7050 3000 2    60   Output ~ 0
+RED3
+Text GLabel 3150 3300 0    60   Output ~ 0
+~BERR
+Wire Wire Line
+	3150 3100 3200 3100
+Wire Wire Line
+	3150 3200 3200 3200
+Wire Wire Line
+	3150 3300 3200 3300
+Wire Wire Line
+	4000 3100 4050 3100
+Wire Wire Line
+	4000 3200 4050 3200
+Wire Wire Line
+	6150 2800 6200 2800
+Wire Wire Line
+	6150 2900 6200 2900
+Wire Wire Line
+	6150 3000 6200 3000
+Wire Wire Line
+	7000 2800 7050 2800
+Wire Wire Line
+	7000 2900 7050 2900
+Wire Wire Line
+	7000 3000 7050 3000
+Text GLabel 4050 3300 2    60   Output ~ 0
+IPL2
+Text GLabel 4050 3400 2    60   Output ~ 0
+IPL0
+Text GLabel 3150 3400 0    60   Output ~ 0
+IPL1
+Wire Wire Line
+	4000 3300 4050 3300
+Wire Wire Line
+	4000 3400 4050 3400
+Wire Wire Line
+	3150 3400 3200 3400
+Text GLabel 3150 3600 0    60   Input ~ 0
+FC0
+Text GLabel 3150 3500 0    60   Input ~ 0
+FC2
+Text GLabel 4050 3500 2    60   Input ~ 0
+FC1
+Text GLabel 4050 3600 2    60   Input ~ 0
+A1
+Text GLabel 4050 3700 2    60   Input ~ 0
+A3
+Text GLabel 4050 3800 2    60   Input ~ 0
+A5
+Text GLabel 4050 3900 2    60   Input ~ 0
+A7
+Text GLabel 4050 4000 2    60   Input ~ 0
+A9
+Text GLabel 4050 4100 2    60   Input ~ 0
+A11
+Text GLabel 3150 3700 0    60   Input ~ 0
+A2
+Text GLabel 3150 3800 0    60   Input ~ 0
+A4
+Text GLabel 3150 3900 0    60   Input ~ 0
+A6
+Text GLabel 3150 4000 0    60   Input ~ 0
+A8
+Text GLabel 3150 4100 0    60   Input ~ 0
+A10
+Text GLabel 3150 4200 0    60   Input ~ 0
+LA12
+Text GLabel 3150 4300 0    60   Input ~ 0
+LA14
+Text GLabel 3150 4400 0    60   Input ~ 0
+LA16
+Text GLabel 3150 4500 0    60   Input ~ 0
+LA18
+Text GLabel 3150 4600 0    60   Input ~ 0
+LA20
+Text GLabel 3150 4700 0    60   Input ~ 0
+LA22
+Text GLabel 4050 4200 2    60   Input ~ 0
+LA13
+Text GLabel 4050 4300 2    60   Input ~ 0
+LA15
+Text GLabel 4050 4400 2    60   Input ~ 0
+LA17
+Text GLabel 4050 4500 2    60   Input ~ 0
+LA19
+Text GLabel 4050 4600 2    60   Input ~ 0
+LA21
+Text GLabel 4050 4700 2    60   Input ~ 0
+LA23
+Wire Wire Line
+	3150 3500 3200 3500
+Wire Wire Line
+	3150 3600 3200 3600
+Wire Wire Line
+	3150 3700 3200 3700
+Wire Wire Line
+	3150 3800 3200 3800
+Wire Wire Line
+	3150 3900 3200 3900
+Wire Wire Line
+	3150 4000 3200 4000
+Wire Wire Line
+	3150 4100 3200 4100
+Wire Wire Line
+	3150 4200 3200 4200
+Wire Wire Line
+	3150 4300 3200 4300
+Wire Wire Line
+	3150 4400 3200 4400
+Wire Wire Line
+	3150 4500 3200 4500
+Wire Wire Line
+	3150 4600 3200 4600
+Wire Wire Line
+	3150 4700 3200 4700
+Wire Wire Line
+	4000 3500 4050 3500
+Wire Wire Line
+	4000 3600 4050 3600
+Wire Wire Line
+	4000 3700 4050 3700
+Wire Wire Line
+	4000 3800 4050 3800
+Wire Wire Line
+	4000 3900 4050 3900
+Wire Wire Line
+	4000 4000 4050 4000
+Wire Wire Line
+	4000 4100 4050 4100
+Wire Wire Line
+	4000 4200 4050 4200
+Wire Wire Line
+	4000 4300 4050 4300
+Wire Wire Line
+	4000 4400 4050 4400
+Wire Wire Line
+	4000 4500 4050 4500
+Wire Wire Line
+	4000 4600 4050 4600
+Wire Wire Line
+	4000 4700 4050 4700
+Text GLabel 6150 3100 0    60   Output ~ 0
+PA12
+Text GLabel 6150 3200 0    60   Output ~ 0
+PA14
+Text GLabel 6150 3300 0    60   Output ~ 0
+PA16
+Text GLabel 6150 3400 0    60   Output ~ 0
+PA18
+Text GLabel 7050 3100 2    60   Output ~ 0
+PA13
+Text GLabel 7050 3200 2    60   Output ~ 0
+PA15
+Text GLabel 7050 3300 2    60   Output ~ 0
+PA17
+Text GLabel 7050 3400 2    60   Output ~ 0
+~CSROM
+Text GLabel 7050 3500 2    60   Output ~ 0
+~CSRAM2
+Text GLabel 6150 3500 0    60   Output ~ 0
+~CSRAM1
+Text GLabel 6150 3700 0    60   Input ~ 0
+R/~W
+Text GLabel 6150 3600 0    60   Output ~ 0
+CLK
+Text GLabel 7050 3600 2    60   Output ~ 0
+DTACK
+Text GLabel 7050 3700 2    60   Input ~ 0
+~LDS
+Text GLabel 6150 3800 0    60   Input ~ 0
+~UDS
+Text GLabel 7050 3800 2    60   Input ~ 0
+~AS
+Text GLabel 6150 3900 0    60   BiDi ~ 0
+D0
+Text GLabel 6150 4000 0    60   BiDi ~ 0
+D2
+Text GLabel 6150 4100 0    60   BiDi ~ 0
+D4
+Text GLabel 6150 4200 0    60   BiDi ~ 0
+D6
+Text GLabel 6150 4300 0    60   BiDi ~ 0
+D8
+Text GLabel 6150 4400 0    60   BiDi ~ 0
+D10
+Text GLabel 6150 4500 0    60   BiDi ~ 0
+D12
+Text GLabel 6150 4600 0    60   BiDi ~ 0
+D14
+Text GLabel 7050 3900 2    60   BiDi ~ 0
+D1
+Text GLabel 7050 4000 2    60   BiDi ~ 0
+D3
+Text GLabel 7050 4100 2    60   BiDi ~ 0
+D5
+Text GLabel 7050 4200 2    60   BiDi ~ 0
+D7
+Text GLabel 7050 4300 2    60   BiDi ~ 0
+D9
+Text GLabel 7050 4400 2    60   BiDi ~ 0
+D11
+Text GLabel 7050 4500 2    60   BiDi ~ 0
+D13
+Text GLabel 7050 4600 2    60   BiDi ~ 0
+D15
+$EndSCHEMATC
