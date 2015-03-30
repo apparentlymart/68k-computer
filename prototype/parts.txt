@@ -1,0 +1,20 @@
+
+ROM:
+http://www.digikey.com/product-detail/en/SST39VF800A-70-4C-EKE/SST39VF800A-70-4C-EKE-ND/2297875
+
+RAM (x2):
+http://www.digikey.com/product-detail/en/IS62WV51216BLL-55TLI/706-1048-ND/1555421
+
+MC68SEC000 microprocessor:
+http://www.digikey.com/product-detail/en/MC68SEC000AA16/MC68SEC000AA16-ND/954577
+
+Mojo v3 FPGA dev board:
+https://embeddedmicro.com/products/mojo-v3.html
+For the prototype, hosts the glue logic, video controller and basic I/O using the onboard AVR MCU
+
+VGA socket:
+http://www.digikey.com/product-detail/en/AHDF15A-KG-TAXB-R/AE11024-ND/1241905
+
+
+
+
