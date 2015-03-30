@@ -191,7 +191,7 @@ R/~W
 Text GLabel 3350 1800 0    60   Output ~ 0
 CLK
 Text GLabel 4250 1800 2    60   Output ~ 0
-DTACK
+~DTACK
 Text GLabel 4250 1900 2    60   Input ~ 0
 ~LDS
 Text GLabel 3350 2000 0    60   Input ~ 0
