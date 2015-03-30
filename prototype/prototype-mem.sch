@@ -57,13 +57,6 @@ F 3 "" H 4100 2900 60  0000 C CNN
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	5750 3650 5650 3650
-Wire Wire Line
-	5700 3650 5700 3750
-Wire Wire Line
-	5700 3750 5650 3750
-Connection ~ 5700 3650
-Wire Wire Line
 	5650 3850 5700 3850
 $Comp
 L GND #PWR?
@@ -238,8 +231,14 @@ Text HLabel 5700 3400 2    60   BiDi ~ 0
 D14
 Text HLabel 5700 3500 2    60   BiDi ~ 0
 D15
-Text HLabel 5750 3650 2    60   Input ~ 0
+Text HLabel 5700 3650 2    60   Input ~ 0
 ~CSROM
 Text HLabel 5700 3850 2    60   Input ~ 0
-R/~W
+~WE
+Text HLabel 5700 3750 2    60   Input ~ 0
+~RE
+Wire Wire Line
+	5650 3650 5700 3650
+Wire Wire Line
+	5650 3750 5700 3750
 $EndSCHEMATC

@@ -1448,10 +1448,8 @@ Wire Wire Line
 	4050 4700 4100 4700
 Wire Wire Line
 	4050 4800 4100 4800
-Text GLabel 7300 2650 2    60   Input ~ 0
+Text GLabel 7300 3050 2    60   Input ~ 0
 ~CSROM
-Text GLabel 7300 2950 2    60   Input ~ 0
-R/~W
 Text GLabel 7300 950  2    60   BiDi ~ 0
 D0
 Text GLabel 7300 1050 2    60   BiDi ~ 0
@@ -1505,8 +1503,6 @@ Text GLabel 4250 1600 2    60   Output ~ 0
 PA19
 Wire Wire Line
 	4200 1600 4250 1600
-NoConn ~ 3400 1700
-NoConn ~ 4200 1700
 Text GLabel 5150 950  0    60   Input ~ 0
 A1
 Text GLabel 5150 1050 0    60   Input ~ 0
@@ -1585,8 +1581,9 @@ F33 "D12" B R 7250 2150 60
 F34 "D13" B R 7250 2250 60 
 F35 "D14" B R 7250 2350 60 
 F36 "D15" B R 7250 2450 60 
-F37 "~CSROM" I R 7250 2650 60 
-F38 "R/~W" I R 7250 2950 60 
+F37 "~CSROM" I R 7250 3050 60 
+F38 "~WE" I L 5200 2950 60 
+F39 "~RE" I L 5200 3050 60 
 $EndSheet
 Wire Wire Line
 	5150 950  5200 950 
@@ -1658,8 +1655,22 @@ Wire Wire Line
 	7250 2350 7300 2350
 Wire Wire Line
 	7250 2450 7300 2450
+Text GLabel 3350 1700 0    60   Output ~ 0
+~RE
+Text GLabel 4250 1700 2    60   Output ~ 0
+~WE
 Wire Wire Line
-	7250 2650 7300 2650
+	3350 1700 3400 1700
 Wire Wire Line
-	7250 2950 7300 2950
+	4200 1700 4250 1700
+Text GLabel 5150 3050 0    60   Input ~ 0
+~RE
+Text GLabel 5150 2950 0    60   Input ~ 0
+~WE
+Wire Wire Line
+	5150 2950 5200 2950
+Wire Wire Line
+	5150 3050 5200 3050
+Wire Wire Line
+	7250 3050 7300 3050
 $EndSCHEMATC
