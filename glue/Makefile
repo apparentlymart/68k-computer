@@ -49,8 +49,8 @@ gtkwave_gui: $(DUT)_tb.vcd
 glue.ngc: $(MODULES) glue.prj glue.xst
 	$(XILINX_TOOL_ENV) xst -ifn glue.xst
 
-%.ngd: %.ngc
-	$(XILINX_TOOL_ENV) ngdbuild $< $@
+%.ngd: %.ngc %.ucf
+	$(XILINX_TOOL_ENV) ngdbuild -uc $(patsubst %.ngc,%.ucf,$<) $< $@
 
 %.ncd: %.ngd
 	$(XILINX_TOOL_ENV) map -w $< -o $@
