@@ -241,4 +241,8 @@ Wire Wire Line
 	5650 3650 5700 3650
 Wire Wire Line
 	5650 3750 5700 3750
+Text HLabel 6850 3150 2    60   Input ~ 0
+~CSRAM1
+Text HLabel 6850 3250 2    60   Input ~ 0
+~CSRAM2
 $EndSCHEMATC
