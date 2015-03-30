@@ -35,7 +35,7 @@ EELAYER 25 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 1 1
+Sheet 1 2
 Title "68k Computer Prototype"
 Date ""
 Rev "v0.1"
@@ -1448,94 +1448,41 @@ Wire Wire Line
 	4050 4700 4100 4700
 Wire Wire Line
 	4050 4800 4100 4800
-$Comp
-L FLASHROM_512K_16 U2
-U 1 1 5519D08F
-P 6200 1950
-F 0 "U2" H 5450 2950 60  0000 C CNN
-F 1 "FLASHROM_512K_16" H 6200 1950 60  0000 C CNN
-F 2 "" H 5650 1950 60  0000 C CNN
-F 3 "" H 5650 1950 60  0000 C CNN
-	1    6200 1950
-	1    0    0    -1  
-$EndComp
-Text GLabel 7300 2700 2    60   Input ~ 0
+Text GLabel 7300 2650 2    60   Input ~ 0
 ~CSROM
-Wire Wire Line
-	7300 2700 7200 2700
-Wire Wire Line
-	7250 2700 7250 2800
-Wire Wire Line
-	7250 2800 7200 2800
-Connection ~ 7250 2700
-Text GLabel 7250 2900 2    60   Input ~ 0
+Text GLabel 7300 2950 2    60   Input ~ 0
 R/~W
-Wire Wire Line
-	7200 2900 7250 2900
-$Comp
-L GND #PWR16
-U 1 1 5519DD5E
-P 6600 3350
-F 0 "#PWR16" H 6600 3350 30  0001 C CNN
-F 1 "GND" H 6600 3280 30  0001 C CNN
-F 2 "" H 6600 3350 60  0000 C CNN
-F 3 "" H 6600 3350 60  0000 C CNN
-	1    6600 3350
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	6600 3350 6600 3300
-Wire Wire Line
-	6550 3300 6650 3300
-Wire Wire Line
-	6550 3300 6550 3250
-Wire Wire Line
-	6650 3300 6650 3250
-Connection ~ 6600 3300
-$Comp
-L VCC #PWR14
-U 1 1 5519E1BB
-P 6200 750
-F 0 "#PWR14" H 6200 850 30  0001 C CNN
-F 1 "VCC" H 6200 850 30  0000 C CNN
-F 2 "" H 6200 750 60  0000 C CNN
-F 3 "" H 6200 750 60  0000 C CNN
-	1    6200 750 
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	6200 750  6200 800 
-Text GLabel 7250 1050 2    60   BiDi ~ 0
+Text GLabel 7300 950  2    60   BiDi ~ 0
 D0
-Text GLabel 7250 1150 2    60   BiDi ~ 0
+Text GLabel 7300 1050 2    60   BiDi ~ 0
 D1
-Text GLabel 7250 1250 2    60   BiDi ~ 0
+Text GLabel 7300 1150 2    60   BiDi ~ 0
 D2
-Text GLabel 7250 1350 2    60   BiDi ~ 0
+Text GLabel 7300 1250 2    60   BiDi ~ 0
 D3
-Text GLabel 7250 1450 2    60   BiDi ~ 0
+Text GLabel 7300 1350 2    60   BiDi ~ 0
 D4
-Text GLabel 7250 1550 2    60   BiDi ~ 0
+Text GLabel 7300 1450 2    60   BiDi ~ 0
 D5
-Text GLabel 7250 1650 2    60   BiDi ~ 0
+Text GLabel 7300 1550 2    60   BiDi ~ 0
 D6
-Text GLabel 7250 1750 2    60   BiDi ~ 0
+Text GLabel 7300 1650 2    60   BiDi ~ 0
 D7
-Text GLabel 7250 1850 2    60   BiDi ~ 0
+Text GLabel 7300 1750 2    60   BiDi ~ 0
 D8
-Text GLabel 7250 1950 2    60   BiDi ~ 0
+Text GLabel 7300 1850 2    60   BiDi ~ 0
 D9
-Text GLabel 7250 2050 2    60   BiDi ~ 0
+Text GLabel 7300 1950 2    60   BiDi ~ 0
 D10
-Text GLabel 7250 2150 2    60   BiDi ~ 0
+Text GLabel 7300 2050 2    60   BiDi ~ 0
 D11
-Text GLabel 7250 2250 2    60   BiDi ~ 0
+Text GLabel 7300 2150 2    60   BiDi ~ 0
 D12
-Text GLabel 7250 2350 2    60   BiDi ~ 0
+Text GLabel 7300 2250 2    60   BiDi ~ 0
 D13
-Text GLabel 7250 2450 2    60   BiDi ~ 0
+Text GLabel 7300 2350 2    60   BiDi ~ 0
 D14
-Text GLabel 7250 2550 2    60   BiDi ~ 0
+Text GLabel 7300 2450 2    60   BiDi ~ 0
 D15
 $Comp
 L CONN_25X2 P2
@@ -1560,112 +1507,159 @@ Wire Wire Line
 	4200 1600 4250 1600
 NoConn ~ 3400 1700
 NoConn ~ 4200 1700
-Wire Wire Line
-	7200 1050 7250 1050
-Wire Wire Line
-	7200 1150 7250 1150
-Wire Wire Line
-	7200 1250 7250 1250
-Wire Wire Line
-	7200 1350 7250 1350
-Wire Wire Line
-	7200 1450 7250 1450
-Wire Wire Line
-	7200 1550 7250 1550
-Wire Wire Line
-	7200 1650 7250 1650
-Wire Wire Line
-	7200 1750 7250 1750
-Wire Wire Line
-	7200 1850 7250 1850
-Wire Wire Line
-	7200 1950 7250 1950
-Wire Wire Line
-	7200 2050 7250 2050
-Wire Wire Line
-	7200 2150 7250 2150
-Wire Wire Line
-	7200 2250 7250 2250
-Wire Wire Line
-	7200 2350 7250 2350
-Wire Wire Line
-	7200 2450 7250 2450
-Wire Wire Line
-	7200 2550 7250 2550
-Text GLabel 5150 1100 0    60   Input ~ 0
+Text GLabel 5150 950  0    60   Input ~ 0
 A1
-Text GLabel 5150 1200 0    60   Input ~ 0
+Text GLabel 5150 1050 0    60   Input ~ 0
 A2
-Text GLabel 5150 1300 0    60   Input ~ 0
+Text GLabel 5150 1150 0    60   Input ~ 0
 A3
-Text GLabel 5150 1400 0    60   Input ~ 0
+Text GLabel 5150 1250 0    60   Input ~ 0
 A4
-Text GLabel 5150 1500 0    60   Input ~ 0
+Text GLabel 5150 1350 0    60   Input ~ 0
 A5
-Text GLabel 5150 1600 0    60   Input ~ 0
+Text GLabel 5150 1450 0    60   Input ~ 0
 A6
-Text GLabel 5150 1700 0    60   Input ~ 0
+Text GLabel 5150 1550 0    60   Input ~ 0
 A7
-Text GLabel 5150 1800 0    60   Input ~ 0
+Text GLabel 5150 1650 0    60   Input ~ 0
 A8
-Text GLabel 5150 1900 0    60   Input ~ 0
+Text GLabel 5150 1750 0    60   Input ~ 0
 A9
-Text GLabel 5150 2000 0    60   Input ~ 0
+Text GLabel 5150 1850 0    60   Input ~ 0
 A10
-Text GLabel 5150 2100 0    60   Input ~ 0
+Text GLabel 5150 1950 0    60   Input ~ 0
 A11
-Text GLabel 5150 2200 0    60   Input ~ 0
+Text GLabel 5150 2050 0    60   Input ~ 0
 PA12
-Text GLabel 5150 2300 0    60   Input ~ 0
+Text GLabel 5150 2150 0    60   Input ~ 0
 PA13
-Text GLabel 5150 2400 0    60   Input ~ 0
+Text GLabel 5150 2250 0    60   Input ~ 0
 PA14
-Text GLabel 5150 2500 0    60   Input ~ 0
+Text GLabel 5150 2350 0    60   Input ~ 0
 PA15
-Text GLabel 5150 2600 0    60   Input ~ 0
+Text GLabel 5150 2450 0    60   Input ~ 0
 PA16
-Text GLabel 5150 2700 0    60   Input ~ 0
+Text GLabel 5150 2550 0    60   Input ~ 0
 PA17
-Text GLabel 5150 2800 0    60   Input ~ 0
+Text GLabel 5150 2650 0    60   Input ~ 0
 PA18
-Text GLabel 5150 2900 0    60   Input ~ 0
+Text GLabel 5150 2750 0    60   Input ~ 0
 PA19
+$Sheet
+S 5200 850  2050 2300
+U 551A40FD
+F0 "Memory" 60
+F1 "prototype-mem.sch" 60
+F2 "WA0" I L 5200 950 60 
+F3 "WA1" I L 5200 1050 60 
+F4 "WA2" I L 5200 1150 60 
+F5 "WA3" I L 5200 1250 60 
+F6 "WA4" I L 5200 1350 60 
+F7 "WA5" I L 5200 1450 60 
+F8 "WA6" I L 5200 1550 60 
+F9 "WA7" I L 5200 1650 60 
+F10 "WA8" I L 5200 1750 60 
+F11 "WA9" I L 5200 1850 60 
+F12 "WA10" I L 5200 1950 60 
+F13 "WA11" I L 5200 2050 60 
+F14 "WA12" I L 5200 2150 60 
+F15 "WA13" I L 5200 2250 60 
+F16 "WA14" I L 5200 2350 60 
+F17 "WA15" I L 5200 2450 60 
+F18 "WA16" I L 5200 2550 60 
+F19 "WA17" I L 5200 2650 60 
+F20 "WA18" I L 5200 2750 60 
+F21 "D0" B R 7250 950 60 
+F22 "D1" B R 7250 1050 60 
+F23 "D2" B R 7250 1150 60 
+F24 "D3" B R 7250 1250 60 
+F25 "D4" B R 7250 1350 60 
+F26 "D5" B R 7250 1450 60 
+F27 "D6" B R 7250 1550 60 
+F28 "D7" B R 7250 1650 60 
+F29 "D8" B R 7250 1750 60 
+F30 "D9" B R 7250 1850 60 
+F31 "D10" B R 7250 1950 60 
+F32 "D11" B R 7250 2050 60 
+F33 "D12" B R 7250 2150 60 
+F34 "D13" B R 7250 2250 60 
+F35 "D14" B R 7250 2350 60 
+F36 "D15" B R 7250 2450 60 
+F37 "~CSROM" I R 7250 2650 60 
+F38 "R/~W" I R 7250 2950 60 
+$EndSheet
 Wire Wire Line
-	5150 1100 5200 1100
+	5150 950  5200 950 
 Wire Wire Line
-	5150 1200 5200 1200
+	5150 1050 5200 1050
 Wire Wire Line
-	5150 1300 5200 1300
+	5150 1150 5200 1150
 Wire Wire Line
-	5150 1400 5200 1400
+	5150 1250 5200 1250
 Wire Wire Line
-	5150 1500 5200 1500
+	5150 1350 5200 1350
 Wire Wire Line
-	5150 1600 5200 1600
+	5150 1450 5200 1450
 Wire Wire Line
-	5150 1700 5200 1700
+	5150 1550 5200 1550
 Wire Wire Line
-	5150 1800 5200 1800
+	5150 1650 5200 1650
 Wire Wire Line
-	5150 1900 5200 1900
+	5150 1750 5200 1750
 Wire Wire Line
-	5150 2000 5200 2000
+	5150 1850 5200 1850
 Wire Wire Line
-	5150 2100 5200 2100
+	5150 1950 5200 1950
 Wire Wire Line
-	5150 2200 5200 2200
+	5150 2050 5200 2050
 Wire Wire Line
-	5150 2300 5200 2300
+	5150 2150 5200 2150
 Wire Wire Line
-	5150 2400 5200 2400
+	5150 2250 5200 2250
 Wire Wire Line
-	5150 2500 5200 2500
+	5150 2350 5200 2350
 Wire Wire Line
-	5150 2600 5200 2600
+	5150 2450 5200 2450
 Wire Wire Line
-	5150 2700 5200 2700
+	5150 2550 5200 2550
 Wire Wire Line
-	5150 2800 5200 2800
+	5150 2650 5200 2650
 Wire Wire Line
-	5150 2900 5200 2900
+	5150 2750 5200 2750
+Wire Wire Line
+	7250 950  7300 950 
+Wire Wire Line
+	7250 1050 7300 1050
+Wire Wire Line
+	7250 1150 7300 1150
+Wire Wire Line
+	7250 1250 7300 1250
+Wire Wire Line
+	7250 1350 7300 1350
+Wire Wire Line
+	7250 1450 7300 1450
+Wire Wire Line
+	7250 1550 7300 1550
+Wire Wire Line
+	7250 1650 7300 1650
+Wire Wire Line
+	7250 1750 7300 1750
+Wire Wire Line
+	7250 1850 7300 1850
+Wire Wire Line
+	7250 1950 7300 1950
+Wire Wire Line
+	7250 2050 7300 2050
+Wire Wire Line
+	7250 2150 7300 2150
+Wire Wire Line
+	7250 2250 7300 2250
+Wire Wire Line
+	7250 2350 7300 2350
+Wire Wire Line
+	7250 2450 7300 2450
+Wire Wire Line
+	7250 2650 7300 2650
+Wire Wire Line
+	7250 2950 7300 2950
 $EndSCHEMATC
