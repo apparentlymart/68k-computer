@@ -45,6 +45,7 @@ LibName27=opto
 LibName28=atmel
 LibName29=contrib
 LibName30=valves
+LibName31=../68kcomputer
 [pcbnew]
 version=1
 LastNetListRead=
