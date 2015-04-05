@@ -1242,7 +1242,7 @@ RED
 Wire Wire Line
 	2650 4500 2750 4500
 Connection ~ 2650 4350
-Text GLabel 750  7150 2    60   Output ~ 0
+Text GLabel 1100 7150 0    60   Input ~ 0
 HSYNC
 $Comp
 L DIODE D2
@@ -1264,12 +1264,10 @@ F 1 "DIODE" H 1250 6800 40  0000 C CNN
 F 2 "68k-computer:SOT-23_Diode" H 1250 6900 60  0001 C CNN
 F 3 "" H 1250 6900 60  0000 C CNN
 	1    1250 6900
-	0    1    1    0   
+	0    -1   -1   0   
 $EndComp
 Wire Wire Line
 	1250 7100 1250 7200
-Wire Wire Line
-	1100 7150 1250 7150
 Connection ~ 1250 7150
 $Comp
 L VCC #PWR014
@@ -1297,7 +1295,7 @@ Wire Wire Line
 	1250 6650 1250 6700
 Wire Wire Line
 	1250 7600 1250 7650
-Text GLabel 1700 7150 2    60   Output ~ 0
+Text GLabel 2050 7150 0    60   Input ~ 0
 VSYNC
 $Comp
 L DIODE D4
@@ -1319,12 +1317,10 @@ F 1 "DIODE" H 2200 6800 40  0000 C CNN
 F 2 "68k-computer:SOT-23_Diode" H 2200 6900 60  0001 C CNN
 F 3 "" H 2200 6900 60  0000 C CNN
 	1    2200 6900
-	0    1    1    0   
+	0    -1   -1   0   
 $EndComp
 Wire Wire Line
 	2200 7100 2200 7200
-Wire Wire Line
-	2050 7150 2200 7150
 Connection ~ 2200 7150
 $Comp
 L VCC #PWR016
@@ -1723,4 +1719,8 @@ Wire Wire Line
 	4250 1500 4200 1500
 Wire Wire Line
 	3350 1500 3400 1500
+Wire Wire Line
+	2050 7150 2200 7150
+Wire Wire Line
+	1100 7150 1250 7150
 $EndSCHEMATC
