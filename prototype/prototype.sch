@@ -1,4 +1,5 @@
 EESchema Schematic File Version 2
+LIBS:prototype-rescue
 LIBS:power
 LIBS:device
 LIBS:transistors
@@ -10,7 +11,6 @@ LIBS:cmos4000
 LIBS:adc-dac
 LIBS:memory
 LIBS:xilinx
-LIBS:special
 LIBS:microcontrollers
 LIBS:dsp
 LIBS:microchip
@@ -322,7 +322,7 @@ F 3 "" H 6400 7400 60  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND #PWR02
+L GND-RESCUE-prototype #PWR02
 U 1 1 5518ED53
 P 6650 7600
 F 0 "#PWR02" H 6650 7600 30  0001 C CNN
@@ -348,7 +348,7 @@ F 3 "" H 9400 750 60  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND #PWR04
+L GND-RESCUE-prototype #PWR04
 U 1 1 5518EFE0
 P 9400 4950
 F 0 "#PWR04" H 9400 4950 30  0001 C CNN
@@ -417,7 +417,7 @@ Text GLabel 10300 4500 2    60   Input ~ 0
 Text GLabel 10300 3900 2    60   Input ~ 0
 ~RESET
 $Comp
-L R R1
+L R-RESCUE-prototype R1
 U 1 1 55190758
 P 10600 3500
 F 0 "R1" V 10680 3500 40  0000 C CNN
@@ -439,7 +439,7 @@ F 3 "" H 10950 3400 60  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C2
+L C-RESCUE-prototype C2
 U 1 1 5519107D
 P 9250 5750
 F 0 "C2" H 9250 5850 40  0000 L CNN
@@ -450,7 +450,7 @@ F 3 "" H 9250 5750 60  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C3
+L C-RESCUE-prototype C3
 U 1 1 551910BD
 P 9550 5750
 F 0 "C3" H 9550 5850 40  0000 L CNN
@@ -461,7 +461,7 @@ F 3 "" H 9550 5750 60  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C4
+L C-RESCUE-prototype C4
 U 1 1 55191170
 P 9850 5750
 F 0 "C4" H 9850 5850 40  0000 L CNN
@@ -472,7 +472,7 @@ F 3 "" H 9850 5750 60  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C1
+L C-RESCUE-prototype C1
 U 1 1 5519119C
 P 8950 5750
 F 0 "C1" H 8950 5850 40  0000 L CNN
@@ -494,7 +494,7 @@ F 3 "" H 9400 5350 60  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND #PWR07
+L GND-RESCUE-prototype #PWR07
 U 1 1 551911E5
 P 9400 6150
 F 0 "#PWR07" H 9400 6150 30  0001 C CNN
@@ -507,7 +507,7 @@ $EndComp
 Text GLabel 1100 3750 0    60   Input ~ 0
 RED0
 $Comp
-L R R2
+L R-RESCUE-prototype R2
 U 1 1 551926CF
 P 1450 3750
 F 0 "R2" V 1530 3750 40  0000 C CNN
@@ -524,7 +524,7 @@ RED2
 Text GLabel 1100 4350 0    60   Input ~ 0
 RED3
 $Comp
-L R R3
+L R-RESCUE-prototype R3
 U 1 1 551928F7
 P 1450 3950
 F 0 "R3" V 1530 3950 40  0000 C CNN
@@ -535,7 +535,7 @@ F 3 "" H 1450 3950 30  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L R R4
+L R-RESCUE-prototype R4
 U 1 1 55192923
 P 1450 4150
 F 0 "R4" V 1530 4150 40  0000 C CNN
@@ -546,7 +546,7 @@ F 3 "" H 1450 4150 30  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L R R5
+L R-RESCUE-prototype R5
 U 1 1 55192951
 P 1450 4350
 F 0 "R5" V 1530 4350 40  0000 C CNN
@@ -944,7 +944,7 @@ F 3 "" H 2900 4150 60  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND #PWR08
+L GND-RESCUE-prototype #PWR08
 U 1 1 5519346A
 P 2150 4150
 F 0 "#PWR08" H 2150 4150 30  0001 C CNN
@@ -978,7 +978,7 @@ Connection ~ 2650 4150
 Text GLabel 1100 4750 0    60   Input ~ 0
 GREEN0
 $Comp
-L R R6
+L R-RESCUE-prototype R6
 U 1 1 55193CFF
 P 1450 4750
 F 0 "R6" V 1530 4750 40  0000 C CNN
@@ -995,7 +995,7 @@ GREEN2
 Text GLabel 1100 5350 0    60   Input ~ 0
 GREEN3
 $Comp
-L R R7
+L R-RESCUE-prototype R7
 U 1 1 55193D08
 P 1450 4950
 F 0 "R7" V 1530 4950 40  0000 C CNN
@@ -1006,7 +1006,7 @@ F 3 "" H 1450 4950 30  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L R R8
+L R-RESCUE-prototype R8
 U 1 1 55193D0E
 P 1450 5150
 F 0 "R8" V 1530 5150 40  0000 C CNN
@@ -1017,7 +1017,7 @@ F 3 "" H 1450 5150 30  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L R R9
+L R-RESCUE-prototype R9
 U 1 1 55193D14
 P 1450 5350
 F 0 "R9" V 1530 5350 40  0000 C CNN
@@ -1070,7 +1070,7 @@ F 3 "" H 2900 5150 60  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND #PWR010
+L GND-RESCUE-prototype #PWR010
 U 1 1 55193D31
 P 2150 5150
 F 0 "#PWR010" H 2150 5150 30  0001 C CNN
@@ -1104,7 +1104,7 @@ Connection ~ 2650 5150
 Text GLabel 1100 5750 0    60   Input ~ 0
 BLUE0
 $Comp
-L R R10
+L R-RESCUE-prototype R10
 U 1 1 551940F6
 P 1450 5750
 F 0 "R10" V 1530 5750 40  0000 C CNN
@@ -1121,7 +1121,7 @@ BLUE2
 Text GLabel 1100 6350 0    60   Input ~ 0
 BLUE3
 $Comp
-L R R11
+L R-RESCUE-prototype R11
 U 1 1 551940FF
 P 1450 5950
 F 0 "R11" V 1530 5950 40  0000 C CNN
@@ -1132,7 +1132,7 @@ F 3 "" H 1450 5950 30  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L R R12
+L R-RESCUE-prototype R12
 U 1 1 55194105
 P 1450 6150
 F 0 "R12" V 1530 6150 40  0000 C CNN
@@ -1143,7 +1143,7 @@ F 3 "" H 1450 6150 30  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L R R13
+L R-RESCUE-prototype R13
 U 1 1 5519410B
 P 1450 6350
 F 0 "R13" V 1530 6350 40  0000 C CNN
@@ -1196,7 +1196,7 @@ F 3 "" H 2900 6150 60  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND #PWR012
+L GND-RESCUE-prototype #PWR012
 U 1 1 55194128
 P 2150 6150
 F 0 "#PWR012" H 2150 6150 30  0001 C CNN
@@ -1281,7 +1281,7 @@ F 3 "" H 1250 6650 60  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND #PWR015
+L GND-RESCUE-prototype #PWR015
 U 1 1 55196080
 P 1250 7650
 F 0 "#PWR015" H 1250 7650 30  0001 C CNN
@@ -1334,7 +1334,7 @@ F 3 "" H 2200 6650 60  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND #PWR017
+L GND-RESCUE-prototype #PWR017
 U 1 1 5519643E
 P 2200 7650
 F 0 "#PWR017" H 2200 7650 30  0001 C CNN
@@ -1359,7 +1359,7 @@ HSYNC
 Text GLabel 3900 4850 0    60   Input ~ 0
 VSYNC
 $Comp
-L GND #PWR018
+L GND-RESCUE-prototype #PWR018
 U 1 1 55196C8F
 P 4550 6100
 F 0 "#PWR018" H 4550 6100 30  0001 C CNN
@@ -1380,7 +1380,7 @@ Wire Wire Line
 Wire Wire Line
 	4550 6000 4650 6000
 $Comp
-L GND #PWR019
+L GND-RESCUE-prototype #PWR019
 U 1 1 5519790D
 P 5450 3950
 F 0 "#PWR019" H 5450 3950 30  0001 C CNN
@@ -1393,7 +1393,7 @@ $EndComp
 Wire Wire Line
 	5450 4000 5450 3950
 $Comp
-L GND #PWR020
+L GND-RESCUE-prototype #PWR020
 U 1 1 55197AE6
 P 5450 6350
 F 0 "#PWR020" H 5450 6350 30  0001 C CNN
@@ -1676,7 +1676,7 @@ Wire Wire Line
 Wire Wire Line
 	7200 2600 7250 2600
 $Comp
-L R R14
+L R-RESCUE-prototype R14
 U 1 1 551C66AB
 P 4200 4700
 F 0 "R14" V 4280 4700 40  0000 C CNN
@@ -1687,7 +1687,7 @@ F 3 "" H 4200 4700 30  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L R R15
+L R-RESCUE-prototype R15
 U 1 1 551C678E
 P 4200 4850
 F 0 "R15" V 4280 4850 40  0000 C CNN

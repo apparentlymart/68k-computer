@@ -1,4 +1,5 @@
 EESchema Schematic File Version 2
+LIBS:prototype-rescue
 LIBS:power
 LIBS:device
 LIBS:transistors
@@ -10,7 +11,6 @@ LIBS:cmos4000
 LIBS:adc-dac
 LIBS:memory
 LIBS:xilinx
-LIBS:special
 LIBS:microcontrollers
 LIBS:dsp
 LIBS:microchip
@@ -59,7 +59,7 @@ $EndComp
 Wire Wire Line
 	3200 3850 3250 3850
 $Comp
-L GND #PWR021
+L GND-RESCUE-prototype #PWR021
 U 1 1 551A445A
 P 2600 4300
 F 0 "#PWR021" H 2600 4300 30  0001 C CNN
@@ -244,7 +244,7 @@ Wire Wire Line
 Text HLabel 6750 3700 2    60   Input ~ 0
 ~CSRAM1
 $Comp
-L C C5
+L C-RESCUE-prototype C5
 U 1 1 551B8D70
 P 2100 5200
 F 0 "C5" H 2100 5300 40  0000 L CNN
@@ -255,7 +255,7 @@ F 3 "" H 2100 5200 60  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C6
+L C-RESCUE-prototype C6
 U 1 1 551B8D9C
 P 2400 5200
 F 0 "C6" H 2400 5300 40  0000 L CNN
@@ -277,7 +277,7 @@ F 3 "" H 2250 4850 60  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND #PWR024
+L GND-RESCUE-prototype #PWR024
 U 1 1 551B8DED
 P 2250 5550
 F 0 "#PWR024" H 2250 5550 30  0001 C CNN
@@ -682,7 +682,7 @@ Wire Wire Line
 	5750 1700 5750 1750
 Connection ~ 5700 1700
 $Comp
-L GND #PWR027
+L GND-RESCUE-prototype #PWR027
 U 1 1 551BB92A
 P 5700 4500
 F 0 "#PWR027" H 5700 4500 30  0001 C CNN
@@ -693,7 +693,7 @@ F 3 "" H 5700 4500 60  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND #PWR028
+L GND-RESCUE-prototype #PWR028
 U 1 1 551BB96B
 P 9300 4500
 F 0 "#PWR028" H 9300 4500 30  0001 C CNN
@@ -722,7 +722,7 @@ Wire Wire Line
 	5750 4450 5750 4400
 Connection ~ 5700 4450
 $Comp
-L C C7
+L C-RESCUE-prototype C7
 U 1 1 551BBEBE
 P 5550 5200
 F 0 "C7" H 5550 5300 40  0000 L CNN
@@ -733,7 +733,7 @@ F 3 "" H 5550 5200 60  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C8
+L C-RESCUE-prototype C8
 U 1 1 551BBEC4
 P 5850 5200
 F 0 "C8" H 5850 5300 40  0000 L CNN
@@ -755,7 +755,7 @@ F 3 "" H 5700 4850 60  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND #PWR030
+L GND-RESCUE-prototype #PWR030
 U 1 1 551BBED0
 P 5700 5550
 F 0 "#PWR030" H 5700 5550 30  0001 C CNN
@@ -780,7 +780,7 @@ Wire Wire Line
 	5700 5400 5700 5550
 Connection ~ 5700 5400
 $Comp
-L C C9
+L C-RESCUE-prototype C9
 U 1 1 551BC22C
 P 9150 5200
 F 0 "C9" H 9150 5300 40  0000 L CNN
@@ -791,7 +791,7 @@ F 3 "" H 9150 5200 60  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C10
+L C-RESCUE-prototype C10
 U 1 1 551BC232
 P 9450 5200
 F 0 "C10" H 9450 5300 40  0000 L CNN
@@ -813,7 +813,7 @@ F 3 "" H 9300 4850 60  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND #PWR032
+L GND-RESCUE-prototype #PWR032
 U 1 1 551BC23E
 P 9300 5550
 F 0 "#PWR032" H 9300 5550 30  0001 C CNN
