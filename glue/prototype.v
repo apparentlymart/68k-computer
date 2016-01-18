@@ -88,23 +88,49 @@ module prototype(
    assign avr_rx = 1'bz;
    assign spi_channel = 4'bzzzz;
 
+   // sysclk is 50MHz
+   // cpuclk is 6.25MHz, or sysclk / 8
+   reg [2:0]          cpuclk_count;
+   always @(posedge sysclk or negedge sysrst_n)
+     begin
+         if (!sysrst_n)
+             cpuclk_count <= 3'd0;
+         else
+             cpuclk_count <= cpuclk_count + 1;
+     end
+   assign cpuclk = cpuclk_count[2];
+
+   // on first startup, assert RESET for a while to let
+   // things stabilize.
+   reg [15:0] reset_count;
+   always @(posedge cpuclk or negedge sysrst_n)
+     begin
+         if (!sysrst_n)
+             reset_count <= 16'd1;
+         else if (reset_count != 0)
+                 reset_count <= reset_count + 1;
+     end
+   assign cpurst_n = reset_count == 0;
+   assign halt_n = cpurst_n;
+
+   // Simple hard-coded statuses to inspire a free-run by executing
+   // a no-op instruction over and over.
+   assign dtack_n = 1'b0;
+   assign berr_n = 1'b1;
+   assign br_n = 1'b1;
+   assign d = 16'b0;
+
    // These things will be used later, but not used yet.
    assign physaddr = 12'bzzzzzzzzzzzz;
    assign re_n = 1'bz;
    assign we_n = 1'bz;
    assign ipl_n = 3'bz;
-   assign berr_n = 1'bz;
-   assign dtack_n = 1'bz;
-   assign cpuclk = 1'bz;
    assign hsync = 1'bz;
    assign vsync = 1'bz;
-   assign br_n = 1'bz;
    assign csram1_n = 1'bz;
    assign csram2_n = 1'bz;
    assign csrom_n = 1'bz;
    assign avec_n = 1'bz;
-   assign cpurst_n = 1'bz;
-   assign halt_n = 1'bz;
    assign red = 4'bzzzz;
    assign green = 4'bzzzz;
    assign blue = 4'bzzzz;
