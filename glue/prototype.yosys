@@ -1,0 +1,7 @@
+read_verilog prototype.v
+proc
+opt_share
+show -prefix prototype -format gif prototype
+synth
+show -prefix prototype-synth -format gif prototype
+write_edif -top top prototype.edif

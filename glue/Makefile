@@ -48,6 +48,10 @@ gtkwave_gui: $(DUT)_tb.vcd
 glue.ngc: $(MODULES) glue.prj glue.xst
 	@$(XILINX_TOOL) xst -ifn glue.xst
 
+prototype.ngc: $(MODULES) prototype.prj prototype.xst
+	@$(XILINX_TOOL) xst -ifn prototype.xst
+	[ -e $@ ]
+
 %.ngd: %.ngc %.ucf
 	@$(XILINX_TOOL) ngdbuild -uc $(patsubst %.ngc,%.ucf,$<) $< $@
 	[ -e $@ ]
@@ -71,6 +75,14 @@ glue.ngc: $(MODULES) glue.prj glue.xst
 %.vpi: %.c
 	iverilog-vpi $<
 
+prototype: prototype.bin
+
+prototype_synth:
+	yosys -s prototype.yosys
+
 xilinx_bitstream: glue.bin
 
-.PHONY: synth test xilinx_bitstream
+clean:
+	rm -f $(shell sed 's:#.*$$::g' .gitignore)
+
+.PHONY: synth test prototype xilinx_bitstream clean
