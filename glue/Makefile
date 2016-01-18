@@ -10,13 +10,11 @@ TEST_BENCH_SIMS = $(patsubst %_tb.v,%_tb.vvp,$(TEST_BENCH_SOURCES))
 # only to prepare the design for a real logic device and if
 # you want to simulate using Xilinx ISim.
 XILINX_ISE_ROOT = /opt/Xilinx/14.5/ISE_DS
-XILINX_LD_LIBRARY_PATH = $(XILINX_ISE_ROOT)/ISE/lib/lin:$(XILINX_ISE_ROOT)/EDK/lib/lin:$(XILINX_ISE_ROOT)/common/lib/lin
-XILINX_PATH = $(XILINX_ISE_ROOT)/ISE/bin/lin:$(XILINX_ISE_ROOT)/ISE/sysgen/util:$(XILINX_ISE_ROOT)/ISE/../../../DocNav:$(XILINX_ISE_ROOT)/PlanAhead/bin:$(XILINX_ISE_ROOT)/EDK/bin/lin:$(XILINX_ISE_ROOT)/EDK/gnu/microblaze/lin/bin:$(XILINX_ISE_ROOT)/EDK/gnu/powerpc-eabi/lin/bin:$(XILINX_ISE_ROOT)/EDK/gnu/arm/lin/bin:$(XILINX_ISE_ROOT)/EDK/gnu/microblaze/linux_toolchain/lin32_be/bin:$(XILINX_ISE_ROOT)/EDK/gnu/microblaze/linux_toolchain/lin32_le/bin:$(XILINX_ISE_ROOT)/common/bin/lin:$(PATH)
 XILINX=$(XILINX_ISE_ROOT)/ISE
 XILINX_DSP=$(XILINX_ISE_ROOT)/ISE
 XILINX_EDK=$(XILINX_ISE_ROOT)/EDK
 XILINX_PLANAHEAD=$(XILINX_ISE_ROOT)/PlanAhead
-XILINX_TOOL_ENV=PATH=$(XILINX_PATH) LD_LIBRARY_PATH=$(XILINX_LD_LIBRARY_PATH)
+XILINX_TOOL=XILINX_ISE_ROOT=$(XILINX_ISE_ROOT) ./helpers/isetool
 
 export XILINX
 export XILINX_DSP
@@ -31,14 +29,15 @@ test: $(TEST_BENCH_SIMS)
 
 # Run this target as e.g.: make xilinx_isim_gui DUT=mmu
 xilinx_isim_gui: $(DUT)_tb.texe
-	$(XILINX_TOOL_ENV) ./$(DUT)_tb.texe -gui -view $(DUT)_tb.wcfg
+	@$(XILINX_TOOL) ./$(DUT)_tb.texe -gui -view $(DUT)_tb.wcfg
 
 gtkwave_gui: $(DUT)_tb.vcd
 	gtkwave $(DUT)_tb.vcd $(DUT)_tb.gtkw
 
 # Xilinx "Test Executable", for use with ISim
 %_tb.texe: %_tb.v %.v
-	$(XILINX_TOOL_ENV) fuse -incremental -prj glue_isim.prj -o $@ work.$(patsubst %_tb.texe,%_tb,$@)
+	@$(XILINX_TOOL) fuse -incremental -prj glue_isim.prj -o $@ work.$(patsubst %_tb.texe,%_tb,$@)
+	[ -e $@ ]
 
 %_tb.vvp: %_tb.v %.v
 	iverilog $< $(patsubst %_tb.v,%.v,$<) -o $@
@@ -47,21 +46,26 @@ gtkwave_gui: $(DUT)_tb.vcd
 	vvp $<
 
 glue.ngc: $(MODULES) glue.prj glue.xst
-	$(XILINX_TOOL_ENV) xst -ifn glue.xst
+	@$(XILINX_TOOL) xst -ifn glue.xst
 
 %.ngd: %.ngc %.ucf
-	$(XILINX_TOOL_ENV) ngdbuild -uc $(patsubst %.ngc,%.ucf,$<) $< $@
+	@$(XILINX_TOOL) ngdbuild -uc $(patsubst %.ngc,%.ucf,$<) $< $@
+	[ -e $@ ]
 
 %.ncd: %.ngd
-	$(XILINX_TOOL_ENV) map -w $< -o $@
+	@$(XILINX_TOOL) map -w $< -o $@
+	[ -e $@ ]
 
 %-par.ncd: %.ncd
-	$(XILINX_TOOL_ENV) par -w $< $@
+	@$(XILINX_TOOL) par -w $< $@
+	[ -e $@ ]
 
 %.bit: %-par.ncd
-	$(XILINX_TOOL_ENV) bitgen -w -g Binary:Yes $< $@
+	@$(XILINX_TOOL) bitgen -w -g Binary:Yes $< $@
+	[ -e $@ ]
 
 %.bin: %.bit
+	[ -e $@ ]
 	@echo "$@ was created as a side-effect of generating $<"
 
 %.vpi: %.c
