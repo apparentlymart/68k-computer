@@ -1,4 +1,5 @@
 read_verilog prototype.v
+read_verilog memmap.v
 proc
 opt_share
 show -prefix prototype -format gif prototype

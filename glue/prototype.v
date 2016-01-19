@@ -82,6 +82,19 @@ module prototype(
    input              avr_rx_busy;
 
    wire               sysrst = ~sysrst_n;
+   wire               as = ~as_n;
+
+   wire               csram1;
+   wire               csram2;
+   wire               csrom;
+   wire               csio;
+   wire               csunmap;
+   wire               csgfx;
+   wire               csctrl;
+   wire               cspgtbl;
+   wire               csram1_n = ~csram1;
+   wire               csram2_n = ~csram2;
+   wire               csrom_n = ~csrom;
 
    // These must be high impedence when not in use
    assign spi_miso = 1'bz;
@@ -134,5 +147,17 @@ module prototype(
    assign red = 4'bzzzz;
    assign green = 4'bzzzz;
    assign blue = 4'bzzzz;
+
+   memmap memmap_m(as,
+                   sysclk,
+                   logaddr[23:16],
+                   csunmap,
+                   csram1,
+                   csram2,
+                   csrom,
+                   csio,
+                   csgfx,
+                   csctrl,
+                   cspgtbl);
 
 endmodule
