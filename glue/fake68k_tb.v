@@ -223,7 +223,7 @@ module fake68k_tb;
    initial begin
       $dumpfile("fake68k_tb.vcd");
       $dumpvars;
-      $display("1..74");
+      $display("1..91");
 
       test_initial_state();
 
