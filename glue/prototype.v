@@ -96,6 +96,8 @@ module prototype(
    wire               dtack;
    wire               br;
    wire               pas; // Physical address strobe.
+   wire [15:0]        page_table_addr;
+   wire [15:0]        page_table_data;
    wire [27:12]       mmu_out;
    wire [3:0]         mmu_user_map;
    wire [15:0]        mmu_supervisor_map_1;
@@ -180,8 +182,8 @@ module prototype(
              mmu_user_map,
              mmu_supervisor_map_1,
              mmu_supervisor_map_2,
-             table_addr,
-             table_data,
+             page_table_addr,
+             page_table_data,
              mmu_out);
 
    ctrl ctrl_m(csctrl,
