@@ -13,6 +13,7 @@ module memmap_tb;
    wire         csgfx;
    wire         csctrl;
    wire         cspgtbl;
+   wire         pas;   // Physical Address Strobe
 
    wire [7:0]   cs_mask = {
        csctrl,
@@ -35,7 +36,8 @@ module memmap_tb;
               csio,
               csgfx,
               csctrl,
-              cspgtbl);
+              cspgtbl,
+              pas);
 
    task reset;
        begin
@@ -65,7 +67,7 @@ module memmap_tb;
          ok(cs_mask == 0'b00000000);
          $display("%s : Everything is low before enable", test_name);
          #1 enable <= 1;
-         #1;
+         @(posedge pas);
          ok(expected_mask == cs_mask);
          $display("%s : %x activates %x",
                   test_name, test_addr_in, expected_mask);
