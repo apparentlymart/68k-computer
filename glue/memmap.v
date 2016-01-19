@@ -37,7 +37,9 @@ module memmap(
     csio,
     csgfx,
     csctrl,
-    cspgtbl
+    cspgtbl,
+
+    pas // physical address strobe
 );
    input         enable;
    input         clk;
@@ -52,6 +54,8 @@ module memmap(
    output        csctrl;
    output        cspgtbl;
 
+   output        pas;
+
    reg           csunmap_r = 'b0;
    reg           csram1_r = 'b0;
    reg           csram2_r = 'b0;
@@ -60,15 +64,22 @@ module memmap(
    reg           csgfx_r = 'b0;
    reg           csctrl_r = 'b0;
    reg           cspgtbl_r = 'b0;
+   reg           enable_r;
 
-   assign        csunmap = enable ? csunmap_r : 1'b0;
-   assign        csram1 = enable ? csram1_r : 1'b0;
-   assign        csram2 = enable ? csram2_r : 1'b0;
-   assign        csrom = enable ? csrom_r : 1'b0;
-   assign        csio = enable ? csio_r : 1'b0;
-   assign        csgfx = enable ? csgfx_r : 1'b0;
-   assign        csctrl = enable ? csctrl_r : 1'b0;
-   assign        cspgtbl = enable ? cspgtbl_r : 1'b0;
+   assign        csunmap = enable_r ? csunmap_r : 1'b0;
+   assign        csram1 = enable_r ? csram1_r : 1'b0;
+   assign        csram2 = enable_r ? csram2_r : 1'b0;
+   assign        csrom = enable_r ? csrom_r : 1'b0;
+   assign        csio = enable_r ? csio_r : 1'b0;
+   assign        csgfx = enable_r ? csgfx_r : 1'b0;
+   assign        csctrl = enable_r ? csctrl_r : 1'b0;
+   assign        cspgtbl = enable_r ? cspgtbl_r : 1'b0;
+   assign        pas = enable_r;
+
+   always @(posedge clk)
+     begin
+         enable_r <= enable;
+     end
 
    always @(posedge clk)
      begin

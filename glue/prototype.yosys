@@ -1,6 +1,12 @@
 read_verilog prototype.v
 read_verilog memmap.v
-proc
+read_verilog mmu.v
+read_verilog ctrl.v
+read_verilog pgtbl.v
+read_verilog unmap.v
+read_verilog extmem.v
+read_verilog ioports.v
+roc
 opt_share
 show -prefix prototype -format gif prototype
 synth

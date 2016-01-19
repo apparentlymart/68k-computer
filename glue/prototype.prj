@@ -1,2 +1,8 @@
 verilog work prototype.v
 verilog work memmap.v
+verilog work mmu.v
+verilog work ctrl.v
+verilog work pgtbl.v
+verilog work unmap.v
+verilog work extmem.v
+verilog work ioports.v

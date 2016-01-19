@@ -92,9 +92,29 @@ module prototype(
    wire               csgfx;
    wire               csctrl;
    wire               cspgtbl;
+   wire               berr;
+   wire               dtack;
+   wire               br;
+   wire               pas; // Physical address strobe.
+   wire [27:12]       mmu_out;
+   wire [3:0]         mmu_user_map;
+   wire [15:0]        mmu_supervisor_map_1;
+   wire [15:0]        mmu_supervisor_map_2;
+   wire [27:0]        physaddr_full = as ? {mmu_out, logaddr[11:0]} : 'bz;
+
+   // External view of physical memory access.
+   // The top of the address is replaced by the external chip select
+   // signals. The chip select signals may be all unasserted, if the
+   // physical address selected is one that will be resolved internally.
    wire               csram1_n = ~csram1;
    wire               csram2_n = ~csram2;
    wire               csrom_n = ~csrom;
+   assign             physaddr = physaddr_full[19:12];
+
+   // Signals to CPU
+   assign dtack_n = pas ? ~dtack : 'b1;
+   assign berr_n = pas ? ~berr : 'b1;
+   assign br_n = ~br;
 
    // These must be high impedence when not in use
    assign spi_miso = 1'bz;
@@ -115,23 +135,19 @@ module prototype(
 
    // on first startup, assert RESET for a while to let
    // things stabilize.
-   reg [15:0] reset_count;
+   reg [7:0] reset_count;
    always @(posedge cpuclk or negedge sysrst_n)
      begin
          if (!sysrst_n)
-             reset_count <= 16'd1;
+           reset_count <= 'd1;
          else if (reset_count != 0)
-                 reset_count <= reset_count + 1;
+           reset_count <= reset_count + 1;
      end
    assign cpurst_n = reset_count == 0;
    assign halt_n = cpurst_n;
 
-   // Simple hard-coded statuses to inspire a free-run by executing
-   // a no-op instruction over and over.
-   assign dtack_n = 1'b0;
-   assign berr_n = 1'b1;
-   assign br_n = 1'b1;
-   assign d = 16'b0;
+   // Not using DMA yet, so no need to do bus negotiation
+   assign br = 1'b0;
 
    // These things will be used later, but not used yet.
    assign physaddr = 12'bzzzzzzzzzzzz;
@@ -140,9 +156,6 @@ module prototype(
    assign ipl_n = 3'bz;
    assign hsync = 1'bz;
    assign vsync = 1'bz;
-   assign csram1_n = 1'bz;
-   assign csram2_n = 1'bz;
-   assign csrom_n = 1'bz;
    assign avec_n = 1'bz;
    assign red = 4'bzzzz;
    assign green = 4'bzzzz;
@@ -150,7 +163,7 @@ module prototype(
 
    memmap memmap_m(as,
                    sysclk,
-                   logaddr[23:16],
+                   mmu_out[27:20],
                    csunmap,
                    csram1,
                    csram2,
@@ -158,6 +171,63 @@ module prototype(
                    csio,
                    csgfx,
                    csctrl,
-                   cspgtbl);
+                   cspgtbl,
+                   pas);
+
+   mmu mmu_m(as,
+             logaddr[23:12],
+             fc,
+             mmu_user_map,
+             mmu_supervisor_map_1,
+             mmu_supervisor_map_2,
+             table_addr,
+             table_data,
+             mmu_out);
+
+   ctrl ctrl_m(csctrl,
+               sysclk,
+               d,
+               physaddr_full[1:0],
+               lds,
+               uds,
+               we,
+               dtack,
+               berr,
+               mmu_user_map,
+               mmu_supervisor_map_1,
+               mmu_supervisor_map_2);
+
+   pgtbl pgtbl_m(cspgtbl,
+                 sysclk,
+                 d,
+                 physaddr_full[7:0],
+                 lds,
+                 uds,
+                 we,
+                 dtack,
+                 berr);
+
+   unmap unmap_m(csunmap,
+                 sysclk,
+                 dtack,
+                 berr);
+
+   extmem extmem_m(csram1 | csram2 | csrom,
+                   sysclk,
+                   dtack,
+                   berr);
+   // For the moment we don't have any external memory
+   // chips connected, so we'll just fake it.
+   assign d = (csram1 | csram2 | csrom) ? 16'h0000 : 'bz;
+
+   ioports ioports_m(csio,
+                     sysclk,
+                     d,
+                     physaddr_full[7:0],
+                     lds,
+                     uds,
+                     we,
+                     dtack,
+                     berr);
 
 endmodule
