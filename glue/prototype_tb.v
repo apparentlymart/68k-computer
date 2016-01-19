@@ -133,7 +133,7 @@ module memmap_tb;
    initial begin
        $dumpfile("prototype_tb.vcd");
        $dumpvars;
-       $display("0..0");
+       $display("1..0");
 
        test_name <= 'bz;
        reset;
