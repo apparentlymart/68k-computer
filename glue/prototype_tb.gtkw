@@ -1,0 +1,92 @@
+[*]
+[*] GTKWave Analyzer v3.3.64 (w)1999-2014 BSI
+[*] Tue Jan 19 07:50:02 2016
+[*]
+[dumpfile] "prototype_tb.vcd"
+[dumpfile_mtime] "Tue Jan 19 07:48:41 2016"
+[dumpfile_size] 156158
+[savefile] "prototype_tb.gtkw"
+[timestart] 4037
+[size] 1680 974
+[pos] -1 -1
+*-5.276234 4073 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] memmap_tb.
+[treeopen] memmap_tb.dut.
+[treeopen] memmap_tb.dut.mmu_m.
+[sst_width] 289
+[signals_width] 288
+[sst_expanded] 1
+[sst_vpaned_height] 283
+@820
+memmap_tb.test_name[143:0]
+@28
+memmap_tb.sysclk
+memmap_tb.cpuclk
+memmap_tb.cpurst_n
+@25
+memmap_tb.cpu.cycle_type[2:0]
+@24
+memmap_tb.cpu.current_state[4:0]
+@800200
+-Bus Control
+@28
+memmap_tb.fc[2:0]
+memmap_tb.as_n
+memmap_tb.logaddr[23:0]
+memmap_tb.lds_n
+memmap_tb.uds_n
+memmap_tb.w_n
+@22
+memmap_tb.d[15:0]
+@28
+memmap_tb.dut.dtack_n
+memmap_tb.dut.berr_n
+@1000200
+-Bus Control
+@800200
+-MMU
+@28
+memmap_tb.dut.mmu_m.addr_in[23:12]
+memmap_tb.dut.mmu_m.addr_out[27:12]
+@1000200
+-MMU
+@800200
+-Internal Memory Map
+@28
+memmap_tb.dut.memmap_m.addr_in[27:20]
+@100028
+memmap_tb.dut.physaddr_full[27:0]
+@28
+memmap_tb.dut.memmap_m.enable
+memmap_tb.dut.memmap_m.pas
+memmap_tb.dut.csctrl
+memmap_tb.dut.csgfx
+memmap_tb.dut.csio
+memmap_tb.dut.cspgtbl
+memmap_tb.dut.csram1
+memmap_tb.dut.csram2
+memmap_tb.dut.csrom
+memmap_tb.dut.csunmap
+@1000200
+-Internal Memory Map
+@800200
+-External Memory Interface
+@28
+memmap_tb.dut.physaddr[19:12]
+memmap_tb.dut.csram1_n
+memmap_tb.dut.csram2_n
+memmap_tb.dut.csrom_n
+memmap_tb.dut.we_n
+memmap_tb.dut.re_n
+@1000200
+-External Memory Interface
+@800200
+-Control Registers
+@22
+memmap_tb.dut.ctrl_m.supervisor_map_1[15:0]
+memmap_tb.dut.ctrl_m.supervisor_map_2[15:0]
+memmap_tb.dut.ctrl_m.user_map[3:0]
+@1000200
+-Control Registers
+[pattern_trace] 1
+[pattern_trace] 0
