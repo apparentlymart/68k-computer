@@ -1,0 +1,8 @@
+emulator
+*.o
+musashi/m68kops.c
+musashi/m68kopac.c
+musashi/m68kopdm.c
+musashi/m68kopnz.c
+musashi/m68kmake
+musashi/m68kops.h

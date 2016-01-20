@@ -52,7 +52,7 @@
  * to OPT_ON and use m68kmame.h to configure the 68k core.
  */
 #ifndef M68K_COMPILE_FOR_MAME
-#define M68K_COMPILE_FOR_MAME      OPT_ON
+#define M68K_COMPILE_FOR_MAME      OPT_OFF
 #endif /* M68K_COMPILE_FOR_MAME */
 
 
@@ -64,9 +64,9 @@
 /* ======================================================================== */
 
 /* Turn ON if you want to use the following M68K variants */
-#define M68K_EMULATE_010            OPT_ON
-#define M68K_EMULATE_EC020          OPT_ON
-#define M68K_EMULATE_020            OPT_ON
+#define M68K_EMULATE_010            OPT_OFF
+#define M68K_EMULATE_EC020          OPT_OFF
+#define M68K_EMULATE_020            OPT_OFF
 
 
 /* If ON, the CPU will call m68k_read_immediate_xx() for immediate addressing
