@@ -76,6 +76,14 @@ uint    m68ki_aerr_address;
 uint    m68ki_aerr_write_mode;
 uint    m68ki_aerr_fc;
 
+#if 1 /* M68K_EMULATE_BUS_ERROR */
+jmp_buf m68ki_berr_trap;
+#endif
+
+uint    m68ki_berr_address;
+uint    m68ki_berr_write_mode;
+uint    m68ki_berr_fc;
+
 /* Used by shift & rotate instructions */
 uint8 m68ki_shift_8_table[65] =
 {
@@ -121,7 +129,7 @@ uint8 m68ki_exception_cycle_table[3][256] =
 	{ /* 000 */
 		  4, /*  0: Reset - Initial Stack Pointer                      */
 		  4, /*  1: Reset - Initial Program Counter                    */
-		 50, /*  2: Bus Error                             (unemulated) */
+		 50, /*  2: Bus Error                                          */
 		 50, /*  3: Address Error                         (unemulated) */
 		 34, /*  4: Illegal Instruction                                */
 		 38, /*  5: Divide by Zero -- ASG: changed from 42             */
@@ -653,6 +661,9 @@ int m68k_execute(int num_cycles)
 		/* Return point if we had an address error */
 		m68ki_set_address_error_trap(); /* auto-disable (see m68kcpu.h) */
 
+		/* Return point if we had a bus error */
+		m68ki_set_bus_error_trap(); /* auto-disable (see m68kcpu.h) */
+
 		/* Main loop.  Keep going until we run out of clock cycles */
 		do
 		{
@@ -789,6 +800,12 @@ void m68k_pulse_reset(void)
 	m68ki_jump(REG_PC);
 
 	CPU_RUN_MODE = RUN_MODE_NORMAL;
+}
+
+/* Assert the bus error signal from inside a memory access callback */
+void m68k_bus_error(void)
+{
+    CPU_BERR = 1;
 }
 
 /* Pulse the HALT line on the CPU */

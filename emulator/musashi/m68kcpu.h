@@ -335,6 +335,7 @@
 #define CPU_INT_LEVEL    m68ki_cpu.int_level /* ASG: changed from CPU_INTS_PENDING */
 #define CPU_INT_CYCLES   m68ki_cpu.int_cycles /* ASG */
 #define CPU_STOPPED      m68ki_cpu.stopped
+#define CPU_BERR         m68ki_cpu.berr
 #define CPU_PREF_ADDR    m68ki_cpu.pref_addr
 #define CPU_PREF_DATA    m68ki_cpu.pref_data
 #define CPU_ADDRESS_MASK m68ki_cpu.address_mask
@@ -537,6 +538,40 @@
 	#define m68ki_set_address_error_trap()
 	#define m68ki_check_address_error(ADDR, WRITE_MODE, FC)
 #endif /* M68K_ADDRESS_ERROR */
+
+/* Bus error */
+#if 1 /* M68K_EMULATE_BUS_ERROR */
+	#include <setjmp.h>
+	extern jmp_buf m68ki_berr_trap;
+
+	#define m68ki_set_bus_error_trap() \
+		if(setjmp(m68ki_berr_trap) != 0) \
+		{ \
+			m68ki_exception_bus_error(); \
+			if(CPU_STOPPED) \
+			{ \
+				SET_CYCLES(0); \
+				CPU_INT_CYCLES = 0; \
+				return m68ki_initial_cycles; \
+			} \
+		}
+
+    #define m68ki_check_bus_error(ADDR, WRITE_MODE, FC, LOOKUP)    \
+        ({ \
+            unsigned int result = (LOOKUP); \
+            if (CPU_BERR) { \
+                CPU_BERR = 0; \
+                m68ki_berr_address = ADDR; \
+                m68ki_berr_write_mode = WRITE_MODE; \
+                m68ki_berr_fc = FC; \
+                longjmp(m68ki_berr_trap, 1); \
+            } \
+            result; \
+        })
+#else
+    #define m68ki_set_bus_error_trap()
+	#define m68ki_check_bus_error(ADDR, WRITE_MODE, FC)
+#endif
 
 /* Logging */
 #if M68K_LOG_ENABLE
@@ -817,6 +852,7 @@ typedef struct
 	uint int_level;    /* State of interrupt pins IPL0-IPL2 -- ASG: changed from ints_pending */
 	uint int_cycles;   /* ASG: extra cycles from generated interrupts */
 	uint stopped;      /* Stopped state */
+    uint berr;         /* Bus error flag */
 	uint pref_addr;    /* Last prefetch address */
 	uint pref_data;    /* Data in the prefetch queue */
 	uint address_mask; /* Available address pins */
@@ -861,6 +897,10 @@ extern uint8          m68ki_ea_idx_cycle_table[];
 extern uint           m68ki_aerr_address;
 extern uint           m68ki_aerr_write_mode;
 extern uint           m68ki_aerr_fc;
+
+extern uint           m68ki_berr_address;
+extern uint           m68ki_berr_write_mode;
+extern uint           m68ki_berr_fc;
 
 /* Read data immediately after the program counter */
 INLINE uint m68ki_read_imm_16(void);
@@ -975,6 +1015,7 @@ INLINE void m68ki_exception_1111(void);
 INLINE void m68ki_exception_illegal(void);
 INLINE void m68ki_exception_format_error(void);
 INLINE void m68ki_exception_address_error(void);
+INLINE void m68ki_exception_bus_error(void);
 INLINE void m68ki_exception_interrupt(uint int_level);
 INLINE void m68ki_check_interrupts(void);            /* ASG: check for interrupts */
 
@@ -1000,13 +1041,19 @@ INLINE uint m68ki_read_imm_16(void)
 	if(MASK_OUT_BELOW_2(REG_PC) != CPU_PREF_ADDR)
 	{
 		CPU_PREF_ADDR = MASK_OUT_BELOW_2(REG_PC);
-		CPU_PREF_DATA = m68k_read_immediate_32(ADDRESS_68K(CPU_PREF_ADDR));
+		CPU_PREF_DATA = m68ki_check_bus_error(
+            REG_PC, MODE_READ, FLAG_S | FUNCTION_CODE_USER_PROGRAM,
+            m68k_read_immediate_32(ADDRESS_68K(CPU_PREF_ADDR))
+        ); /* auto-disable (see m68kcpu.h) */
 	}
 	REG_PC += 2;
 	return MASK_OUT_ABOVE_16(CPU_PREF_DATA >> ((2-((REG_PC-2)&2))<<3));
 #else
 	REG_PC += 2;
-	return m68k_read_immediate_16(ADDRESS_68K(REG_PC-2));
+	return m68ki_check_bus_error(
+        REG_PC, MODE_READ, FLAG_S | FUNCTION_CODE_USER_PROGRAM,
+        m68k_read_immediate_16(ADDRESS_68K(REG_PC-2))
+    ); /* auto-disable (see m68kcpu.h) */
 #endif /* M68K_EMULATE_PREFETCH */
 }
 INLINE uint m68ki_read_imm_32(void)
@@ -1530,13 +1577,13 @@ INLINE void m68ki_stack_frame_buserr(uint sr)
 	m68ki_push_32(REG_PC);
 	m68ki_push_16(sr);
 	m68ki_push_16(REG_IR);
-	m68ki_push_32(m68ki_aerr_address);	/* access address */
+	m68ki_push_32(m68ki_berr_address);	/* access address */
 	/* 0 0 0 0 0 0 0 0 0 0 0 R/W I/N FC
 	 * R/W  0 = write, 1 = read
 	 * I/N  0 = instruction, 1 = not
 	 * FC   3-bit function code
 	 */
-	m68ki_push_16(m68ki_aerr_write_mode | CPU_INSTR_MODE | m68ki_aerr_fc);
+	m68ki_push_16(m68ki_berr_write_mode | CPU_INSTR_MODE | m68ki_berr_fc);
 }
 
 /* Format 8 stack frame (68010).
@@ -1883,6 +1930,33 @@ m68k_read_memory_8(0x00ffff01);
 
 	/* Use up some clock cycles and undo the instruction's cycles */
 	USE_CYCLES(CYC_EXCEPTION[EXCEPTION_ADDRESS_ERROR] - CYC_INSTRUCTION[REG_IR]);
+}
+
+
+/* Exception for bus error */
+INLINE void m68ki_exception_bus_error(void)
+{
+	uint sr = m68ki_init_exception();
+
+	/* If we were processing a bus error, address error, or reset,
+	 * this is a catastrophic failure.
+	 * Halt the CPU
+	 */
+	if(CPU_RUN_MODE == RUN_MODE_BERR_AERR_RESET)
+	{
+m68k_read_memory_8(0x00ffff01);
+		CPU_STOPPED = STOP_LEVEL_HALT;
+		return;
+	}
+	CPU_RUN_MODE = RUN_MODE_BERR_AERR_RESET;
+
+	/* Note: This is implemented for 68000 only! */
+	m68ki_stack_frame_buserr(sr);
+
+	m68ki_jump_vector(EXCEPTION_BUS_ERROR);
+
+	/* Use up some clock cycles and undo the instruction's cycles */
+	USE_CYCLES(CYC_EXCEPTION[EXCEPTION_BUS_ERROR] - CYC_INSTRUCTION[REG_IR]);
 }
 
 

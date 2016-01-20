@@ -285,6 +285,17 @@ void m68k_init(void);
  */
 void m68k_pulse_reset(void);
 
+/* Assert the bus error signal.
+ * This should be called only in the caller's memory access functions, to
+ * emulate a bus error condition. In that case, the returned value will be
+ * ignored and instead the bus error exception handler will run.
+ *
+ * This only supports the 68000 version of the bus error exception, which
+ * doesn't support resuming instructions and thus cannot be used to
+ * implement memory paging in a virtual memory system.
+ */
+void m68k_bus_error(void);
+
 /* execute num_cycles worth of instructions.  returns number of cycles used */
 int m68k_execute(int num_cycles);
 

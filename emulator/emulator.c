@@ -18,6 +18,11 @@ unsigned int m68k_read_memory_8(unsigned int addr) {
 }
 
 unsigned int m68k_read_memory_16(unsigned int addr) {
+    if (addr >= 0x8) {
+        printf("Emulating a bus error\n");
+        m68k_bus_error();
+        return 0;
+    }
     printf("Read 16 bits at 0x%08x\n", addr);
     return 0;
 }

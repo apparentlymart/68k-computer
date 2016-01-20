@@ -1,3 +1,18 @@
+
+This directory contains a *modified* version of Musashi, adapted to support
+the bus error exception that this computer's OS expects as a signal for when
+a user program accesses an unmapped memory page.
+
+This version of Musashi builds on the code obtained from:
+    https://github.com/kstenerud/Musashi
+
+This fork diverged from the following upstream git commit:
+    b8a71f0b7a1a7ff797ffe413a577133203461f91
+
+The original readme for Musashi is included below, including its license.
+
+------------------------------------------------------------------------------
+
                                     MUSASHI
                                     =======
 
