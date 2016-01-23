@@ -1,0 +1,6 @@
+gcc-*/*
+build/*
+src/*
+try.bin
+try.elf
+try.o
