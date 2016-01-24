@@ -12,9 +12,6 @@ O_FILES := $(patsubst %.s,%.o,$(AS_FILES)) $(patsubst %.c,%.o,$(C_FILES))
 
 export PATH := $(TOOLCHAIN_PATH):$(PATH)
 
-kernel.bin: kernel.elf
-	$(OBJCOPY) -I elf32-m68k -O binary $< $@
-
 kernel.elf: $(O_FILES) kernel.ld
 	$(LD) -nostdlib -Tkernel.ld $(O_FILES) -o $@
 
