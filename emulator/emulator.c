@@ -31,7 +31,15 @@ int main(int argc, char **argv) {
     m68k_set_cpu_type(M68K_CPU_TYPE_68000);
     m68k_pulse_reset();
 
-    m68k_execute(100);
+    int iter = 0;
+    while (1) {
+        m68k_execute(200);
+
+        iter++;
+        if (iter > 10) {
+            break;
+        }
+    }
 
     return 0;
 }
