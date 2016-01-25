@@ -17,6 +17,7 @@ typedef struct {
     uint8_t (*read)(unsigned int addr);
     void (*write)(unsigned int addr, uint8_t val);
     const char *name;
+    unsigned int phy_base_addr;
 } mem_device;
 
 uint8_t *rom_buf;
@@ -28,6 +29,7 @@ const ram_size = 0x7F00000;
 // can suppress memory access traces that aren't coming from the
 // emulated CPU itself.
 int disasm = 0;
+
 void invalid_write(unsigned int addr, uint8_t val) {
     m68k_bus_error();
 }
@@ -39,7 +41,8 @@ uint8_t rom_read(unsigned int addr) {
 mem_device rom = {
     rom_read,
     invalid_write,
-    "ROM"
+    "ROM",
+    PHY_ROM_BASE
 };
 
 uint8_t ram_read(unsigned int addr) {
@@ -53,19 +56,22 @@ uint8_t ram_write(unsigned int addr, uint8_t val) {
 mem_device ram = {
     ram_read,
     ram_write,
-    "RAM"
+    "RAM",
+    PHY_RAM_BASE
 };
 
 mem_device gfx_ram = {
     gfx_ram_read,
     gfx_ram_write,
-    "VRAM"
+    "VRAM",
+    PHY_VRAM_BASE
 };
 
 mem_device mmu_ctrl = {
     mmu_ctrl_read,
     mmu_ctrl_write,
-    "CTRL"
+    "CTRL",
+    PHY_CTRL_BASE
 };
 
 int memory_init(int rom_fd) {
