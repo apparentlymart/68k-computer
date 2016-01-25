@@ -82,15 +82,24 @@ void m68k_write_memory_32(unsigned int logaddr, unsigned int val) {
 }
 
 unsigned int m68k_read_disassembler_8(unsigned int logaddr) {
-    return m68k_read_memory_8(logaddr);
+    disasm = 1;
+    unsigned int ret = m68k_read_memory_8(logaddr);
+    disasm = 0;
+    return ret;
 }
 
 unsigned int m68k_read_disassembler_16(unsigned int logaddr) {
-    return m68k_read_memory_16(logaddr);
+    disasm = 1;
+    unsigned int ret = m68k_read_memory_16(logaddr);
+    disasm = 0;
+    return ret;
 }
 
 unsigned int m68k_read_disassembler_32(unsigned int logaddr) {
-    return m68k_read_memory_32(logaddr);
+    disasm = 1;
+    unsigned int ret = m68k_read_memory_32(logaddr);
+    disasm = 0;
+    return ret;
 }
 
 void make_hex(char* buff, unsigned int pc, unsigned int length) {

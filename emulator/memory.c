@@ -24,6 +24,10 @@ uint8_t *ram_buf;
 const rom_size = 0x4000000;
 const ram_size = 0x7F00000;
 
+// Set this to 1 whenever working with the diassembler so that we
+// can suppress memory access traces that aren't coming from the
+// emulated CPU itself.
+int disasm = 0;
 void invalid_write(unsigned int addr, uint8_t val) {
     m68k_bus_error();
 }
@@ -108,22 +112,34 @@ inline mem_device *memory_device(unsigned int addr) {
 uint8_t read_memory_byte(unsigned int addr) {
     mem_device *device = memory_device(addr);
     if (device == 0) {
-        printf("\t\e[1;31mBERR 0x%07x -> 0x..\e[0m\n", addr);
+        if (! disasm) {
+            //printf("\t\e[1;31mBERR 0x%07x -> 0x..\e[0m\n", addr);
+        }
         m68k_bus_error();
         return 0;
     }
+    if (! disasm) {
+        //printf("\t%4s 0x%07x -> ", device->name, addr);
+    }
+    fflush(stdout);
     uint8_t val = device->read(addr);
-    printf("\t%4s 0x%07x -> 0x%02x\n", device->name, addr, (int)val);
+    if (! disasm) {
+        //printf("0x%02x\n", (int)val);
+    }
     return val;
 }
 
 void write_memory_byte(unsigned int addr, uint8_t val) {
     mem_device *device = memory_device(addr);
     if (device == 0) {
-        printf("\t\e[1;31mBERR 0x%07x <- 0x%02x\e[0m\n", addr, val);
+        if (! disasm) {
+            //printf("\t\e[1;31mBERR 0x%07x <- 0x%02x\e[0m\n", addr, val);
+        }
         m68k_bus_error();
         return;
     }
-    printf("\t%4s 0x%07x <- 0x%02x\n", device->name, addr, val);
+    if (! disasm) {
+        //printf("\t%4s 0x%07x <- 0x%02x\n", device->name, addr, val);
+    }
     device->write(addr, val);
 }
