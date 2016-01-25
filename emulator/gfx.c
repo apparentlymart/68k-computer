@@ -32,7 +32,7 @@ uint8_t gfx_ram_read(unsigned int addr) {
         (raw_val & 0xf)
     );
 }
-uint8_t gfx_ram_write(unsigned int addr, uint8_t val) {
+void gfx_ram_write(unsigned int addr, uint8_t val) {
     unsigned int offset = addr - PHY_RAM_BASE;
     uint16_t raw_val = (
         ((val & 0xf0) << 4) |

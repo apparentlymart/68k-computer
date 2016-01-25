@@ -95,7 +95,7 @@ uint8_t mmu_ctrl_read(unsigned int addr) {
     return 0;
 }
 
-uint8_t mmu_ctrl_write(unsigned int addr, uint8_t val) {
+void mmu_ctrl_write(unsigned int addr, uint8_t val) {
     unsigned int offset = addr - 0x0100000;
     switch (offset) {
       case 0:

@@ -12,6 +12,7 @@
 #include "gfx.h"
 #include "mmu.h"
 #include "memory.h"
+#include "io.h"
 
 typedef struct {
     uint8_t (*read)(unsigned int addr);
@@ -49,7 +50,7 @@ uint8_t ram_read(unsigned int addr) {
     unsigned int offset = addr - PHY_RAM_BASE;
     return ram_buf[offset];
 }
-uint8_t ram_write(unsigned int addr, uint8_t val) {
+void ram_write(unsigned int addr, uint8_t val) {
     unsigned int offset = addr - PHY_RAM_BASE;
     ram_buf[offset] = val;
 }
@@ -72,6 +73,13 @@ mem_device mmu_ctrl = {
     mmu_ctrl_write,
     "CTRL",
     PHY_CTRL_BASE
+};
+
+mem_device io = {
+    io_read,
+    io_write,
+    "IO",
+    PHY_IO_BASE
 };
 
 int memory_init(int rom_fd) {
@@ -97,8 +105,7 @@ inline mem_device *memory_device(unsigned int addr) {
         return 0;
     }
     else if (ADDR_MATCH(addr, PHY_IO_BASE, PHY_IO_MASK)) {
-        // TODO: Return primary I/O ports
-        return 0;
+        return &io;
     }
     else if (ADDR_MATCH(addr, PHY_VRAM_BASE, PHY_VRAM_MASK)) {
         return &gfx_ram;

@@ -14,6 +14,11 @@ REG_MMU_PAGE_TABLE = 0x900003;
 /* Stack grows downwards, so we need to start at the top of it */
 KERNEL_STACK_BOTTOM = 0x3fffff;
 
+IO_START = 0x800000;
+SELECTABLE_MAPPING_1_START = 0xa00000;
+SELECTABLE_MAPPING_2_START = 0xb00000;
+VIDEO_RAM_START = 0xc00000;
+
 SECTIONS {
     . = 0;
     .text : {

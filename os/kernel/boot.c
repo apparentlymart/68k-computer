@@ -1,3 +1,4 @@
+#include "main.h"
 
 ////// These are linker symbols, configured by the linker script kernel.ld
 // Start position of the kernel stack (top of the main kernel RAM)
@@ -59,10 +60,8 @@ void boot(void) {
     REG_MMU_SELECTOR_0 = 0;
     REG_MMU_SELECTOR_1 = 0;
 
-    // TODO: Jump into the kernel proper.
-    // for now, we just halt here.
-    int i = 0;
-    while (1) { i++; }
+    // Jump into the kernel proper
+    main();
 }
 
 void default_bus_error(void) {

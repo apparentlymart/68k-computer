@@ -34,6 +34,6 @@
 unsigned int mmu_map_addr(unsigned int logaddr);
 
 uint8_t mmu_ctrl_read(unsigned int addr);
-uint8_t mmu_ctrl_write(unsigned int addr, uint8_t val);
+void mmu_ctrl_write(unsigned int addr, uint8_t val);
 
 #endif

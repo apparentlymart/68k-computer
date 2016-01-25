@@ -9,6 +9,7 @@
 #include "mmu.h"
 #include "memory.h"
 #include "emulator.h"
+#include "io.h"
 
 int main(int argc, char **argv) {
     int rom_fd = open("../os/kernel.rom", O_RDONLY);
@@ -27,18 +28,15 @@ int main(int argc, char **argv) {
         return 1;
     }
 
+    io_init();
+
     m68k_init();
     m68k_set_cpu_type(M68K_CPU_TYPE_68000);
     m68k_pulse_reset();
 
-    int iter = 0;
     while (1) {
         m68k_execute(200);
-
-        iter++;
-        if (iter > 10) {
-            break;
-        }
+        io_update();
     }
 
     return 0;
@@ -124,6 +122,7 @@ void make_hex(char* buff, unsigned int pc, unsigned int length) {
 }
 
 void on_each_instruction(void) {
+#ifdef TRACE_INSTRUCTIONS
     static char buff[100];
 	static char buff2[100];
 	static unsigned int pc;
@@ -133,5 +132,6 @@ void on_each_instruction(void) {
 	make_hex(buff2, pc, instr_size);
 	printf("E %03x: %-20s: %s\n", pc, buff2, buff);
 	fflush(stdout);
+#endif
 }
 
