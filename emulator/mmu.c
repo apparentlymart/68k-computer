@@ -100,12 +100,20 @@ uint8_t mmu_ctrl_write(unsigned int addr, uint8_t val) {
     switch (offset) {
       case 0:
       case 1:
+          printf("-- SELECTABLE MAPPING %i NOW 0x%02x00000\n", offset, val);
           supervisor.selectors[offset] = val;
           return;
       case 2:
+          if (val) {
+              puts("-- INIT ROM SELECTED AT 0x000000");
+          }
+          else {
+              puts("-- KERNEL RAM SELECTED AT 0x000000");
+          }
           supervisor.rom_at_zero = val ? 0x1 : 0x0;
           return;
       case 3:
+          printf("-- ACTIVE PAGE TABLE NOW 0x%02x\n", val);
           user.active_page_table = val;
           return;
       default:
