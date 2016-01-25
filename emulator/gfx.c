@@ -1,10 +1,20 @@
 #include "gfx.h"
 #include <stdlib.h>
 #include <stdint.h>
+#include <stdio.h>
+#include <SDL.h>
+#include <SDL_events.h>
+#include <SDL_video.h>
+#include <SDL_surface.h>
 #include "memory.h"
 
 uint16_t *gfx_ram_buf;
 const gfx_ram_size = 0x400000;
+SDL_Window *win;
+SDL_Texture *win_texture;
+SDL_Renderer *win_renderer;
+int update_pending = 1;
+int quit_soon = 0;
 
 int gfx_init(void) {
     gfx_ram_buf = malloc(gfx_ram_size * sizeof(uint16_t));
@@ -12,7 +22,56 @@ int gfx_init(void) {
         return -1;
     }
 
+    if (SDL_Init(SDL_INIT_VIDEO) != 0) {
+        return -1;
+    }
+
+    win = SDL_CreateWindow(
+        "Emulator",
+        SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+        800, 600,
+        0
+    );
+    if (win == 0) {
+        return -1;
+    }
+
+    win_renderer = SDL_CreateRenderer(win, -1, SDL_RENDERER_PRESENTVSYNC);
+    if (win_renderer == 0) {
+        return -1;
+    }
+
+    win_texture = SDL_CreateTexture(
+        win_renderer,
+        SDL_PIXELFORMAT_ARGB8888,
+        SDL_TEXTUREACCESS_STREAMING,
+        800, 600
+    );
+    if (win_texture == 0) {
+        return -1;
+    }
+
     return 0;
+}
+
+void gfx_update(void) {
+    SDL_Event event;
+
+    if (SDL_PollEvent(&event)) {
+        switch (event.type) {
+            case SDL_QUIT:
+                quit_soon = 1;
+                break;
+        }
+    }
+
+    if (update_pending) {
+        SDL_UpdateTexture(win_texture, NULL, gfx_ram_buf, 800 * sizeof(uint32_t));
+        SDL_RenderClear(win_renderer);
+        SDL_RenderCopy(win_renderer, win_texture, NULL, NULL);
+        SDL_RenderPresent(win_renderer);
+        update_pending = 0;
+    }
 }
 
 uint8_t gfx_ram_read(unsigned int addr) {
@@ -33,10 +92,11 @@ uint8_t gfx_ram_read(unsigned int addr) {
     );
 }
 void gfx_ram_write(unsigned int addr, uint8_t val) {
-    unsigned int offset = addr - PHY_RAM_BASE;
+    unsigned int offset = addr - PHY_VRAM_BASE;
     uint16_t raw_val = (
         ((val & 0xf0) << 4) |
-        (val & 0xf)
+        ((val & 0xf) << 4)
     );
+    update_pending = 1;
     gfx_ram_buf[offset] = raw_val;
 }

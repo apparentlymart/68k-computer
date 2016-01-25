@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdint.h>
+#include <stdlib.h>
 #include "memory.h"
 #include "io.h"
 
@@ -42,6 +43,13 @@ void io_write(unsigned int addr, uint8_t val) {
               uart.tx = val;
               uart.tx_pending = 1;
           }
+          return;
+
+      case 255:
+          // Emulator-only port to force an exit.
+          puts("Kernel forced exit");
+          fflush(stdout);
+          exit(0);
           return;
       default:
           m68k_bus_error();

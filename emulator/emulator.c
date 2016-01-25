@@ -6,6 +6,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include "gfx.h"
 #include "mmu.h"
 #include "memory.h"
 #include "emulator.h"
@@ -35,8 +36,14 @@ int main(int argc, char **argv) {
     m68k_pulse_reset();
 
     while (1) {
-        m68k_execute(200);
+        m68k_execute(100000);
         io_update();
+        gfx_update();
+
+        // Set by gfx_update when the user closes the graphics window
+        if (quit_soon) {
+            break;
+        }
     }
 
     return 0;
@@ -121,6 +128,7 @@ void make_hex(char* buff, unsigned int pc, unsigned int length) {
 	}
 }
 
+//#define TRACE_INSTRUCTIONS
 void on_each_instruction(void) {
 #ifdef TRACE_INSTRUCTIONS
     static char buff[100];

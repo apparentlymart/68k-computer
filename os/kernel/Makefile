@@ -6,6 +6,7 @@ LD := $(CROSS_COMPILE)gcc
 AS := $(CROSS_COMPILE)as
 OBJCOPY := $(CROSS_COMPILE)objcopy
 
+H_FILES := $(shell find -name "*.h")
 C_FILES := $(shell find -name "*.c")
 AS_FILES := $(shell find -name "*.s")
 O_FILES := $(patsubst %.s,%.o,$(AS_FILES)) $(patsubst %.c,%.o,$(C_FILES))
@@ -15,7 +16,7 @@ export PATH := $(TOOLCHAIN_PATH):$(PATH)
 kernel.elf: $(O_FILES) kernel.ld
 	$(LD) -g -nostdlib -Tkernel.ld $(O_FILES) -o $@ -m68000
 
-%.o: %.c
+%.o: %.c $(H_FILES)
 	$(CC) -g -c $< -o $@ -m68000
 
 %.o: %.s
