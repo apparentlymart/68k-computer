@@ -36,7 +36,7 @@ int main(int argc, char **argv) {
     m68k_pulse_reset();
 
     while (1) {
-        m68k_execute(100000);
+        m68k_execute(1000000);
         io_update();
         gfx_update();
 
