@@ -13,13 +13,13 @@ O_FILES := $(patsubst %.s,%.o,$(AS_FILES)) $(patsubst %.c,%.o,$(C_FILES))
 export PATH := $(TOOLCHAIN_PATH):$(PATH)
 
 kernel.elf: $(O_FILES) kernel.ld
-	$(LD) -nostdlib -Tkernel.ld $(O_FILES) -o $@
+	$(LD) -g -nostdlib -Tkernel.ld $(O_FILES) -o $@ -m68000
 
 %.o: %.c
-	$(CC) -c $< -o $@
+	$(CC) -g -c $< -o $@ -m68000
 
 %.o: %.s
-	$(AS) $< -o $@
+	$(AS) $< -o $@ -m68000
 
 toolchain:
 	@[ -e $(TOOLCHAIN_PATH)/$(CC) ] || (echo "First build the compiler toolchain in $(TOOLCHAIN_PATH)"; exit 1)
