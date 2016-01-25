@@ -18,15 +18,13 @@ extern unsigned char REG_MMU_ROM_AT_ZERO;
 extern unsigned char REG_MMU_SELECTOR_0;
 extern unsigned char REG_MMU_SELECTOR_1;
 
+extern unsigned char init;
+
 // This function contains the first code that runs after the CPU comes out
 // of reset.
 void boot(void) {
-    // Unmap the ROM in the first memory segment, revealing the Kernel RAM
-    REG_MMU_ROM_AT_ZERO = 0;
-
-    // Select the same ROM segment that was previously at address zero
-    // into the two selectable mapping segments, from which we'll get
-    // the initial global data values and default vector table.
+    // Select into the two selectable mapping segments the area of
+    // memory containing the initial global data and initial vector table.
     // (DATA_LOAD_START and DEFAULT_VECTORS_LOAD_START point into the
     // selectable mapping segments, so this must be done before
     // deferencing those pointers.)
