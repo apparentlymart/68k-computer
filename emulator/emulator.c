@@ -17,6 +17,11 @@ int main(int argc, char **argv) {
         return 1;
     }
 
+    if (gfx_init() < 0) {
+        fputs("Failed to initialize graphics system\n", stderr);
+        return 1;
+    }
+
     if (memory_init(rom_fd) < 0) {
         fputs("Failed to initialize memory system\n", stderr);
         return 1;
@@ -26,7 +31,7 @@ int main(int argc, char **argv) {
     m68k_set_cpu_type(M68K_CPU_TYPE_68000);
     m68k_pulse_reset();
 
-    m68k_execute(1000);
+    m68k_execute(100);
 
     return 0;
 }
@@ -87,3 +92,29 @@ unsigned int m68k_read_disassembler_16(unsigned int logaddr) {
 unsigned int m68k_read_disassembler_32(unsigned int logaddr) {
     return m68k_read_memory_32(logaddr);
 }
+
+void make_hex(char* buff, unsigned int pc, unsigned int length) {
+	char* ptr = buff;
+
+	for( ; length>0; length -= 2) {
+		sprintf(ptr, "%04x", m68k_read_memory_16(pc));
+		pc += 2;
+		ptr += 4;
+		if(length > 2) {
+			*ptr++ = ' ';
+        }
+	}
+}
+
+void on_each_instruction(void) {
+    static char buff[100];
+	static char buff2[100];
+	static unsigned int pc;
+	static unsigned int instr_size;
+	pc = m68k_get_reg(NULL, M68K_REG_PC);
+	instr_size = m68k_disassemble(buff, pc, M68K_CPU_TYPE_68000);
+	make_hex(buff2, pc, instr_size);
+	printf("E %03x: %-20s: %s\n", pc, buff2, buff);
+	fflush(stdout);
+}
+
