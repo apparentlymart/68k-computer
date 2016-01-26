@@ -20,6 +20,10 @@
 #define SUP_VRAM_BASE 0xc00000
 #define SUP_VRAM_MASK (0b11000000 << 16)
 
+extern int super_mode;
+unsigned int _mmu_map_addr_super(unsigned int logaddr);
+unsigned int _mmu_map_addr_user(unsigned int logaddr);
+
 // Given a logical address, return the corresponding physical address.
 //
 // The logical address is the 24-bit address presented by the CPU, representing
@@ -31,7 +35,14 @@
 // structure for user mode. These mode selections are not yet implemented,
 // so this function currently supports just a subset of supervisor mode.
 //
-unsigned int mmu_map_addr(unsigned int logaddr);
+static inline unsigned int mmu_map_addr(unsigned int logaddr) {
+    if (super_mode) {
+        return _mmu_map_addr_super(logaddr);
+    }
+    else {
+        return _mmu_map_addr_user(logaddr);
+    }
+}
 
 uint8_t mmu_ctrl_read(unsigned int addr);
 void mmu_ctrl_write(unsigned int addr, uint8_t val);

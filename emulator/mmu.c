@@ -23,10 +23,17 @@ typedef struct {
 
 supervisor_regs supervisor = { 1, {0, 0} };
 user_regs user = { 0 };
+int super_mode = 1;
 
-unsigned int mmu_map_addr(unsigned int logaddr) {
-    // For the moment this only supports supervisor mode.
+// We support 16 active user page tables, each dividing the address space
+// into 4096 pages of 4kB each. When in user mode, the active page table
+// selector chooses the table and then the high 12 bits of the address
+// choose the page table entry, yielding a new 16-bit prefix.
+// The 16-bit prefix is then combined with the low 12 bits of the original
+// logical address to produce a 28-bit physical address.
+uint16_t page_table[16][4096];
 
+unsigned int _mmu_map_addr_super(unsigned int logaddr) {
     if (ADDR_MATCH(logaddr, SUP_RAM_BASE, SUP_RAM_MASK)) {
         if (supervisor.rom_at_zero) {
             // Second segment of ROM
@@ -78,6 +85,12 @@ unsigned int mmu_map_addr(unsigned int logaddr) {
     return 0;
 }
 
+unsigned int _mmu_map_addr_user(unsigned int logaddr) {
+    unsigned int page_num = logaddr >> 12;
+    unsigned int offset = logaddr % 4096;
+    return (page_table[user.active_page_table][page_num] << 12) | offset;
+}
+
 uint8_t mmu_ctrl_read(unsigned int addr) {
     unsigned int offset = addr - 0x0100000;
     switch (offset) {
@@ -120,4 +133,10 @@ void mmu_ctrl_write(unsigned int addr, uint8_t val) {
           m68k_bus_error();
           return;
     }
+}
+
+// CPU emulator calls this each time the CPU function code changes.
+// This happens when we switch to and from supervisor mode.
+void m68k_set_fc(unsigned int fc) {
+    super_mode = (fc == 0b101 || fc == 0b110);
 }
