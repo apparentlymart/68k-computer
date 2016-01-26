@@ -1,6 +1,7 @@
 #include "io.h"
 #include "gfx.h"
 #include "main.h"
+#include "list.h"
 
 // Main kernel entry point.
 // By the time we get here, the global variables have been initialized,
