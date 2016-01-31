@@ -484,6 +484,7 @@ unsigned int m68k_get_reg(void* context, m68k_register_t regnum)
 				case CPU_TYPE_020:		return (unsigned int)M68K_CPU_TYPE_68020;
 			}
 			return M68K_CPU_TYPE_INVALID;
+		case M68K_REG_STOPPED:		return cpu->stopped;
 		default:			return 0;
 	}
 	return 0;
