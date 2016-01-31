@@ -17,7 +17,7 @@ kernel.rom: kernel/kernel.elf romulate
 romulate: romulate.o
 	$(HOST_LD) $< -o $@
 
-kernel/kernel.elf:
+kernel/kernel.elf: kernel/Makefile $(shell find kernel -name '*.c') $(shell find kernel -name '*.h')
 	cd kernel && $(MAKE) kernel.elf
 
 %.o: %.c
