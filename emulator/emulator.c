@@ -37,6 +37,15 @@ int main(int argc, char **argv) {
 
     while (1) {
         m68k_execute(1000000);
+
+        // TEMP: For now we'll exit when the CPU is stopped.
+        // This won't be the right approach once we start using interrupts
+        // and are thus stopping the CPU for a good reason.
+        if (m68k_get_reg(0, M68K_REG_STOPPED)) {
+            fputs("\nCPU stopped\n", stderr);
+            break;
+        }
+
         io_update();
         gfx_update();
 
@@ -128,7 +137,7 @@ void make_hex(char* buff, unsigned int pc, unsigned int length) {
 	}
 }
 
-//#define TRACE_INSTRUCTIONS
+// #define TRACE_INSTRUCTIONS
 void on_each_instruction(void) {
 #ifdef TRACE_INSTRUCTIONS
     static char buff[100];
