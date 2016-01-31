@@ -17,7 +17,7 @@ kernel.elf: $(O_FILES) kernel.ld
 	$(LD) -g -nostdlib -Tkernel.ld $(O_FILES) -o $@ -m68000
 
 %.o: %.c $(H_FILES)
-	$(CC) -g -c $< -o $@ -m68000 -Iinclude
+	$(CC) -g -Os -c $< -o $@ -m68000 -Iinclude
 
 %.o: %.s
 	$(AS) $< -o $@ -m68000
