@@ -23,8 +23,8 @@ typedef struct {
 
 uint8_t *rom_buf;
 uint8_t *ram_buf;
-const rom_size = 0x4000000;
-const ram_size = 0x7F00000;
+const uint32_t rom_size = 0x4000000;
+const uint32_t ram_size = 0x7F00000;
 
 // Set this to 1 whenever working with the diassembler so that we
 // can suppress memory access traces that aren't coming from the
