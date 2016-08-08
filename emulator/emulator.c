@@ -147,7 +147,7 @@ void on_each_instruction(void) {
 	pc = m68k_get_reg(NULL, M68K_REG_PC);
 	instr_size = m68k_disassemble(buff, pc, M68K_CPU_TYPE_68000);
 	make_hex(buff2, pc, instr_size);
-	printf("E %03x: %-20s: %s\n", pc, buff2, buff);
+	printf("E %08x: %-20s: %s\n", pc, buff2, buff);
 	fflush(stdout);
 #endif
 }
