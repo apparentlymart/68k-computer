@@ -82,6 +82,8 @@ mem_device io = {
     PHY_IO_BASE
 };
 
+const char * unmapped_name = "INVAL";
+
 int memory_init(int rom_fd) {
     rom_buf = mmap(NULL, rom_size, PROT_READ, MAP_SHARED, rom_fd, 0);
     if ((void*)rom_buf == (void*)-1) {
@@ -122,37 +124,34 @@ mem_device *memory_device(unsigned int addr) {
     }
 }
 
+const char *memory_device_name(unsigned int addr) {
+    mem_device *dev = memory_device(addr);
+    if (dev) {
+        return dev->name;
+    }
+    else {
+        return unmapped_name;
+    }
+}
+
 uint8_t read_memory_byte(unsigned int addr) {
     mem_device *device = memory_device(addr);
     if (device == 0) {
-        if (! disasm) {
-            //printf("\t\e[1;31mBERR 0x%07x -> 0x..\e[0m\n", addr);
-        }
+        printf("\t\e[1;31mREAD INVAL 0x%07x\e[0m\n", addr);
         m68k_bus_error();
         return 0;
     }
-    if (! disasm) {
-        //printf("\t%4s 0x%07x -> ", device->name, addr);
-    }
     fflush(stdout);
     uint8_t val = device->read(addr);
-    if (! disasm) {
-        //printf("0x%02x\n", (int)val);
-    }
     return val;
 }
 
 void write_memory_byte(unsigned int addr, uint8_t val) {
     mem_device *device = memory_device(addr);
     if (device == 0) {
-        if (! disasm) {
-            //printf("\t\e[1;31mBERR 0x%07x <- 0x%02x\e[0m\n", addr, val);
-        }
+        printf("\t\e[1;31mWRITE INVAL 0x%07x\e[0m\n", addr);
         m68k_bus_error();
         return;
-    }
-    if (! disasm) {
-        //printf("\t%4s 0x%07x <- 0x%02x\n", device->name, addr, val);
     }
     device->write(addr, val);
 }

@@ -25,5 +25,6 @@ extern int disasm;
 int memory_init(int rom_fd);
 uint8_t read_memory_byte(unsigned int addr);
 void write_memory_byte(unsigned int addr, uint8_t val);
+const char *memory_device_name(unsigned int addr);
 
 #endif
