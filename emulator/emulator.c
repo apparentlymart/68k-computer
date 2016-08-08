@@ -175,11 +175,13 @@ void on_each_instruction(void) {
     static char buff[100];
 	static char buff2[100];
 	static unsigned int pc;
+    static unsigned int pc_phys;
 	static unsigned int instr_size;
     static const char *pc_dev;
 
 	pc = m68k_get_reg(NULL, M68K_REG_PC);
-    pc_dev = memory_device_name(pc);
+    pc_phys = mmu_map_addr(pc);
+    pc_dev = memory_device_name(pc_phys);
 	instr_size = m68k_disassemble(buff, pc, M68K_CPU_TYPE_68000);
 	make_hex(buff2, pc, instr_size);
 	printf("E %4s %08x: %-20s: %s\n", pc_dev, pc, buff2, buff);
