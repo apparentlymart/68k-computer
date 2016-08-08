@@ -7,6 +7,7 @@
 #include <fcntl.h>
 #include "emulator.h"
 #include <m68k.h>
+#include "gdbserver.h"
 #include "gfx.h"
 #include "mmu.h"
 #include "memory.h"
