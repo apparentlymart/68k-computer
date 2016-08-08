@@ -139,6 +139,12 @@ uint8_t read_memory_byte(unsigned int addr) {
     if (device == 0) {
         printf("\t\e[1;31mREAD INVAL 0x%07x\e[0m\n", addr);
         m68k_bus_error();
+        if (super_mode) {
+            // An invalid read in supervisor mode aborts the emulator,
+            // for now at least. We might later allow this if the OS
+            // gets its own exception handling.
+            abort();
+        }
         return 0;
     }
     fflush(stdout);
@@ -151,6 +157,12 @@ void write_memory_byte(unsigned int addr, uint8_t val) {
     if (device == 0) {
         printf("\t\e[1;31mWRITE INVAL 0x%07x\e[0m\n", addr);
         m68k_bus_error();
+        if (super_mode) {
+            // An invalid write in supervisor mode aborts the emulator,
+            // for now at least. We might later allow this if the OS
+            // gets its own exception handling.
+            abort();
+        }
         return;
     }
     device->write(addr, val);
