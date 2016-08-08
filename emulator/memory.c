@@ -96,7 +96,7 @@ int memory_init(int rom_fd) {
     return 0;
 }
 
-inline mem_device *memory_device(unsigned int addr) {
+mem_device *memory_device(unsigned int addr) {
     if (ADDR_MATCH(addr, PHY_CTRL_BASE, PHY_CTRL_MASK)) {
         return &mmu_ctrl;
     }
