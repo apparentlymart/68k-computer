@@ -15,9 +15,9 @@ extern unsigned char DEFAULT_VECTORS_LOAD_START;
 extern unsigned char DEFAULT_VECTORS_VIRT_START;
 extern unsigned char DEFAULT_VECTORS_VIRT_END;
 // MMU control registers used during boot
-extern unsigned char REG_MMU_ROM_AT_ZERO;
-extern unsigned char REG_MMU_SELECTOR_0;
-extern unsigned char REG_MMU_SELECTOR_1;
+extern volatile unsigned char REG_MMU_ROM_AT_ZERO;
+extern volatile unsigned char REG_MMU_SELECTOR_0;
+extern volatile unsigned char REG_MMU_SELECTOR_1;
 
 extern unsigned char init;
 
