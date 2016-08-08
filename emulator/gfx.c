@@ -9,7 +9,7 @@
 #include "memory.h"
 
 uint16_t *gfx_ram_buf;
-const gfx_ram_size = 0x400000;
+const uint32_t gfx_ram_size = 0x400000;
 SDL_Window *win;
 SDL_Texture *win_texture;
 SDL_Renderer *win_renderer;

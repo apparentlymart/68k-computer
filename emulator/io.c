@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include <m68k.h>
 #include "memory.h"
 #include "io.h"
 
@@ -31,7 +32,7 @@ uint8_t io_read(unsigned int addr) {
           return uart.tx_pending ? 0 : 1;
       default:
           m68k_bus_error();
-          return;
+          return 0;
     }
 }
 
