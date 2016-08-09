@@ -169,7 +169,7 @@ void make_hex(char* buff, unsigned int pc, unsigned int length) {
 	}
 }
 
-#define TRACE_INSTRUCTIONS
+//#define TRACE_INSTRUCTIONS
 void on_each_instruction(void) {
 #ifdef TRACE_INSTRUCTIONS
     static char buff[100];
