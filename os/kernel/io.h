@@ -1,7 +1,7 @@
 #ifndef IO_H
 #define IO_H
 
-extern char IO_START;
+extern volatile char IO_START;
 
 #define IO_PORT(offset) (*(&IO_START + (offset)))
 #define IO_UART_TX IO_PORT(0)
