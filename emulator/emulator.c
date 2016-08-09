@@ -38,7 +38,7 @@ int main(int argc, char **argv) {
     m68k_set_cpu_type(M68K_CPU_TYPE_68000);
     m68k_pulse_reset();
 
-    mode = RUN;
+    mode = LISTEN;
     loop();
 
     return 0;
@@ -59,12 +59,17 @@ void loop(void) {
         case LISTEN:
             fputs("Waiting for GDB to connect\n", stderr);
             csock = gdbs_await_client(6666);
+            if (csock < 0) {
+                fputs("Failed while waiting for GDB to connect\n", stderr);
+                return;
+            }
             fputs("GDB connected\n", stderr);
             mode = READ;
             break;
 
         // Wait for and then read a GDB command
         case READ:
+            mode = gdbs_handle_command(csock);
             break;
 
         // Give the emulated CPU a timeslice
