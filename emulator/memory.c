@@ -14,13 +14,6 @@
 #include "memory.h"
 #include "io.h"
 
-typedef struct {
-    uint8_t (*read)(unsigned int addr);
-    void (*write)(unsigned int addr, uint8_t val);
-    const char *name;
-    unsigned int phy_base_addr;
-} mem_device;
-
 uint8_t *rom_buf;
 uint8_t *ram_buf;
 const uint32_t rom_size = 0x4000000;

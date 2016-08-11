@@ -22,9 +22,17 @@
 
 extern int disasm;
 
+typedef struct {
+    uint8_t (*read)(unsigned int addr);
+    void (*write)(unsigned int addr, uint8_t val);
+    const char *name;
+    unsigned int phy_base_addr;
+} mem_device;
+
 int memory_init(int rom_fd);
 uint8_t read_memory_byte(unsigned int addr);
 void write_memory_byte(unsigned int addr, uint8_t val);
+mem_device *memory_device(unsigned int addr);
 const char *memory_device_name(unsigned int addr);
 
 #endif
