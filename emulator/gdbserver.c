@@ -330,6 +330,11 @@ int gdbs_handle_command(int csock) {
         break;
 
     default: // unknown command
+        // gdb considers an empty response to mean "unsupported command",
+        // but if we send this then it seems to sometimes get itself stuck
+        // in a loop waiting for a response, so we prefer to error instead
+        // for now, at least until our set of supported commands is a little
+        // more comprehensive.
         result = gdbs_write_packet(csock, "E01", 1);
         if (result < 0) {
             perror("Error writing to GDB socket");
