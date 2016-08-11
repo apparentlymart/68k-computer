@@ -3,9 +3,12 @@
 #include <string.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <stdlib.h>
 #include "gdbserver.h"
 #include "m68k.h"
 #include "emulator.h"
+#include "mmu.h"
+#include "memory.h"
 
 int gdbs_await_client(int port) {
     int lsock = socket(AF_INET, SOCK_STREAM, 0);
@@ -97,6 +100,42 @@ int gdbs_read_packet(int csock, char *buf, int maxlen) {
     return readlen;
 }
 
+// Parse a hex integer at the address at the memory location pointed to
+// by the memory location pointed to by 'c'. After returning the value
+// at c is modified to point at the byte immediately following the last
+// digit of the integer.
+unsigned int gdbs_parse_hex_int(char **c) {
+    unsigned int result = 0;
+    while (1) {
+        char digit = **c;
+        int digit_val = 0;
+        if (digit >= '0' && digit <= '9') {
+            digit_val = digit - '0';
+        }
+        else if (digit >= 'a' && digit <= 'f') {
+            digit_val = digit - 'a' + 10;
+        }
+        else {
+            break;
+        }
+        result = (result << 4) | digit_val;
+        (*c)++;
+    }
+    return result;
+}
+
+// Given a number between 0 and 15, returns a lowercase hex digit
+// representing it. For values outside this range the result will
+// be garbage.
+inline static char gdbs_hex_digit(int val) {
+    if (val < 10) {
+        return '0' + val;
+    }
+    else {
+        return 'a' + val - 10;
+    }
+}
+
 int gdbs_handle_command(int csock) {
     // This is a very simplistic, non-optimized and not very fault tolerant
     // implementation. Might revisit if it becomes problematic, but for
@@ -110,6 +149,7 @@ int gdbs_handle_command(int csock) {
 
     Mode new_mode = READ;
     char cmd = packet[0];
+    char *part = (char*)&packet; // Used to keep track of position during parsing
 
     switch (cmd) {
     case 'g': // read registers
@@ -142,6 +182,46 @@ int gdbs_handle_command(int csock) {
             perror("Error writing to GDB socket");
             return EXIT;
         }
+        break;
+
+    case 'm': // read memory
+        part++; // point at first digit of address
+        int logaddr = gdbs_parse_hex_int(&part);
+        // 'part' now points at the comma separating address from length
+        part++; // point at first digit of length
+        int length = gdbs_parse_hex_int(&part);
+
+        // Will produce two hex characters for each byte we return,
+        // plus null terminator.
+        char *resp = malloc((length * 2) + 1);
+        resp[length * 2] = '\0';
+
+        char *digit = resp;
+        for (int i = 0; i < length; i++) {
+            unsigned int physaddr = mmu_map_addr(logaddr);
+            mem_device *device = memory_device(physaddr);
+            // N.B. Reading certain memory locations will trigger a
+            // bus error in the emulated CPU, which is likely to have
+            // unintended side-effects on program execution and
+            // probably confuse GDB a bit.
+            // FIXME: We should find some way to separate memory access
+            // from CPU state so we can avoid causing side-effects when
+            // reading memory in the debugger.
+            unsigned int val = device ? device->read(physaddr) : 0xfe;
+            *(digit++) = gdbs_hex_digit((val >> 4) & 0xf);
+            *(digit++) = gdbs_hex_digit(val & 0xf);
+            logaddr++;
+        }
+
+        result = gdbs_write_packet(csock, resp, 1);
+        if (result < 0) {
+            perror("Error writing to GDB socket");
+            free(resp);
+            return EXIT;
+        }
+
+        free(resp);
+
         break;
 
     case 'v': // extended packets
