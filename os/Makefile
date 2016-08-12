@@ -29,4 +29,10 @@ kernel/kernel.elf: kernel/Makefile $(shell find kernel -name '*.c') $(shell find
 debug:
 	$(GDB) -iex "file kernel/kernel.elf" -iex "target remote 127.0.0.1:6666"
 
+debug-tui:
+	$(GDB) -tui -iex "file kernel/kernel.elf" -iex "target remote 127.0.0.1:6666"
+
+debug-ddd:
+	ddd --debugger $(GDB) "file kernel/kernel.elf" --eval-command "target remote 127.0.0.1:6666"
+
 .PHONY: toolchain debug
