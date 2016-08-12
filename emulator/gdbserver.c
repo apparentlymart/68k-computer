@@ -346,3 +346,14 @@ int gdbs_handle_command(int csock) {
     return new_mode;
 }
 
+int gdbs_handle_break(int csock) {
+    int result = gdbs_write_packet(csock, "S05", 1);
+    if (result < 0) {
+        perror("Error writing break notification to GDB socket");
+        return EXIT;
+    }
+
+    // After we tell GDB we're in break mode, enter READ
+    // mode to process GDB command packets.
+    return READ;
+}

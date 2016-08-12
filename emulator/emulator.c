@@ -74,7 +74,7 @@ void loop(void) {
 
         // Give the emulated CPU a timeslice
         case RUN:
-        case STEP: // if step, we'll break after one instruction
+        case STEP: // if step, we'll deal with it in on_each_instruction
             m68k_execute(1000000);
             io_update();
             gfx_update();
@@ -83,7 +83,7 @@ void loop(void) {
         // Signal to gdb that we're about to stop execution, and then
         // wait for a GDB command.
         case BREAK:
-            mode = READ;
+            mode = gdbs_handle_break(csock);
             break;
 
         default:
@@ -176,15 +176,17 @@ void make_hex(char* buff, unsigned int pc, unsigned int length) {
 
 //#define TRACE_INSTRUCTIONS
 void on_each_instruction(void) {
+	static unsigned int pc;
+	pc = m68k_get_reg(NULL, M68K_REG_PC);
+
+
 #ifdef TRACE_INSTRUCTIONS
     static char buff[100];
 	static char buff2[100];
-	static unsigned int pc;
     static unsigned int pc_phys;
 	static unsigned int instr_size;
     static const char *pc_dev;
 
-	pc = m68k_get_reg(NULL, M68K_REG_PC);
     pc_phys = mmu_map_addr(pc);
     pc_dev = memory_device_name(pc_phys);
 	instr_size = m68k_disassemble(buff, pc, M68K_CPU_TYPE_68000);
@@ -192,4 +194,18 @@ void on_each_instruction(void) {
 	printf("E %4s %08x: %-20s: %s\n", pc_dev, pc, buff2, buff);
 	fflush(stdout);
 #endif
+
+    if (mode == STEP) {
+        // If we're stepping then we want to only run one instruction
+        // at a time, so we'll steal the emulated CPU's timeslice
+        // (force it to return control to the main loop) and enter
+        // BREAK mode so gdb will regain control.
+        m68k_end_timeslice();
+        mode = BREAK;
+        return;
+    }
+
+    // TODO: Handle breakpoints here, by comparing pc to some
+    // list of active breakpoints and then acting the same way
+    // as for STEP mode above.
 }
