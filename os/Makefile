@@ -1,6 +1,6 @@
 
 CROSS_COMPILE := m68k-unknown-elf-
-TOOLCHAIN_PATH := $(CURDIR)/../cross-toolchain/gcc-m68k-elf/bin
+TOOLCHAIN_PATH := $(CURDIR)/cross-toolchain/gcc-m68k-elf/bin
 CC := $(CROSS_COMPILE)gcc
 LD := $(CROSS_COMPILE)gcc
 GDB := $(CROSS_COMPILE)gdb
