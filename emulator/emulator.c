@@ -205,7 +205,12 @@ void on_each_instruction(void) {
         return;
     }
 
-    // TODO: Handle breakpoints here, by comparing pc to some
-    // list of active breakpoints and then acting the same way
-    // as for STEP mode above.
+    if (gdbs_has_breakpoint(pc)) {
+        // NOTE: This actually ends up breaking at the instruction
+        // after where the breakpoint was registered, because we're
+        // too late to stop it from executing by the time we get here.
+        m68k_end_timeslice();
+        mode = BREAK;
+        return;
+    }
 }

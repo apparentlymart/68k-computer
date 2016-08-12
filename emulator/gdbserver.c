@@ -10,6 +10,10 @@
 #include "mmu.h"
 #include "memory.h"
 
+gdbs_AddrListNode *gdbs_first_breakpoint = NULL;
+gdbs_AddrListNode *gdbs_first_read_watchpoint = NULL;
+gdbs_AddrListNode *gdbs_first_write_watchpoint = NULL;
+
 int gdbs_await_client(int port) {
     int lsock = socket(AF_INET, SOCK_STREAM, 0);
     if (lsock < 0) {
@@ -263,6 +267,62 @@ int gdbs_handle_command(int csock) {
         }
         break;
 
+    case 'Z': // register breakpoint/watchpoint
+        switch (packet[1]) { // point type
+        case '0': // software breakpoint
+        case '1': // hardware breakpoint
+            ;
+            // we don't distinguish breakpoint types since we handle
+            // all of them in a "hardware breakpoint" sort of way, without
+            // modifying the program. Conventional software breakpoints are
+            // pretty useless for us because most of our code is in ROM.
+            part += 3; // Point to the beginning of the address
+            int logaddr = gdbs_parse_hex_int(&part);
+            gdbs_add_breakpoint(logaddr);
+            result = gdbs_write_packet(csock, "OK", 1);
+            if (result < 0) {
+                perror("Error writing to GDB socket");
+                return EXIT;
+            }
+            break;
+        default: // unsupported point type
+            result = gdbs_write_packet(csock, "", 1);
+            if (result < 0) {
+                perror("Error writing to GDB socket");
+                return EXIT;
+            }
+            break;
+        }
+        break;
+
+    case 'z': // deregister breakpoint/watchpoint
+        switch (packet[1]) { // point type
+        case '0': // software breakpoint
+        case '1': // hardware breakpoint
+            ;
+            // we don't distinguish breakpoint types since we handle
+            // all of them in a "hardware breakpoint" sort of way, without
+            // modifying the program. Conventional software breakpoints are
+            // pretty useless for us because most of our code is in ROM.
+            part += 3; // Point to the beginning of the address
+            int logaddr = gdbs_parse_hex_int(&part);
+            gdbs_remove_breakpoint(logaddr);
+            result = gdbs_write_packet(csock, "OK", 1);
+            if (result < 0) {
+                perror("Error writing to GDB socket");
+                return EXIT;
+            }
+            break;
+        default: // unsupported point type
+            result = gdbs_write_packet(csock, "", 1);
+            if (result < 0) {
+                perror("Error writing to GDB socket");
+                return EXIT;
+            }
+            break;
+        }
+        break;
+
     case 'H': // set thread id
         // We don't have threads, so this is a no-op.
         result = gdbs_write_packet(csock, "OK", 1);
@@ -356,4 +416,43 @@ int gdbs_handle_break(int csock) {
     // After we tell GDB we're in break mode, enter READ
     // mode to process GDB command packets.
     return READ;
+}
+
+void gdbs_add_addr_to_list(unsigned int addr, gdbs_AddrListNode **head) {
+    gdbs_AddrListNode *old_head = *head;
+    gdbs_AddrListNode *new_head = malloc(sizeof(gdbs_AddrListNode));
+    new_head->addr = addr;
+    new_head->next = old_head;
+    *head = new_head;
+}
+
+void gdbs_remove_addr_from_list(unsigned int addr, gdbs_AddrListNode **head) {
+    while (*head != NULL) {
+        gdbs_AddrListNode *current = *head;
+        if (current->addr == addr) {
+            *head = current->next;
+            free(current);
+        }
+        head = &(current->next);
+    }
+}
+
+static inline int gdbs_addr_in_list(unsigned int addr, gdbs_AddrListNode *head) {
+    while (head != NULL) {
+        if (head->addr == addr) {
+            return 1;
+        }
+        head = head->next;
+    }
+    return 0;
+}
+
+void gdbs_add_breakpoint(unsigned int addr) {
+    gdbs_add_addr_to_list(addr, &gdbs_first_breakpoint);
+}
+void gdbs_remove_breakpoint(unsigned int addr) {
+    gdbs_remove_addr_from_list(addr, &gdbs_first_breakpoint);
+}
+int gdbs_has_breakpoint(unsigned int addr) {
+    return gdbs_addr_in_list(addr, gdbs_first_breakpoint);
 }
