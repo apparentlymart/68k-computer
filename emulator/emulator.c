@@ -263,7 +263,7 @@ void make_hex(char* buff, unsigned int pc, unsigned int length) {
 }
 
 //#define TRACE_INSTRUCTIONS
-void on_each_instruction(void) {
+int on_each_instruction(void) {
 	static unsigned int pc;
 	pc = m68k_get_reg(NULL, M68K_REG_PC);
 
@@ -294,9 +294,14 @@ void on_each_instruction(void) {
     }
 
     if (gdbs_has_breakpoint(pc)) {
-        // NOTE: This actually ends up breaking at the instruction
-        // after where the breakpoint was registered, because we're
-        // too late to stop it from executing by the time we get here.
+        // NOTE: On vanilla Musashi this would end up breaking at the
+        // instruction *after* where the breakpoint was registered, since
+        // the cycle counter is only checked after running the instruction
+        // we're being notified about here.
+        // Our Musashi has a patch to check whether this hook has ended
+        // the timeslice and to skip executing the instruction and return
+        // immediately in that case, allowing our debug stub to work
+        // as expected.
         m68k_end_timeslice();
         mode = BREAK;
         return;

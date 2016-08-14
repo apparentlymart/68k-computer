@@ -675,7 +675,12 @@ int m68k_execute(int num_cycles)
 			m68ki_use_data_space(); /* auto-disable (see m68kcpu.h) */
 
 			/* Call external hook to peek at CPU */
-			m68ki_instr_hook(); /* auto-disable (see m68kcpu.h) */
+			int stop = m68ki_instr_hook(); /* auto-disable (see m68kcpu.h) */
+
+			/* If the instruction hook wants us to stop, then do it */
+			if (stop) {
+				break;
+			}
 
 			/* Record previous program counter */
 			REG_PPC = REG_PC;
