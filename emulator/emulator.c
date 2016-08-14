@@ -95,13 +95,99 @@ void loop(void) {
     }
 }
 
+static char *exc_vector_name[] = {
+    // These first two are not actually exceptions, but they do occupy
+    // slots in the vector table.
+    "Initial Stack Pointer",
+    "Initial Program Counter",
+
+    // Primary CPU exceptions
+    "Bus Error",
+    "Address Error",
+    "Illegal Instruction",
+    "Zero Divide",
+    "CHK instruction",
+    "TRAPV instruction",
+    "Privilege violation",
+    "Trace",
+    "Line 1010 emulator",
+    "Line 1111 emulator",
+    "(reserved)",
+    "(reserved)",
+    "(reserved)",
+    "Uninitialized interrupt vector",
+    "(reserved)",
+    "(reserved)",
+    "(reserved)",
+    "(reserved)",
+    "(reserved)",
+    "(reserved)",
+    "(reserved)",
+    "(reserved)",
+    "Spurious interrupt",
+    "Level 1 interrupt autovector",
+    "Level 2 interrupt autovector",
+    "Level 3 interrupt autovector",
+    "Level 4 interrupt autovector",
+    "Level 5 interrupt autovector",
+    "Level 6 interrupt autovector",
+    "Level 7 interrupt autovector",
+    "TRAP 0",
+    "TRAP 1",
+    "TRAP 2",
+    "TRAP 3",
+    "TRAP 4",
+    "TRAP 5",
+    "TRAP 6",
+    "TRAP 7",
+    "TRAP 8",
+    "TRAP 9",
+    "TRAP 10",
+    "TRAP 11",
+    "TRAP 12",
+    "TRAP 13",
+    "TRAP 14",
+    "TRAP 15",
+    "(reserved)",
+    "(reserved)",
+    "(reserved)",
+    "(reserved)",
+    "(reserved)",
+    "(reserved)",
+    "(reserved)",
+    "(reserved)",
+    "(reserved)",
+    "(reserved)",
+    "(reserved)",
+    "(reserved)",
+    "(reserved)",
+    "(reserved)",
+    "(reserved)",
+    "(reserved)"
+};
+
+void maybe_log_memory_read(unsigned int physaddr) {
+    if (physaddr > 0x8000000 && physaddr < (0x8000000 + (255 * 4))) {
+        // Reading an exception vector, which is useful to log since
+        // it'll sometimes result in some sort of OS crash that we'll want
+        // to debug.
+        // (Exception vectors are at the bottom of kernel RAM, which
+        // is at 0x8000000 in the *physical* memory map.)
+        int vector = (physaddr - 0x8000000) / 4;
+        char * vector_name = vector < 64 ? exc_vector_name[vector] : "Interrupt";
+        fprintf(stderr, "--- read exception vector %i (%s)\n", vector, vector_name);
+    }
+}
+
 unsigned int m68k_read_memory_8(unsigned int logaddr) {
     unsigned int physaddr = mmu_map_addr(logaddr);
+    maybe_log_memory_read(physaddr);
     return read_memory_byte(physaddr);
 }
 
 unsigned int m68k_read_memory_16(unsigned int logaddr) {
     unsigned int physaddr = mmu_map_addr(logaddr);
+    maybe_log_memory_read(physaddr);
     return (read_memory_byte(physaddr)<<8) | (read_memory_byte(physaddr + 1));
 }
 
@@ -110,6 +196,8 @@ unsigned int m68k_read_memory_32(unsigned int logaddr) {
     // access is not aligned to an even 4 bytes and straddles
     // across an MMU region boundary.
     unsigned int physaddr = mmu_map_addr(logaddr);
+    maybe_log_memory_read(physaddr);
+
     return (
         (read_memory_byte(physaddr)<<24) |
         (read_memory_byte(physaddr + 1)<<16) |
