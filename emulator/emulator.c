@@ -309,8 +309,6 @@ int on_each_instruction(void) {
     pc_dev = memory_device_name(pc_phys);
 	instr_size = m68k_disassemble(buff, pc, M68K_CPU_TYPE_68000);
 	make_hex(buff2, pc, instr_size);
-	printf("E %4s %08x: %-20s: %s\n", pc_dev, pc, buff2, buff);
-	fflush(stdout);
 #endif
 
     if (mode == STEP) {
@@ -320,20 +318,27 @@ int on_each_instruction(void) {
         // BREAK mode so gdb will regain control.
         m68k_end_timeslice();
         mode = BREAK;
-        return;
+
+        // Execute this unstruction, but since we've stolen the timeslice
+        // we'll return to the mainloop before executing the next one.
+#ifdef TRACE_INSTRUCTIONS
+        printf("E %4s %08x: %-20s: %s\n", pc_dev, pc, buff2, buff);
+        fflush(stdout);
+#endif
+        return 0;
     }
 
     if (gdbs_has_breakpoint(pc)) {
-        // NOTE: On vanilla Musashi this would end up breaking at the
-        // instruction *after* where the breakpoint was registered, since
-        // the cycle counter is only checked after running the instruction
-        // we're being notified about here.
-        // Our Musashi has a patch to check whether this hook has ended
-        // the timeslice and to skip executing the instruction and return
-        // immediately in that case, allowing our debug stub to work
-        // as expected.
-        m68k_end_timeslice();
         mode = BREAK;
-        return;
+        // Stop executing before we run this instruction, so we can
+        // break into the debugger at the right point.
+        return 1;
     }
+
+    // Execute instruction as normal.
+#ifdef TRACE_INSTRUCTIONS
+    printf("E %4s %08x: %-20s: %s\n", pc_dev, pc, buff2, buff);
+    fflush(stdout);
+#endif
+    return 0;
 }
