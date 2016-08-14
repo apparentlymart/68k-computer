@@ -32,8 +32,7 @@ void main(void) {
 
     for (int y = 0; y < 600; y++) {
         for (int x = 0; x < 800; x++) {
-            unsigned short *loc = (unsigned short *)0xc00000 + x + (y * 800);
-            *loc = 0xf000 | (((y >> 2) & 0xf) << 8) | ((x >> 2) & 0xf);
+            gfx_putpixel(x, y, 0xf000 | (((y >> 2) & 0xf) << 8) | ((x >> 2) & 0xf));
         }
     }
 
