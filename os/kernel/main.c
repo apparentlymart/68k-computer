@@ -27,6 +27,8 @@ void main(void) {
     vectors[8] = &kernel_privilege_violation;
     vectors[24] = &kernel_spurious_interrupt;
 
+    // Timeslice vector
+    vectors[64] = &kernel_timeslice;
 
     for (int y = 0; y < 600; y++) {
         for (int x = 0; x < 800; x++) {
@@ -36,13 +38,26 @@ void main(void) {
     }
 
     io_uart_print("Done updating screen\n");
+
     //IO_QUIT_EMU = 1;
-    //while (1) {}
     // Try to switch into user mode.
     // This will produce a bus error exception because we don't have anthing
     // mapped into the user memory space.
     //kernel_run_code(user_mode_addr, user_mode_status);
-    asm("stop #2700");
+    //asm("stop #2700");
+    while (1) {
+        // Stop with interrupts enabled
+        kernel_cpu_stop(kernel_make_cpu_status(0, 1, 0, 0, 0, 0, 0, 0));
+        io_uart_print(".");
+    }
+}
+
+__attribute__((interrupt)) void kernel_timeslice(void) {
+    // Nothing to do here yet. Once we actually have a scheduler and
+    // are running user processes this will be one place where that
+    // scheduler gets triggered, but for now we're just spinning
+    // around the loop main() above, waiting for interrupts to be
+    // triggered.
 }
 
 void kernel_bus_error(void) {

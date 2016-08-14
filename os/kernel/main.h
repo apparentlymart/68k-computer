@@ -10,5 +10,6 @@ void kernel_privilege_violation(void);
 void kernel_address_error(void);
 void kernel_illegal_instruction(void);
 void kernel_exception(void);
+void kernel_timeslice(void);
 
 #endif
