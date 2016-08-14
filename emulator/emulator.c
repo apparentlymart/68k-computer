@@ -262,6 +262,11 @@ void make_hex(char* buff, unsigned int pc, unsigned int length) {
 	}
 }
 
+int on_interrupt(int level) {
+    fprintf(stderr, "Spurious interrupt at level %i\n", level);
+    return M68K_INT_ACK_SPURIOUS;
+}
+
 //#define TRACE_INSTRUCTIONS
 int on_each_instruction(void) {
 	static unsigned int pc;

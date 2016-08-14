@@ -32,6 +32,8 @@
 #ifndef M68KCONF__HEADER
 #define M68KCONF__HEADER
 
+#include "../emulator.h"
+
 
 /* Configuration switches.
  * Use OPT_SPECIFY_HANDLER for configuration options that allow callbacks.
@@ -87,8 +89,8 @@
  * If off, all interrupts will be autovectored and all interrupt requests will
  * auto-clear when the interrupt is serviced.
  */
-#define M68K_EMULATE_INT_ACK        OPT_OFF
-#define M68K_INT_ACK_CALLBACK(A)    your_int_ack_handler_function(A)
+#define M68K_EMULATE_INT_ACK        OPT_SPECIFY_HANDLER
+#define M68K_INT_ACK_CALLBACK(A)    on_interrupt(A)
 
 
 /* If ON, CPU will call the breakpoint acknowledge callback when it encounters
