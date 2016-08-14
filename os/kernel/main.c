@@ -17,8 +17,16 @@ volatile uint16_t user_mode_status = 0b0000000000000000;
 void main(void) {
     io_uart_print("Kernel booting...\n");
 
-    // Install a more helpful handler for bus errors
+    // Some more helpful handlers for exceptions
+    for (int i = 0; i < 255; i++) {
+        vectors[i] = &kernel_exception;
+    }
     vectors[2] = &kernel_bus_error;
+    vectors[3] = &kernel_address_error;
+    vectors[4] = &kernel_illegal_instruction;
+    vectors[8] = &kernel_privilege_violation;
+    vectors[24] = &kernel_spurious_interrupt;
+
 
     for (int y = 0; y < 600; y++) {
         for (int x = 0; x < 800; x++) {
@@ -39,6 +47,36 @@ void main(void) {
 
 void kernel_bus_error(void) {
     io_uart_print("\n\nBUS ERROR\nSystem halted\n");
+    IO_QUIT_EMU = 1;
+    asm("stop #2700");
+}
+
+void kernel_address_error(void) {
+    io_uart_print("\n\nADDRESS ERROR\nSystem halted\n");
+    IO_QUIT_EMU = 1;
+    asm("stop #2700");
+}
+
+void kernel_illegal_instruction(void) {
+    io_uart_print("\n\nILLEGAL INSTRUCTION ERROR\nSystem halted\n");
+    IO_QUIT_EMU = 1;
+    asm("stop #2700");
+}
+
+void kernel_privilege_violation(void) {
+    io_uart_print("\n\nPRIVILEGE VIOLATION ERROR\nSystem halted\n");
+    IO_QUIT_EMU = 1;
+    asm("stop #2700");
+}
+
+void kernel_spurious_interrupt(void) {
+    io_uart_print("\n\nSPURIOUS INTERRUPT\nSystem halted\n");
+    IO_QUIT_EMU = 1;
+    asm("stop #2700");
+}
+
+void kernel_exception(void) {
+    io_uart_print("\n\nERRANT EXCEPTION\nSystem halted\n");
     IO_QUIT_EMU = 1;
     asm("stop #2700");
 }
