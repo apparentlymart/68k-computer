@@ -12,6 +12,7 @@
 #include "mmu.h"
 #include "memory.h"
 #include "io.h"
+#include "schedtimer.h"
 
 static Mode mode;
 
@@ -33,13 +34,16 @@ int main(int argc, char **argv) {
     }
 
     io_init();
+    schedtimer_init();
 
     m68k_init();
     m68k_set_cpu_type(M68K_CPU_TYPE_68000);
     m68k_pulse_reset();
 
     mode = LISTEN;
+    schedtimer_enable();
     loop();
+    schedtimer_disable();
 
     return 0;
 }
@@ -57,6 +61,7 @@ void loop(void) {
 
         // Wait for a gdb process to connect
         case LISTEN:
+            schedtimer_disable();
             fputs("Waiting for GDB to connect\n", stderr);
             csock = gdbs_await_client(6666);
             if (csock < 0) {
@@ -64,12 +69,15 @@ void loop(void) {
                 return;
             }
             fputs("GDB connected\n", stderr);
+            schedtimer_enable();
             mode = READ;
             break;
 
         // Wait for and then read a GDB command
         case READ:
+            schedtimer_disable();
             mode = gdbs_handle_command(csock);
+            schedtimer_enable();
             break;
 
         // Give the emulated CPU a timeslice
@@ -263,6 +271,23 @@ void make_hex(char* buff, unsigned int pc, unsigned int length) {
 }
 
 int on_interrupt(int level) {
+    // FIXME: For the moment the real system's interrupt controller
+    // hasn't been designed, so we can't emulate it yet.
+    // Instead, we'll just hard-code that interrupt level 1 is always
+    // the timeslice interrupt, and map it to the first user interrupt
+    // vector, 64.
+
+    switch (level) {
+    case 1:
+        // For now, we immediately clear the interrupt. Once we have
+        // a real interrupt controller to emulate things might get
+        // more interesting, though probably it'll just clear itself
+        // as part of the interrupt acknowledge cycle and effectively
+        // behave this way.
+        m68k_set_irq(0);
+        return 64;
+    }
+
     fprintf(stderr, "Spurious interrupt at level %i\n", level);
     return M68K_INT_ACK_SPURIOUS;
 }

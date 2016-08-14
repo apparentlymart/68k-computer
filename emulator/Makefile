@@ -4,11 +4,11 @@ MUSASHI_GENERATOR := $(MUSASHI_DIR)/m68kmake
 MUSASHI_GENERATED_C_FILES := $(MUSASHI_DIR)/m68kops.c $(MUSASHI_DIR)/m68kopac.c $(MUSASHI_DIR)/m68kopdm.c $(MUSASHI_DIR)/m68kopnz.c
 MUSASHI_GENERATED_H_FILES := $(MUSASHI_DIR)/m68kops.h
 MUSASHI_C_FILES := $(MUSASHI_DIR)/m68kcpu.c $(MUSASHI_DIR)/m68kdasm.c
-EMULATOR_C_FILES := emulator.c mmu.c memory.c gfx.c io.c gdbserver.c
+EMULATOR_C_FILES := emulator.c mmu.c memory.c gfx.c io.c schedtimer.c gdbserver.c
 
 C_FILES := $(MUSASHI_C_FILES) $(MUSASHI_GENERATED_C_FILES) $(EMULATOR_C_FILES)
 O_FILES := $(C_FILES:%.c=%.o)
-H_FILES := $(MUSASHI_GENERATED_H_FILES) emulator.h mmu.h memory.h gfx.h io.h gdbserver.h
+H_FILES := $(MUSASHI_GENERATED_H_FILES) emulator.h mmu.h memory.h gfx.h io.h schedtimer.h gdbserver.h
 
 C_FLAGS := -g $(shell sdl2-config --cflags)
 LIBS := $(shell sdl2-config --static-libs)
