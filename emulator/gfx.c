@@ -84,7 +84,7 @@ uint8_t gfx_ram_read(unsigned int addr) {
     // The rationale here is that we'll render the screen more often than
     // we'll access video memory, so it's worth doing a bit of extra work
     // on read/write to get more efficient screen refreshes.
-    unsigned int offset = addr - PHY_RAM_BASE;
+    unsigned int offset = addr - PHY_VRAM_BASE;
     uint16_t raw_val = gfx_ram_buf[offset];
     return (
         ((raw_val & 0x0f00) >> 4) |
