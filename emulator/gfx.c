@@ -16,6 +16,9 @@ SDL_Renderer *win_renderer;
 int update_pending = 1;
 int quit_soon = 0;
 
+#define DISPLAY_WIDTH 960
+#define DISPLAY_HEIGHT 540
+
 int gfx_init(void) {
     gfx_ram_buf = malloc(gfx_ram_size * sizeof(uint16_t));
     if (gfx_ram_buf == 0) {
@@ -29,7 +32,7 @@ int gfx_init(void) {
     win = SDL_CreateWindow(
         "Emulator",
         SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-        800, 600,
+        DISPLAY_WIDTH, DISPLAY_HEIGHT,
         0
     );
     if (win == 0) {
@@ -45,7 +48,7 @@ int gfx_init(void) {
         win_renderer,
         SDL_PIXELFORMAT_ARGB8888,
         SDL_TEXTUREACCESS_STREAMING,
-        800, 600
+        DISPLAY_WIDTH, DISPLAY_HEIGHT
     );
     if (win_texture == 0) {
         return -1;
@@ -66,7 +69,7 @@ void gfx_update(void) {
     }
 
     if (update_pending) {
-        SDL_UpdateTexture(win_texture, NULL, gfx_ram_buf, 800 * sizeof(uint32_t));
+        SDL_UpdateTexture(win_texture, NULL, gfx_ram_buf, DISPLAY_WIDTH * sizeof(uint32_t));
         SDL_RenderClear(win_renderer);
         SDL_RenderCopy(win_renderer, win_texture, NULL, NULL);
         SDL_RenderPresent(win_renderer);

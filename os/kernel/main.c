@@ -30,8 +30,8 @@ void main(void) {
     // Timeslice vector
     vectors[64] = &kernel_timeslice;
 
-    for (int y = 0; y < 600; y++) {
-        for (int x = 0; x < 800; x++) {
+    for (int y = 0; y < GFX_HEIGHT; y++) {
+        for (int x = 0; x < GFX_WIDTH; x++) {
             gfx_putpixel(x, y, 0xf000 | (((y >> 2) & 0xf) << 8) | ((x >> 2) & 0xf));
         }
     }
