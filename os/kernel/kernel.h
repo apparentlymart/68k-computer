@@ -37,4 +37,20 @@ static inline void kernel_run_code(uintptr_t addr, uint16_t status) {
     );
 }
 
+#define kernel_make_cpu_status(trace, super, interrupt_level, x, n, z, v, c) \
+    ( \
+        (trace) << 15 | \
+        (super) << 13 | \
+        (interrupt_level) << 8 | \
+        (x) << 4 | \
+        (n) << 3 | \
+        (z) << 2 | \
+        (v) << 1 | \
+        (c) << 0 \
+    )
+
+#define kernel_cpu_stop(status) asm volatile ("stop %0" : : "n" (status))
+
+#define kernel_cpu_set_status(status) asm volatile ("move %0, %%sr" : : "rn" (status))
+
 #endif
