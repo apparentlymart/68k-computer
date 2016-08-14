@@ -1,0 +1,2 @@
+topaz:
+    .incbin "topaz.bin"
