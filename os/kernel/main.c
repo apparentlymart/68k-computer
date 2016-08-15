@@ -3,6 +3,7 @@
 #include "gfx.h"
 #include "main.h"
 #include "list.h"
+#include "scheduler.h"
 #include <stdint.h>
 
 volatile uintptr_t user_mode_addr = 0x00000000;
