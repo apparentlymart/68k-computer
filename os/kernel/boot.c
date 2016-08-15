@@ -85,7 +85,7 @@ const void *init_vectors[3] __attribute__((section(".initvectors"))) = {
 // exception table by the boot function and then later modified
 // further by the kernel proper
 const void *vectors[256] __attribute__((section(".vectors"))) = {
-    (void*)0, //  0 initial stack pointer not used
+    &KERNEL_STACK_BOTTOM, //  0 initial stack pointer, used to reset the stack
     (void*)0, //  1 initial program counter not used
     &default_bus_error, //  2 bus error
     (void*)0, //  3 address error
