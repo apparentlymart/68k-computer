@@ -19,7 +19,7 @@ kernel.elf: $(O_FILES) kernel.ld
 %.o: %.c $(H_FILES)
 	$(CC) -g -Os -c $< -o $@ -m68000 -Iinclude
 
-%.o: %.s
+%.o: %.s $(H_FILES)
 	$(AS) $< -o $@ -m68000
 
 toolchain:
