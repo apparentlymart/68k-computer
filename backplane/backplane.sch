@@ -1040,4 +1040,28 @@ Text Notes 5000 3850 0    60   ~ 0
 CPU
 Text Notes 7600 3850 0    60   ~ 0
 RAM
+Text GLabel 4300 6050 0    60   Output ~ 0
+~AS
+Text GLabel 1350 6050 0    60   Input ~ 0
+~AS
+Wire Wire Line
+	4300 6050 4350 6050
+Wire Wire Line
+	1350 6050 1400 6050
+Text GLabel 5900 6050 2    60   Output ~ 0
+~LDS
+Text GLabel 5900 6150 2    60   Output ~ 0
+~UDS
+Wire Wire Line
+	5850 6050 5900 6050
+Wire Wire Line
+	5850 6150 5900 6150
+Text GLabel 2950 6050 2    60   Input ~ 0
+~LDS
+Text GLabel 2950 6150 2    60   Input ~ 0
+~UDS
+Wire Wire Line
+	2900 6050 2950 6050
+Wire Wire Line
+	2900 6150 2950 6150
 $EndSCHEMATC
