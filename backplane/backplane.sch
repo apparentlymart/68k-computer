@@ -1034,4 +1034,10 @@ Wire Wire Line
 	16500 5150 17900 5150
 Wire Wire Line
 	19400 5150 20600 5150
+Text Notes 1900 3850 0    60   ~ 0
+GLUE LOGIC
+Text Notes 5000 3850 0    60   ~ 0
+CPU
+Text Notes 7600 3850 0    60   ~ 0
+RAM
 $EndSCHEMATC
