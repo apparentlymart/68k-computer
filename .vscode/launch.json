@@ -1,0 +1,47 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Connect to Emulator",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceRoot}/os/kernel/kernel.elf",
+            "miDebuggerPath": "${workspaceRoot}/os/cross-toolchain/gcc-m68k-elf/bin/m68k-unknown-elf-gdb",
+            "miDebuggerServerAddress": "localhost:6666",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceRoot}/os",
+            "environment": [],
+            "externalConsole": true,
+            "linux": {
+              "MIMode": "gdb"
+            },
+            "osx": {
+              "MIMode": "gdb"
+            },
+            "windows": {
+              "MIMode": "gdb"
+            }
+        },
+        {
+          "name": "Debug Emulator",
+          "type": "cppdbg",
+          "request": "launch",
+          "program": "${workspaceRoot}/emulator/emulator",
+          "args": [],
+          "stopAtEntry": false,
+          "cwd": "${workspaceRoot}/emulator",
+          "environment": [],
+          "externalConsole": true,
+          "linux": {
+            "MIMode": "gdb"
+          },
+          "osx": {
+            "MIMode": "gdb"
+          },
+          "windows": {
+            "MIMode": "gdb"
+          }
+      }
+  ]
+}
