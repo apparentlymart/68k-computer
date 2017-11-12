@@ -57,6 +57,6 @@ void main(void) {
 
 void unhandled_exception(int vector) {
     io_uart_print("\n\nUNHANDLED EXCEPTION\nSystem halted\n");
-    //IO_QUIT_EMU = 1;
-    //asm("stop #2700");
+    IO_QUIT_EMU = 1;
+    asm("stop #2700");
 }
