@@ -32,6 +32,7 @@ sched_save_standard_frame:
     rts
 
 sched_schedule:
+    stop #0x2000
     /* No register preservation is done here because we never return,
       and thus any caller state is forfeit. */
 
