@@ -57,7 +57,7 @@ int gfx_init(void) {
     return 0;
 }
 
-void gfx_update(void) {
+void gfx_update(int prev_cycles, int new_cycles) {
     SDL_Event event;
 
     if (SDL_PollEvent(&event)) {

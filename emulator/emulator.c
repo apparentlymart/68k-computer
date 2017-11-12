@@ -14,6 +14,13 @@
 #include "io.h"
 #include "schedtimer.h"
 
+// These constants mark our two main milestones in processing a frame,
+// where the vertical blank period begins and ends, in CPU cycles.
+// VBLANK_CYCLE_END also marks the end of the frame itself, causing us
+// to reset back to cycle zero and start over.
+#define VBLANK_CYCLE_BEGIN 148500
+#define VBLANK_CYCLE_END VBLANK_CYCLE_BEGIN + 6187
+
 static Mode mode;
 
 int main(int argc, char **argv) {
@@ -41,16 +48,17 @@ int main(int argc, char **argv) {
     m68k_pulse_reset();
 
     mode = LISTEN;
-    schedtimer_enable();
     loop();
-    schedtimer_disable();
 
     return 0;
 }
 
 void loop(void) {
     int csock;
+    int frame_cycles; // CPU cycles so far in this frame
+    int last_frame_cycles; // track how much progress we've made in one iteration
 
+mainloop:
     while (mode != EXIT) {
         if (quit_soon) {
             mode = EXIT;
@@ -61,7 +69,6 @@ void loop(void) {
 
         // Wait for a gdb process to connect
         case LISTEN:
-            schedtimer_disable();
             fputs("Waiting for GDB to connect\n", stderr);
             csock = gdbs_await_client(6666);
             if (csock < 0) {
@@ -69,23 +76,32 @@ void loop(void) {
                 return;
             }
             fputs("GDB connected\n", stderr);
-            schedtimer_enable();
             mode = READ;
             break;
 
         // Wait for and then read a GDB command
         case READ:
-            schedtimer_disable();
             mode = gdbs_handle_command(csock);
-            schedtimer_enable();
             break;
 
         // Give the emulated CPU a timeslice
         case RUN:
         case STEP: // if step, we'll deal with it in on_each_instruction
-            m68k_execute(1000000);
-            io_update();
-            gfx_update();
+            last_frame_cycles = frame_cycles;
+            if (frame_cycles < VBLANK_CYCLE_BEGIN) {
+                frame_cycles += m68k_execute(VBLANK_CYCLE_BEGIN - frame_cycles);
+            }
+            else if (frame_cycles < VBLANK_CYCLE_END) {
+                frame_cycles += m68k_execute(VBLANK_CYCLE_END - frame_cycles);
+            }
+            io_update(last_frame_cycles, frame_cycles);
+            gfx_update(last_frame_cycles, frame_cycles);
+            schedtimer_update(last_frame_cycles, frame_cycles);
+
+            if (frame_cycles >= VBLANK_CYCLE_END) {
+                // reset for next frame
+                frame_cycles -= VBLANK_CYCLE_END;
+            }
             break;
 
         // Signal to gdb that we're about to stop execution, and then

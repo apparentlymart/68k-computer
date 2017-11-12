@@ -17,7 +17,7 @@ void io_init(void) {
     uart.tx_pending = 0;
 }
 
-void io_update(void) {
+void io_update(int prev_cycles, int new_cycles) {
     if (uart.tx_pending) {
         putchar(uart.tx);
         uart.tx = 0;

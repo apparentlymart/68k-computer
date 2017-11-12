@@ -7,7 +7,7 @@ void io_init(void);
 
 // Main loop should call this periodically to update the I/O device
 // emulation state, fire interrupts, etc.
-void io_update(void);
+void io_update(int prev_cycles, int new_cycles);
 
 // Memory device implementation
 uint8_t io_read(unsigned int addr);
