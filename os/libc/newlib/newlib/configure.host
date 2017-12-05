@@ -1,0 +1,170 @@
+# configure.host
+
+# This shell script handles all host based configuration for newlib.
+# It sets various shell variables based on the the host and the
+# configuration options.  You can modify this shell script without
+# needing to rerun autoconf.
+
+# This shell script should be invoked as
+#   . configure.host
+# If it encounters an error, it will exit with a message.
+
+# This is a cut down version of the configure.host that ships with newlib,
+# simplified to support only m68k architecture and kiteos.
+
+# It uses the following shell variables:
+#   host		The configuration host
+#   host_cpu		The configuration host CPU
+#   newlib_mb		--enable-newlib-mb ("yes", "no")
+#   target_optspace	--enable-target-optspace ("yes", "no", "")
+#   newlib_multithread	--enable-newlib-multithread ("yes", "no", "yes")
+#   newlib_elix_level	--enable-newlib-elix-level ("1","2","3","4") ("4")
+#   newlib_io_c99_formats --enable-newlib-io-c99-formats ("yes", "no", "")
+#   newlib_io_long_long --enable-newlib-io-long-long ("yes", "no", "")
+#   newlib_io_long_double --enable-newlib-io-long-double ("yes", "no", "")
+
+# It sets the following shell variables:
+#   newlib_cflags	Special CFLAGS to use when building
+#   machine_dir		Subdirectory of libc/machine to configure
+#   sys_dir		Subdirectory of libc/sys to configure
+#   have_sys_mach_dir	Is there a machine subdirectory in sys subdirectory
+#   posix_dir		"posix" to build libc/posix, "" otherwise
+#   signal_dir		"signal" to build libc/signal, "" otherwise
+#   stdio64_dir		"stdio64" to build libc/stdio64, "" otherwise
+#   syscall_dir		"syscalls" to build libc/syscalls, "" otherwise
+#   unix_dir		"unix" to build libc/unix, "" otherwise
+#   use_libtool         flag: use libtool to build newlib?
+#   aext                library extension - needed for libtool support
+#   oext                object file extension - needed for libtool support
+#   lpfx		library object prefix - generated when no libtool
+#   crt1                name of crt1 object if one is provided
+#   crt1_dir            directory where crt1 object is found
+#   have_crt0		"yes"/"no" if crt0 is/isn't provided.
+#			"" if crt0 is provided when sys_dir is set
+#   noinclude		list of include files to not install
+
+newlib_cflags=
+libm_machine_dir=
+machine_dir=m68k
+sys_dir=kiteos
+posix_dir=
+signal_dir=signal
+stdio_dir=stdio
+stdio64_dir=
+xdr_dir=
+syscall_dir=
+unix_dir=
+noinclude=
+mach_add_setjmp=
+crt1=
+crt1_dir=
+have_crt0=yes
+use_libtool=no
+have_sys_mach_dir=no
+default_newlib_io_c99_formats=no
+default_newlib_io_long_long=no
+default_newlib_io_long_double=no
+default_newlib_io_pos_args=no
+default_newlib_atexit_dynamic_alloc=yes
+default_newlib_nano_malloc=no
+aext=a
+oext=o
+lpfx="lib_a-"
+newlib_cflags="${newlib_cflags} -Os -DCOMPACT_CTYPE -DHAVE_RENAME -DHAVE_SYSTEM -DMISSING_SYSCALL_NAMES -DSIGNAL_PROVIDED"
+
+# Disable thread support if requested.
+
+if [ "${newlib_multithread}" = "no" ] ; then
+	newlib_cflags="${newlib_cflags} -D__SINGLE_THREAD__"
+fi
+
+# Disable syscall support if requested.
+
+if [ "${newlib_may_supply_syscalls}" = "no" ] ; then
+        newlib_cflags="${newlib_cflags} -D__NO_SYSCALLS__"
+fi
+
+# Enable multibyte support if requested or it is defaulted
+# for target.
+
+if [ "x${newlib_mb}" = "x" ]; then
+	case "${host}" in
+  	  i[34567]86-pc-linux-*|*-*-cygwin*)
+		newlib_mb=yes
+	  	;;
+	esac
+fi
+
+# Disable printf/scanf floating-point support if requested.
+
+if [ "${newlib_io_float}" = "no" ] ; then
+	newlib_cflags="${newlib_cflags} -DNO_FLOATING_POINT"
+fi
+
+# Verify if shared newlib support is allowed and set appropriate variables
+# We don't want to use libtool for platforms that we are not going to
+# support shared libraries.  This is because it adds executable tests which
+# we don't want for most embedded platforms.
+case "${host}" in
+  i[34567]86-pc-linux-*)
+    use_libtool=yes
+    have_sys_mach_dir=yes
+    stdio64_dir=stdio64
+    oext=lo
+    lpfx=
+    aext=la ;;
+  *) ;; #shared library not supported for ${host}
+esac
+
+# Use defaults for certain settings if not specified by user
+
+# Enable C99 format support in I/O routines if requested.
+if [ "x${newlib_io_c99_formats}" = "x" ]; then
+	if [ ${default_newlib_io_c99_formats} = "yes" ]; then
+		newlib_io_c99_formats="yes";
+	fi
+fi
+
+# Enable long long support in I/O routines if requested.
+if [ "x${newlib_io_long_long}" = "x" ]; then
+	if [ ${default_newlib_io_long_long} = "yes" ]; then
+		newlib_io_long_long="yes";
+	fi
+fi
+
+# Enable long double support in I/O routines if requested.
+if [ "x${newlib_io_long_double}" = "x" ]; then
+	if [ ${default_newlib_io_long_double} = "yes" ]; then
+		newlib_io_long_double="yes";
+	fi
+fi
+
+# Enable printf positional argument support if requested.
+if [ "x${newlib_io_pos_args}" = "x" ]; then
+	if [ ${default_newlib_io_pos_args} = "yes" ]; then
+		newlib_io_pos_args="yes";
+	fi
+fi
+
+# Disable atexit dynamic allocation if requested.
+if [ "x${newlib_atexit_dynamic_alloc}" = "x" ]; then
+	if [ ${default_newlib_atexit_dynamic_alloc} = "yes" ]; then
+		newlib_atexit_dynamic_alloc="yes"; 
+	fi
+fi
+
+# Enable nano-malloc if requested.
+if [ "x${newlib_nano_malloc}" = "x" ]; then
+	if [ ${default_newlib_nano_malloc} = "yes" ]; then
+		newlib_nano_malloc="yes";
+	fi
+fi
+
+# Remove rpc headers if xdr_dir not specified
+if [ "x${xdr_dir}" = "x" ]; then
+	noinclude="${noinclude} rpc/types.h rpc/xdr.h"
+fi
+
+if test -z "${have_crt0}" && test -n "${sys_dir}"; then
+  have_crt0="yes"
+fi
