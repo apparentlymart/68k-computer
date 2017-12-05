@@ -6,6 +6,7 @@ ROOT_DIR := $(CURDIR)
 TARGET_DIR := gcc-m68k-elf
 TARGET_PREFIX := $(ROOT_DIR)/$(TARGET_DIR)
 TARGET_TRIPLE := m68k-unknown-elf
+TARGET_TRIPLE_OS := m68k-kiteos
 
 export PATH := $(TARGET_DIR)/bin:$(PATH)
 
@@ -71,6 +72,11 @@ build/gdb/gdb/gdb: $(TARGET_DIR)/bin/$(TARGET_TRIPLE)-gcc | build/gdb/Makefile
 $(TARGET_DIR)/bin/$(TARGET_TRIPLE)-gdb: build/gdb/gdb/gdb
 	cd build/gdb && make install
 
+$(TARGET_DIR)/bin/$(TARGET_TRIPLE_OS)-%: $(TARGET_DIR)/bin/$(TARGET_TRIPLE)-%
+	ln -s $< $@
+
+os-bins: $(TARGET_DIR)/bin/$(TARGET_TRIPLE_OS)-ar $(TARGET_DIR)/bin/$(TARGET_TRIPLE_OS)-as $(TARGET_DIR)/bin/$(TARGET_TRIPLE_OS)-gcc $(TARGET_DIR)/bin/$(TARGET_TRIPLE_OS)-ld $(TARGET_DIR)/bin/$(TARGET_TRIPLE_OS)-nm $(TARGET_DIR)/bin/$(TARGET_TRIPLE_OS)-objcopy $(TARGET_DIR)/bin/$(TARGET_TRIPLE_OS)-objdump $(TARGET_DIR)/bin/$(TARGET_TRIPLE_OS)-ranlib $(TARGET_DIR)/bin/$(TARGET_TRIPLE_OS)-readelf $(TARGET_DIR)/bin/$(TARGET_TRIPLE_OS)-strip
+
 clean:
 	rm -rf $(shell cat .gitignore)
 
@@ -85,7 +91,7 @@ try.elf: try.o
 try.o: try.c
 	m68k-unknown-elf-gcc -c $< -o $@
 
-.PHONY: clean try
+.PHONY: clean try os-bins
 
 # Treat the download archives as precious so we don't need to download them
 # repeatedly when running repeated builds.
