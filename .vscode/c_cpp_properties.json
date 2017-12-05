@@ -1,7 +1,7 @@
 {
     "configurations": [
         {
-            "name": "Host",
+            "name": "Emulator",
             "includePath": [
                 "/usr/include/c++/5",
                 "/usr/include/x86_64-linux-gnu/c++/5",
@@ -35,7 +35,7 @@
             }
         },
         {
-            "name": "Target",
+            "name": "Kernel",
             "includePath": [
                 "${workspaceRoot}/os/cross-toolchain/gcc-m68k-elf/include",
                 "${workspaceRoot}/os/kernel"
@@ -46,6 +46,23 @@
                 "path": [
                     "${workspaceRoot}/os/cross-toolchain/gcc-m68k-elf/include",
                     "${workspaceRoot}/os/kernel"
+                ],
+                "limitSymbolsToIncludedHeaders": true,
+                "databaseFilename": ""
+            }
+        },
+        {
+            "name": "TargetApp",
+            "includePath": [
+                "${workspaceRoot}/os/cross-toolchain/gcc-m68k-elf/include",
+                "${workspaceRoot}/os/libc/include"
+            ],
+            "defines": [],
+            "intelliSenseMode": "clang-x64",
+            "browse": {
+                "path": [
+                    "${workspaceRoot}/os/cross-toolchain/gcc-m68k-elf/include",
+                    "${workspaceRoot}/os/libc/include"
                 ],
                 "limitSymbolsToIncludedHeaders": true,
                 "databaseFilename": ""
