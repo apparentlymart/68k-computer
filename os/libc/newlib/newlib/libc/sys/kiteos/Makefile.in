@@ -71,6 +71,10 @@ lib_a_AR = $(AR) $(ARFLAGS)
 lib_a_LIBADD =
 am_lib_a_OBJECTS = lib_a-syscalls.$(OBJEXT)
 lib_a_OBJECTS = $(am_lib_a_OBJECTS)
+libfoo_a_AR = $(AR) $(ARFLAGS)
+libfoo_a_LIBADD =
+am_libfoo_a_OBJECTS = crt0.$(OBJEXT)
+libfoo_a_OBJECTS = $(am_libfoo_a_OBJECTS)
 DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp =
 am__depfiles_maybe =
@@ -78,7 +82,7 @@ COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-SOURCES = $(lib_a_SOURCES) $(EXTRA_lib_a_SOURCES)
+SOURCES = $(lib_a_SOURCES) $(EXTRA_lib_a_SOURCES) $(libfoo_a_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -196,6 +200,8 @@ INCLUDES = $(NEWLIB_CFLAGS) $(CROSS_CFLAGS) $(TARGET_CFLAGS)
 AM_CCASFLAGS = $(INCLUDES)
 noinst_LIBRARIES = lib.a
 lib_a_SOURCES = syscalls.c
+EXTRA_LIBRARIES = libfoo.a
+libfoo_a_SOURCES = crt0.c
 EXTRA_lib_a_SOURCES = 
 lib_a_CCASFLAGS = $(AM_CCASFLAGS)
 lib_a_CFLAGS = $(AM_CFLAGS)
@@ -246,6 +252,10 @@ lib.a: $(lib_a_OBJECTS) $(lib_a_DEPENDENCIES) $(EXTRA_lib_a_DEPENDENCIES)
 	-rm -f lib.a
 	$(lib_a_AR) lib.a $(lib_a_OBJECTS) $(lib_a_LIBADD)
 	$(RANLIB) lib.a
+libfoo.a: $(libfoo_a_OBJECTS) $(libfoo_a_DEPENDENCIES) $(EXTRA_libfoo_a_DEPENDENCIES) 
+	-rm -f libfoo.a
+	$(libfoo_a_AR) libfoo.a $(libfoo_a_OBJECTS) $(libfoo_a_LIBADD)
+	$(RANLIB) libfoo.a
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -460,7 +470,7 @@ uninstall-am:
 	ps ps-am tags uninstall uninstall-am
 
 
-all: crt0.o syscalls.o
+all: crt0.o
 
 install-data-local:
    $(mkinstalldirs) $(DESTDIR)$(tooldir)/include/netinet; \
