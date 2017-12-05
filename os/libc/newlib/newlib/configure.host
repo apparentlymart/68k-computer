@@ -70,7 +70,8 @@ default_newlib_nano_malloc=no
 aext=a
 oext=o
 lpfx="lib_a-"
-newlib_cflags="${newlib_cflags} -Os -DCOMPACT_CTYPE -DHAVE_RENAME -DHAVE_SYSTEM -DMISSING_SYSCALL_NAMES -DSIGNAL_PROVIDED"
+newlib_may_supply_syscalls=yes
+newlib_cflags="${newlib_cflags} -Os -DMAY_SUPPLY_SYSCALLS -DCOMPACT_CTYPE -DHAVE_RENAME -DHAVE_SYSTEM -DMISSING_SYSCALL_NAMES -DSIGNAL_PROVIDED"
 
 # Disable thread support if requested.
 

@@ -1,25 +1,24 @@
 AUTOMAKE_OPTIONS = cygnus
+
 INCLUDES = $(NEWLIB_CFLAGS) $(CROSS_CFLAGS) $(TARGET_CFLAGS)
+
 AM_CCASFLAGS = $(INCLUDES)
- 
+
 noinst_LIBRARIES = lib.a
- 
-if MAY_SUPPLY_SYSCALLS
-extra_objs = syscalls.o
-else
-extra_objs =
-endif
- 
-lib_a_SOURCES =
-lib_a_LIBADD = $(extra_objs)
-EXTRA_lib_a_SOURCES = syscalls.c crt0.c dummy.S
-lib_a_DEPENDENCIES = $(extra_objs)
+
+lib_a_SOURCES = syscalls.c
+   
+EXTRA_lib_a_SOURCES =
+
 lib_a_CCASFLAGS = $(AM_CCASFLAGS)
 lib_a_CFLAGS = $(AM_CFLAGS)
- 
-if MAY_SUPPLY_SYSCALLS
-all: crt0.o
-endif
- 
+
+all: crt0.o syscalls.o
+
 ACLOCAL_AMFLAGS = -I ../../..
 CONFIG_STATUS_DEPENDENCIES = $(newlib_basedir)/configure.host
+   
+install-data-local:
+   $(mkinstalldirs) $(DESTDIR)$(tooldir)/include/netinet; \
+      for i in $(srcdir)/netinet/*.h; do \
+      $(INSTALL_DATA) $$i $(DESTDIR)$(tooldir)/include/netinet/`basename $$i`; done
