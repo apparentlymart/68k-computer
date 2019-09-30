@@ -37,106 +37,97 @@ module video_timing
     // Change outputs on clock.
     // (These update one clock step behind everything else below, but that's
     //  okay because the lengths of all the periods are still correct.)
-    always @(posedge clk or posedge reset) begin
-        case (reset)
-            1: begin
-                hsync   <= ~`VIDEO_H_SYNC_ACTIVE;
-                vsync   <= ~`VIDEO_V_SYNC_ACTIVE;
-                visible <= 1'b0;
-                x       <= 16'd0;
-                y       <= 16'd0;
-            end
-            0: begin
-                hsync   <= (state_h == `VIDEO_SYNC) ^ (~`VIDEO_H_SYNC_ACTIVE);
-                vsync   <= (state_v == `VIDEO_SYNC) ^ (~`VIDEO_V_SYNC_ACTIVE);
-                visible <= (state_h == `VIDEO_ACTIVE) && (state_v == `VIDEO_ACTIVE);
-                x       <= count_h - 1;
-                y       <= count_v - 1;
-            end
-        endcase
+    always @(posedge clk) begin
+        if (reset == 1'b1) begin
+            hsync   <= ~`VIDEO_H_SYNC_ACTIVE;
+            vsync   <= ~`VIDEO_V_SYNC_ACTIVE;
+            visible <= 1'b0;
+            x       <= 16'd0;
+            y       <= 16'd0;
+        end else begin
+            hsync   <= (state_h == `VIDEO_SYNC) ^ (~`VIDEO_H_SYNC_ACTIVE);
+            vsync   <= (state_v == `VIDEO_SYNC) ^ (~`VIDEO_V_SYNC_ACTIVE);
+            visible <= (state_h == `VIDEO_ACTIVE) && (state_v == `VIDEO_ACTIVE);
+            x       <= count_h - 1;
+            y       <= count_v - 1;
+         end
     end
 
     // Horizontal state machine
-    always @(posedge clk or posedge reset) begin
-        case (reset)
-            1: begin
-                count_h <= 16'b1;
-                state_h <= `VIDEO_FRONTPORCH;
-            end
-            0: begin
-                inc_v <= 0;
-                count_h <= count_h + 16'd1;
+    always @(posedge clk) begin
+        if (reset == 1'b1) begin
+            count_h <= 16'b1;
+            state_h <= `VIDEO_FRONTPORCH;
+        end else begin
+            inc_v <= 0;
+            count_h <= count_h + 16'd1;
 
-                case (state_h)
+            case (state_h)
+                `VIDEO_SYNC: begin
+                    if (count_h == `VIDEO_H_SYNC_PIXELS) begin
+                        state_h <= `VIDEO_BACKPORCH;
+                        count_h <= 16'b1;
+                    end
+                end
+                `VIDEO_BACKPORCH: begin
+                    if (count_h == `VIDEO_H_BP_PIXELS) begin
+                        state_h <= `VIDEO_ACTIVE;
+                        count_h <= 16'b1;
+                    end
+                end
+                `VIDEO_ACTIVE: begin
+                    if (count_h == `VIDEO_H_ACTIVE_PIXELS) begin
+                        state_h <= `VIDEO_FRONTPORCH;
+                        count_h <= 16'b1;
+                    end
+                end
+                `VIDEO_FRONTPORCH: begin
+                    if (count_h == `VIDEO_H_FP_PIXELS) begin
+                        state_h <= `VIDEO_SYNC;
+                        count_h <= 16'b1;
+                        inc_v <= 1;
+                    end
+                end
+            endcase
+        end
+    end
+
+    // Vertical state machine
+    always @(posedge clk) begin
+        if (reset == 1'b1) begin
+            count_v <= 16'b1;
+            state_v <= `VIDEO_FRONTPORCH;
+        end else begin
+            if (inc_v) begin
+                count_v <= count_v + 16'd1;
+                case (state_v)
                     `VIDEO_SYNC: begin
-                        if (count_h == `VIDEO_H_SYNC_PIXELS) begin
-                            state_h <= `VIDEO_BACKPORCH;
-                            count_h <= 16'b1;
+                        if (count_v == `VIDEO_V_SYNC_LINES) begin
+                            state_v <= `VIDEO_BACKPORCH;
+                            count_v <= 16'b1;
                         end
                     end
                     `VIDEO_BACKPORCH: begin
-                        if (count_h == `VIDEO_H_BP_PIXELS) begin
-                            state_h <= `VIDEO_ACTIVE;
-                            count_h <= 16'b1;
+                        if (count_v == `VIDEO_V_BP_LINES) begin
+                            state_v <= `VIDEO_ACTIVE;
+                            count_v <= 16'b1;
                         end
                     end
                     `VIDEO_ACTIVE: begin
-                        if (count_h == `VIDEO_H_ACTIVE_PIXELS) begin
-                            state_h <= `VIDEO_FRONTPORCH;
-                            count_h <= 16'b1;
+                        if (count_v == `VIDEO_V_ACTIVE_LINES) begin
+                            state_v <= `VIDEO_FRONTPORCH;
+                            count_v <= 16'b1;
                         end
                     end
                     `VIDEO_FRONTPORCH: begin
-                        if (count_h == `VIDEO_H_FP_PIXELS) begin
-                            state_h <= `VIDEO_SYNC;
-                            count_h <= 16'b1;
-                            inc_v <= 1;
+                        if (count_v == `VIDEO_V_FP_LINES) begin
+                            state_v <= `VIDEO_SYNC;
+                            count_v <= 16'b1;
                         end
                     end
                 endcase
             end
-        endcase
-    end
-
-    // Vertical state machine
-    always @(posedge clk or posedge reset) begin
-        case (reset)
-            1: begin
-                count_v <= 16'b1;
-                state_v <= `VIDEO_FRONTPORCH;
-            end
-            0: begin
-                if (inc_v) begin
-                    count_v <= count_v + 16'd1;
-                    case (state_v)
-                        `VIDEO_SYNC: begin
-                            if (count_v == `VIDEO_V_SYNC_LINES) begin
-                                state_v <= `VIDEO_BACKPORCH;
-                                count_v <= 16'b1;
-                            end
-                        end
-                        `VIDEO_BACKPORCH: begin
-                            if (count_v == `VIDEO_V_BP_LINES) begin
-                                state_v <= `VIDEO_ACTIVE;
-                                count_v <= 16'b1;
-                            end
-                        end
-                        `VIDEO_ACTIVE: begin
-                            if (count_v == `VIDEO_V_ACTIVE_LINES) begin
-                                state_v <= `VIDEO_FRONTPORCH;
-                                count_v <= 16'b1;
-                            end
-                        end
-                        `VIDEO_FRONTPORCH: begin
-                            if (count_v == `VIDEO_V_FP_LINES) begin
-                                state_v <= `VIDEO_SYNC;
-                                count_v <= 16'b1;
-                            end
-                        end
-                    endcase
-                end
-            end
-        endcase
+        end
     end
 
 endmodule
