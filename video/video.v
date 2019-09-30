@@ -59,16 +59,19 @@ module top
     ) usb_pll_inst (
         .PACKAGEPIN(CLK),
         .PLLOUTCORE(clk_40m_tree),
-        //.PLLOUTGLOBAL(),
         .EXTFEEDBACK(),
         .DYNAMICDELAY(),
         .RESETB(1'b1),
         .BYPASS(1'b0),
-        .LATCHINPUTVALUE(),
-        //.LOCK(),
-        //.SDI(),
-        //.SDO(),
-        //.SCLK()
+        .LATCHINPUTVALUE()
+    );
+    
+    video_timing timing(
+        .reset(reset_loc),
+        .clk(vga_ck),
+        .hsync(vga_hs),
+        .vsync(vga_hs),
+        .visible(vga_de)
     );
 
 endmodule

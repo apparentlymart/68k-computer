@@ -1,6 +1,7 @@
 
 BASENAME=video
 DEVICE=up5k
+PACKAGE=sg48
 VERILOG_SRC=timing.v
 PIN_DEF=icebreaker.pcf
 
@@ -22,7 +23,7 @@ all: $(BASENAME).rpt $(BASENAME).bin
 	icetime $(if $(FREQ),-c $(FREQ)) -d $(DEVICE) -mtr $@ $<
 
 %_tb: %_tb.v %.v
-	iverilog -o $@ $^
+	iverilog -g2005 -D 'DUMP_FILENAME="$@.vcd"' -o $@ $^
 
 %_tb.vcd: %_tb
 	vvp -N $< +vcd=$@

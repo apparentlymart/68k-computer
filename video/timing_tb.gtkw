@@ -1,0 +1,41 @@
+[*]
+[*] GTKWave Analyzer v3.3.86 (w)1999-2017 BSI
+[*] Mon Sep 30 01:50:39 2019
+[*]
+[dumpfile] "timing_tb.vcd"
+[dumpfile_mtime] "Mon Sep 30 01:48:30 2019"
+[dumpfile_size] 152776024
+[savefile] "timing_tb.gtkw"
+[timestart] 2404000
+[size] 1680 962
+[pos] -1 -1
+*-14.584792 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] video_timing_tb.
+[sst_width] 223
+[signals_width] 160
+[sst_expanded] 1
+[sst_vpaned_height] 279
+@28
+video_timing_tb.dut.clk
+video_timing_tb.dut.reset
+video_timing_tb.dut.visible
+@200
+-Horizontal
+@22
+video_timing_tb.dut.state_h[1:0]
+@28
+video_timing_tb.dut.hsync
+@24
+video_timing_tb.dut.count_h[15:0]
+video_timing_tb.dut.x[15:0]
+@200
+-Vertical
+@23
+video_timing_tb.dut.state_v[1:0]
+@28
+video_timing_tb.dut.vsync
+@24
+video_timing_tb.dut.count_v[15:0]
+video_timing_tb.dut.y[15:0]
+[pattern_trace] 1
+[pattern_trace] 0

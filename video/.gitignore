@@ -4,3 +4,5 @@
 *.json
 *.log
 *.rpt
+*.vcd
+*_tb
