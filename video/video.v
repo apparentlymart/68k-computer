@@ -70,7 +70,7 @@ module top
         .reset(reset_loc),
         .clk(vga_ck),
         .hsync(vga_hs),
-        .vsync(vga_hs),
+        .vsync(vga_vs),
         .visible(vga_de)
     );
 
