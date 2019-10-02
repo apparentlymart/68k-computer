@@ -38,15 +38,17 @@ module top
     // F_OUT = (F_REF * (DIVF + 1)) / (2^DIVQ) * (DIVR+1)
     // -------------
     // F_REF = 12MHz (the "FTDI_CLK" signal on the ICEbreaker board)
-    // DIVF = 98
-    // DIVQ = 4
+    // DIVF = 48
+    // DIVQ = 3
     // DIVR = 0
     // -------------
-    // (12MHz * (98 + 1)) / (2^4) * (0+1) = 74.25MHz, for 720p
+    // (12 MHz * (48 + 1)) / ((2 ^ 3) * (0 + 1)) = 73.5MHz
+    // 720p wants 74.25MHz, but 73.5MHz is as close as we can get with our
+    // input frequency and the constraints of the PLL.
     SB_PLL40_PAD #(
-        .DIVR(4'b0000),
-        .DIVF(7'd98),
-        .DIVQ(3'b100),
+        .DIVF(7'd48),
+        .DIVQ(3'd3),
+        .DIVR(4'd0),
         .FILTER_RANGE(3'b001),
         .FEEDBACK_PATH("SIMPLE"),
         .DELAY_ADJUSTMENT_MODE_FEEDBACK("FIXED"),
@@ -54,9 +56,9 @@ module top
         .DELAY_ADJUSTMENT_MODE_RELATIVE("FIXED"),
         .FDA_RELATIVE(4'b0000),
         .SHIFTREG_DIV_MODE(2'b00),
-        .PLLOUT_SELECT("GENCLK"),
+        //.PLLOUT_SELECT("GENCLK"),
         .ENABLE_ICEGATE(1'b0)
-    ) usb_pll_inst (
+    ) pixel_clock (
         .PACKAGEPIN(CLK),
         .PLLOUTCORE(clk_40m_tree),
         .EXTFEEDBACK(),
@@ -65,7 +67,7 @@ module top
         .BYPASS(1'b0),
         .LATCHINPUTVALUE()
     );
-    
+
     video_timing timing(
         .reset(reset_loc),
         .clk(vga_ck),
