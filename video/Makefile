@@ -2,7 +2,7 @@
 BASENAME=video
 DEVICE=up5k
 PACKAGE=sg48
-VERILOG_SRC=timing.v
+VERILOG_SRC=timing.v testpattern.v
 PIN_DEF=icebreaker.pcf
 
 all: $(BASENAME).rpt $(BASENAME).bin

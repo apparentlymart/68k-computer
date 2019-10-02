@@ -19,17 +19,19 @@ module top
     wire          vga_hs;
     wire          vga_vs;
     wire [23:0]   vga_rgb;
-    wire [7:0]    r;
-    wire [7:0]    g;
-    wire [7:0]    b;
+    wire [3:0]    r;
+    wire [3:0]    g;
+    wire [3:0]    b;
     reg           mode_bit;
+    wire [15:0]   x;
+    wire [15:0]   y;
 
     assign reset_loc  = ~BTN_N;
 
     assign {P1A1, P1A2, P1A3, P1A4, P1A7, P1A8, P1A9, P1A10} =
-           {r[7], r[5], g[7], g[5], r[6], r[4], g[6], g[4]};
+           {r[3], r[1], g[3], g[1], r[2], r[0], g[2], g[0]};
     assign {P1B1, P1B2,   P1B3, P1B4,   P1B7, P1B8, P1B9,   P1B10} =
-           {b[7], vga_ck, b[4], vga_hs, b[6], b[5], vga_de, vga_vs};
+           {b[3], vga_ck, b[0], vga_hs, b[2], b[1], vga_de, vga_vs};
 
     assign vga_ck = clk_40m_tree;
 
@@ -62,7 +64,6 @@ module top
         .PACKAGEPIN(CLK),
         .PLLOUTCORE(clk_40m_tree),
         .EXTFEEDBACK(),
-        .DYNAMICDELAY(),
         .RESETB(1'b1),
         .BYPASS(1'b0),
         .LATCHINPUTVALUE()
@@ -73,7 +74,19 @@ module top
         .clk(vga_ck),
         .hsync(vga_hs),
         .vsync(vga_vs),
-        .visible(vga_de)
+        .visible(vga_de),
+        .x(x),
+        .y(y)
+    );
+
+    video_test_pattern pattern(
+        .clk(vga_ck),
+        .visible(vga_de),
+        .x(x),
+        .y(y),
+        .r(r),
+        .g(g),
+        .b(b)
     );
 
 endmodule
