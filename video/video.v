@@ -15,7 +15,7 @@ module top
     wire          reset_loc;
     wire          clk_40m_tree;
     wire          vga_de;
-    wire          vga_ck;
+    reg           vga_ck;
     wire          vga_hs;
     wire          vga_vs;
     wire [23:0]   vga_rgb;
@@ -33,23 +33,26 @@ module top
     assign {P1B1, P1B2,   P1B3, P1B4,   P1B7, P1B8, P1B9,   P1B10} =
            {b[3], vga_ck, b[0], vga_hs, b[2], b[1], vga_de, vga_vs};
 
-    assign vga_ck = clk_40m_tree;
-
     // PLL to generate our pixel clock
+    // We actually generate a clock twice as fast as our required pixel
+    // clock, which we can use for other operations that need to be faster
+    // than pixel emission, and then divide it by two below to produce
+    // the pixel clock.
     //
     // F_OUT = (F_REF * (DIVF + 1)) / (2^DIVQ) * (DIVR+1)
     // -------------
     // F_REF = 12MHz (the "FTDI_CLK" signal on the ICEbreaker board)
     // DIVF = 48
-    // DIVQ = 3
+    // DIVQ = 2
     // DIVR = 0
     // -------------
-    // (12 MHz * (48 + 1)) / ((2 ^ 3) * (0 + 1)) = 73.5MHz
+    // (12 MHz * (48 + 1)) / ((2 ^ 2) * (0 + 1)) = 147MHz
+    // 147MHz / 2 = 73.5MHz
     // 720p wants 74.25MHz, but 73.5MHz is as close as we can get with our
     // input frequency and the constraints of the PLL.
     SB_PLL40_PAD #(
         .DIVF(7'd48),
-        .DIVQ(3'd3),
+        .DIVQ(3'd2),
         .DIVR(4'd0),
         .FILTER_RANGE(3'b001),
         .FEEDBACK_PATH("SIMPLE"),
@@ -68,6 +71,15 @@ module top
         .BYPASS(1'b0),
         .LATCHINPUTVALUE()
     );
+
+    // vga_ck is clk_40m_tree divided by two
+    always @(posedge clk_40m_tree) begin
+        if (reset_loc) begin
+            vga_ck <= 1'b0;
+        end else begin
+            vga_ck <= ~vga_ck;
+        end
+    end
 
     video_timing timing(
         .reset(reset_loc),
