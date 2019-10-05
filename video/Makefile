@@ -2,16 +2,16 @@
 BASENAME=video
 DEVICE=up5k
 PACKAGE=sg48
-VERILOG_SRC=timing.v testpattern.v
+VERILOG_SRC=timing.v testpattern.v composite.v pointer.v
 PIN_DEF=icebreaker.pcf
 
 all: $(BASENAME).rpt $(BASENAME).bin
 
 %.blif: %.v $(VERILOG_SRC)
-	yosys -ql $*.log $(if $(USE_ARACHNEPNR),-DUSE_ARACHNEPNR) -p 'synth_ice40 -top top -blif $@' $< $(VERILOG_SRC)
+	yosys -ql $*.log $(if $(USE_ARACHNEPNR),-DUSE_ARACHNEPNR) -p 'synth_ice40 -top top -blif $@' $<
 
 %.json: %.v $(VERILOG_SRC)
-	yosys -ql $*.log $(if $(USE_ARACHNEPNR),-DUSE_ARACHNEPNR) -p 'synth_ice40 -top top -json $@' $< $(VERILOG_SRC)
+	yosys -ql $*.log $(if $(USE_ARACHNEPNR),-DUSE_ARACHNEPNR) -p 'synth_ice40 -top top -json $@' $<
 
 %.asc: $(PIN_DEF) %.json
 	nextpnr-ice40 --$(DEVICE) $(if $(PACKAGE),--package $(PACKAGE)) $(if $(FREQ),--freq $(FREQ)) --json $(filter-out $<,$^) --pcf $< --asc $@
@@ -22,8 +22,8 @@ all: $(BASENAME).rpt $(BASENAME).bin
 %.rpt: %.asc
 	icetime $(if $(FREQ),-c $(FREQ)) -d $(DEVICE) -mtr $@ $<
 
-%_tb: %_tb.v %.v
-	iverilog -g2005 -D 'DUMP_FILENAME="$@.vcd"' -o $@ $^
+%_tb: %_tb.v $(BASENAME).v $(VERILOG_SRC)
+	iverilog -g2005 -D 'DUMP_FILENAME="$@.vcd"' -o $@ $<
 
 %_tb.vcd: %_tb
 	vvp -N $< +vcd=$@

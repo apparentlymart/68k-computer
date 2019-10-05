@@ -1,0 +1,84 @@
+[*]
+[*] GTKWave Analyzer v3.3.86 (w)1999-2017 BSI
+[*] Sat Oct  5 17:21:52 2019
+[*]
+[dumpfile] "video_tb.vcd"
+[dumpfile_mtime] "Sat Oct  5 17:20:57 2019"
+[dumpfile_size] 102843638
+[savefile] "video_tb.gtkw"
+[timestart] 0
+[size] 1680 962
+[pos] -1 -1
+*-3.000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] video_tb.
+[treeopen] video_tb.dut.
+[sst_width] 223
+[signals_width] 166
+[sst_expanded] 1
+[sst_vpaned_height] 268
+@28
+video_tb.rst
+video_tb.clk
+video_tb.pixel_clk
+video_tb.hsync
+video_tb.vsync
+video_tb.visible
+@24
+video_tb.red[3:0]
+video_tb.green[3:0]
+video_tb.blue[3:0]
+@200
+-Device Under Test
+@28
+video_tb.dut.CLK
+video_tb.dut.BTN_N
+video_tb.dut.reset_loc
+video_tb.dut.clk_40m_tree
+video_tb.dut.vga_ck
+video_tb.dut.vga_de
+video_tb.dut.vga_hs
+video_tb.dut.vga_vs
+@24
+video_tb.dut.x[15:0]
+video_tb.dut.y[15:0]
+@200
+-Timing
+@28
+video_tb.dut.timing.reset
+video_tb.dut.timing.clk
+@c00024
+video_tb.dut.timing.count_h[15:0]
+@28
+(0)video_tb.dut.timing.count_h[15:0]
+(1)video_tb.dut.timing.count_h[15:0]
+(2)video_tb.dut.timing.count_h[15:0]
+(3)video_tb.dut.timing.count_h[15:0]
+(4)video_tb.dut.timing.count_h[15:0]
+(5)video_tb.dut.timing.count_h[15:0]
+(6)video_tb.dut.timing.count_h[15:0]
+(7)video_tb.dut.timing.count_h[15:0]
+(8)video_tb.dut.timing.count_h[15:0]
+(9)video_tb.dut.timing.count_h[15:0]
+(10)video_tb.dut.timing.count_h[15:0]
+(11)video_tb.dut.timing.count_h[15:0]
+(12)video_tb.dut.timing.count_h[15:0]
+(13)video_tb.dut.timing.count_h[15:0]
+(14)video_tb.dut.timing.count_h[15:0]
+(15)video_tb.dut.timing.count_h[15:0]
+@1401200
+-group_end
+@22
+video_tb.dut.timing.state_h[1:0]
+@24
+video_tb.dut.timing.count_v[15:0]
+@22
+video_tb.dut.timing.state_v[1:0]
+@28
+video_tb.dut.timing.visible
+video_tb.dut.timing.hsync
+video_tb.dut.timing.vsync
+@24
+video_tb.dut.timing.x[15:0]
+video_tb.dut.timing.y[15:0]
+[pattern_trace] 1
+[pattern_trace] 0

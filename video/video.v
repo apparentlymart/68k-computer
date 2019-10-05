@@ -1,3 +1,8 @@
+`include "timing.v"
+`include "testpattern.v"
+`include "pointer.v"
+`include "composite.v"
+
 module top
 (
   input  CLK,
@@ -8,8 +13,6 @@ module top
 
   output P1A1, P1A2, P1A3, P1A4, P1A7, P1A8, P1A9, P1A10,
   output P1B1, P1B2, P1B3, P1B4, P1B7, P1B8, P1B9, P1B10
-
-
 );
 
     wire          reset_loc;
@@ -91,6 +94,7 @@ module top
         .y(y)
     );
 
+    ///*
     video_test_pattern pattern(
         .clk(vga_ck),
         .visible(vga_de),
@@ -100,5 +104,30 @@ module top
         .g(g),
         .b(b)
     );
+    //*/
+
+    /*
+    video_composite composite(
+        .clk(vga_ck),
+        .visible(vga_de),
+        .x(x),
+        .y(y),
+        .r(r),
+        .g(g),
+        .b(b),
+
+        .pointer_r(pointer.r),
+        .pointer_g(pointer.g),
+        .pointer_b(pointer.b),
+        .pointer_opaque(pointer.opaque)
+    );
+
+    video_pointer pointer(
+        .clk(vga_ck),
+        .x(composite.pointer_x),
+        .y(composite.pointer_y),
+        .active(composite.pointer_active)
+    );
+    */
 
 endmodule

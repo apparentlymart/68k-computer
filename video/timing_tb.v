@@ -1,3 +1,5 @@
+`include "timing.v"
+
 module video_timing_tb();
 
     reg clk;
