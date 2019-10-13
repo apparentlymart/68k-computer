@@ -13,13 +13,13 @@ import (
 // correct, but we can repeat images to fill out the list.
 var images = []string{
 	"mousepointer.png",
-	"mousepointer.png",
-	"mousepointer.png",
-	"mousepointer.png",
-	"mousepointer.png",
-	"mousepointer.png",
-	"mousepointer.png",
-	"mousepointer.png",
+	"testpattern.png",
+	"testpattern.png",
+	"testpattern.png",
+	"testpattern.png",
+	"testpattern.png",
+	"testpattern.png",
+	"testpattern.png",
 }
 
 func main() {

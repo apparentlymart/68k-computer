@@ -17,6 +17,11 @@ module video_composite
     output reg pointer_active
 );
 
+    initial begin
+        pointer_x = 0;
+        pointer_y = 0;
+        pointer_active = 0;
+    end
 
     always @(posedge clk) begin
         r <= 4'd0;
@@ -26,7 +31,7 @@ module video_composite
         if (visible) begin
             pointer_active <= 1'b1;
             pointer_x <= x[4:0];
-            pointer_y <= y[4:0];
+            pointer_y <= y[4:0] - x[9:5];
 
             if (pointer_opaque) begin
                 r <= pointer_r;
