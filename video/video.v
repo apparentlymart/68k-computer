@@ -94,7 +94,7 @@ module top
         .y(y)
     );
 
-    ///*
+    /*
     video_test_pattern pattern(
         .clk(vga_ck),
         .visible(vga_de),
@@ -104,9 +104,16 @@ module top
         .g(g),
         .b(b)
     );
-    //*/
+    */
 
-    /*
+    wire [4:0] pointer_x;
+    wire [4:0] pointer_y;
+    wire       pointer_active;
+    wire [3:0] pointer_r;
+    wire [3:0] pointer_g;
+    wire [3:0] pointer_b;
+    wire       pointer_opaque;
+
     video_composite composite(
         .clk(vga_ck),
         .visible(vga_de),
@@ -116,18 +123,27 @@ module top
         .g(g),
         .b(b),
 
-        .pointer_r(pointer.r),
-        .pointer_g(pointer.g),
-        .pointer_b(pointer.b),
-        .pointer_opaque(pointer.opaque)
+        .pointer_x(pointer_x),
+        .pointer_y(pointer_y),
+        .pointer_active(pointer_active),
+
+        .pointer_r(pointer_r),
+        .pointer_g(pointer_g),
+        .pointer_b(pointer_b),
+        .pointer_opaque(pointer_opaque)
     );
 
     video_pointer pointer(
         .clk(vga_ck),
-        .x(composite.pointer_x),
-        .y(composite.pointer_y),
-        .active(composite.pointer_active)
+
+        .x(pointer_x),
+        .y(pointer_y),
+        .active(pointer_active),
+
+        .r(pointer_r),
+        .g(pointer_g),
+        .b(pointer_b),
+        .opaque(pointer_opaque)
     );
-    */
 
 endmodule

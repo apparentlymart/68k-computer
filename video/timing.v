@@ -28,11 +28,11 @@ module video_timing
     `define VIDEO_V_FP_LINES      16'd5
     `define VIDEO_V_SYNC_ACTIVE   1'b1
     
-    reg [1:0] state_h;
-    reg [15:0] count_h; // 1-based so we will stop when count_h is the total pixels for the current state
+    reg [1:0] state_h = `VIDEO_FRONTPORCH;
+    reg [15:0] count_h = 1; // 1-based so we will stop when count_h is the total pixels for the current state
     reg inc_v = 1'b0;
-    reg [1:0] state_v;
-    reg [15:0] count_v; // 1-based so we will stop when count_v is the total lines for the current state
+    reg [1:0] state_v = `VIDEO_FRONTPORCH;
+    reg [15:0] count_v = 1; // 1-based so we will stop when count_v is the total lines for the current state
 
     // Change outputs on clock.
     // (These update one clock step behind everything else below, but that's
