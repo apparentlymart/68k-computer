@@ -57,7 +57,7 @@ func main() {
 		}
 	}
 
-	var init [16][32]byte
+	var init [16][16]uint16
 
 	for i, b := range data {
 		row := i / 16
@@ -66,9 +66,15 @@ func main() {
 			odd = 1
 			row -= 16
 		}
-		column := (i%16)*2 + odd
-		//fmt.Fprintf(os.Stderr, "data at offset %d (0x%02x) is stored in row %d column %d\n", i, b, row, column)
-		init[row][column] = b
+		column := (i % 16)
+		var v uint16
+		for bit := uint(0); bit < 8; bit++ {
+			v |= ((uint16(b) >> bit) & 1) << (bit * 2)
+		}
+		v = v << uint(odd)
+
+		//fmt.Fprintf(os.Stderr, "data at offset %d (0x%08b) is stored in row %d column %d as 0x%016b\n", i, b, row, column, v)
+		init[row][column] |= v
 	}
 
 	for ri, rowData := range init {
