@@ -1,6 +1,6 @@
 [*]
 [*] GTKWave Analyzer v3.3.86 (w)1999-2017 BSI
-[*] Sat Oct  5 17:21:52 2019
+[*] Sat Oct 19 16:15:48 2019
 [*]
 [dumpfile] "video_tb.vcd"
 [dumpfile_mtime] "Sat Oct  5 17:20:57 2019"
@@ -9,13 +9,14 @@
 [timestart] 0
 [size] 1680 962
 [pos] -1 -1
-*-3.000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-4.000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] video_tb.
 [treeopen] video_tb.dut.
+[treeopen] video_tb.dut.pointer.
 [sst_width] 223
-[signals_width] 166
+[signals_width] 206
 [sst_expanded] 1
-[sst_vpaned_height] 268
+[sst_vpaned_height] 493
 @28
 video_tb.rst
 video_tb.clk
@@ -80,5 +81,23 @@ video_tb.dut.timing.vsync
 @24
 video_tb.dut.timing.x[15:0]
 video_tb.dut.timing.y[15:0]
+@200
+-Pointer
+@28
+video_tb.dut.pointer.clk
+video_tb.dut.pointer.active
+@24
+video_tb.dut.pointer.x[3:0]
+@25
+video_tb.dut.pointer.y[3:0]
+@24
+video_tb.dut.pointer.pointer_r_addr[10:0]
+@22
+video_tb.dut.pointer.pointer_color_idx[1:0]
+video_tb.dut.pointer.r[3:0]
+video_tb.dut.pointer.g[3:0]
+video_tb.dut.pointer.b[3:0]
+@28
+video_tb.dut.pointer.opaque
 [pattern_trace] 1
 [pattern_trace] 0

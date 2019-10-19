@@ -14,7 +14,7 @@ import (
 var images = []string{
 	"mousepointer.png",
 	"testpattern.png",
-	"testpattern.png",
+	"testpattern2.png",
 	"testpattern.png",
 	"testpattern.png",
 	"testpattern.png",
@@ -23,9 +23,9 @@ var images = []string{
 }
 
 func main() {
-	var data [512]byte
+	var pixels [2048]byte // each value between 0 and 3 inclusive
 	for i, fn := range images {
-		imOffset := i * 16 * 16 / 4
+		imOffset := i * 16 * 16
 		f, err := os.Open(fn)
 		if err != nil {
 			log.Fatalf("failed to open %s: %s", fn, err)
@@ -47,40 +47,35 @@ func main() {
 		}
 
 		for y := 0; y < 16; y++ {
-			for x := 0; x < 16; x += 4 { // We have four pixels packed into each byte in our result
-				offset := imOffset + (y * 4) + (x / 4)
-				for xb := 0; xb < 4; xb++ {
-					clr := im.Pix[im.PixOffset(x+xb, y)]
-					data[offset] |= byte(clr) << (uint(xb) * 2)
-				}
+			for x := 0; x < 16; x++ {
+				offset := imOffset + (y * 16) + x
+				clr := im.Pix[im.PixOffset(x, y)]
+				pixels[offset] = byte(clr)
 			}
 		}
 	}
 
-	var init [16][16]uint16
+	var init [256]uint16
 
-	for i, b := range data {
-		row := i / 16
-		odd := 0
-		if row > 15 {
-			odd = 1
-			row -= 16
+	for i, b := range pixels {
+		clr := uint16(b)
+		cell := i & 0xff
+		shift := uint(i) >> 8
+		//mask := ((clr & 1 << 8) | (clr & 2 >> 1)) << shift
+		mask := ((clr & 2 << 7) | (clr & 1)) << shift
+		fmt.Printf("pixel %03x has color %x and is written as %016b into cell %02x\n", i, clr, mask, cell)
+		if (init[cell] & mask) != 0 {
+			fmt.Printf("warning: pixel %03x (color %x, mask %016b) is overlapping existing bits\n", i, clr, mask)
 		}
-		column := (i % 16)
-		var v uint16
-		for bit := uint(0); bit < 8; bit++ {
-			v |= ((uint16(b) >> bit) & 1) << (bit * 2)
-		}
-		v = v << uint(odd)
-
-		//fmt.Fprintf(os.Stderr, "data at offset %d (0x%08b) is stored in row %d column %d as 0x%016b\n", i, b, row, column, v)
-		init[row][column] |= v
+		init[cell] |= mask
 	}
 
-	for ri, rowData := range init {
+	for ri := 0; ri < 16; ri++ {
+		offset := ri * 16
+		rowData := init[offset : offset+16]
 		fmt.Printf(".INIT_%X(256'b", ri)
 		for ci := len(rowData) - 1; ci >= 0; ci-- {
-			fmt.Printf("%08b", rowData[ci])
+			fmt.Printf("%016b", rowData[ci])
 		}
 		fmt.Println("),")
 	}

@@ -30,8 +30,8 @@ module video_composite
 
         if (visible) begin
             pointer_active <= 1'b1;
-            pointer_x <= x[4:0];
-            pointer_y <= y[4:0] - x[9:5];
+            pointer_x <= x[3:0];
+            pointer_y <= y[3:0];
 
             if (pointer_opaque) begin
                 r <= pointer_r;
